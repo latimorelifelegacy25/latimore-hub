@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum InterestType {
+  Velocity
+  Depth
+  Group
+}
+
+enum InquiryStatus {
+  New_Inquiry
+  Qualified
+  Booked
+  Closed_Won
+  Closed_Lost
+}
+
+model Contact {
+  id            String       @id @default(uuid())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  email         String       @unique
+  firstName     String?
+  lastName      String?
+  phone         String?
+  county        String?
+  leadSessionId String?
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  utmTerm       String?
+  utmContent    String?
+  referrer      String?
+  inquiries     Inquiry[]
+  appointments  Appointment[]
+  tasks         Task[]
+  events        Event[]
+}
+
+model Inquiry {
+  id            String         @id @default(uuid())
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  contact       Contact        @relation(fields: [contactId], references: [id])
+  contactId     String
+  interestType  InterestType
+  status        InquiryStatus  @default(New_Inquiry)
+  notes         String?
+  source        String?
+  leadSessionId String?
+  appointments  Appointment[]
+  tasks         Task[]
+  history       InquiryStageHistory[]
+
+  @@index([status])
+  @@index([interestType])
+}
+
+model Appointment {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  contact   Contact   @relation(fields: [contactId], references: [id])
+  contactId String
+  inquiry   Inquiry?  @relation(fields: [inquiryId], references: [id])
+  inquiryId String?
+  gcalId    String?
+  startAt   DateTime?
+  endAt     DateTime?
+  location  String?
+}
+
+model Task {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  title     String
+  status    String    @default("Open")
+  dueAt     DateTime?
+  inquiry   Inquiry?  @relation(fields: [inquiryId], references: [id])
+  inquiryId String?
+  contact   Contact?  @relation(fields: [contactId], references: [id])
+  contactId String?
+}
+
+model Event {
+  id            String    @id @default(uuid())
+  happenedAt    DateTime  @default(now())
+  kind          String
+  leadSessionId String?
+  contact       Contact?  @relation(fields: [contactId], references: [id])
+  contactId     String?
+  payload       Json
+
+  @@index([kind])
+}
+
+model InquiryStageHistory {
+  id         String         @id @default(uuid())
+  changedAt  DateTime       @default(now())
+  inquiry    Inquiry        @relation(fields: [inquiryId], references: [id])
+  inquiryId  String
+  fromStatus InquiryStatus?
+  toStatus   InquiryStatus
+  actor      String?
+  note       String?
+
+  @@index([inquiryId, changedAt])
+}
+
+model EmailLog {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  toAddr     String
+  fromAddr   String
+  subject    String
+  template   String?
+  status     String
+  providerId String?
+  error      String?
+}
