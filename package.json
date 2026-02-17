@@ -31,7 +31,6 @@
     "zod": "^3.23.8",
     "@upstash/ratelimit": "^1.2.1",
     "@upstash/redis": "^1.31.3",
-    "pino": "^9.2.0"
   },
   "devDependencies": {
     "prisma": "^5.14.0",

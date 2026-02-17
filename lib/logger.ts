@@ -1,8 +1,14 @@
-import pino from 'pino'
+const isDev = process.env.NODE_ENV !== 'production'
 
-export const logger = pino({
-  level: process.env.LOG_LEVEL || (process.env.NODE_ENV === 'production' ? 'info' : 'debug'),
-  ...(process.env.NODE_ENV !== 'production' && {
-    transport: { target: 'pino-pretty', options: { colorize: true } },
-  }),
-})
+function log(level: string, msg: string, data?: object) {
+  const line = JSON.stringify({ level, msg, ...data, ts: new Date().toISOString() })
+  if (level === 'error') console.error(line)
+  else if (isDev) console.log(line)
+}
+
+export const logger = {
+  info:  (data: object, msg: string) => log('info',  msg, data),
+  warn:  (data: object, msg: string) => log('warn',  msg, data),
+  error: (data: object, msg: string) => log('error', msg, data),
+  debug: (data: object, msg: string) => log('debug', msg, data),
+}
