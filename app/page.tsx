@@ -41,7 +41,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={el => {if(el) sectionsRef.current[0] = el}} className="min-h-screen flex items-center px-6 py-20">
+      <section ref={(el: HTMLDivElement | null) => {if(el) sectionsRef.current[0] = el}} className="min-h-screen flex items-center px-6 py-20">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div><img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="rounded-lg shadow-2xl" /></div>
           <div>
@@ -55,7 +55,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={el => {if(el) sectionsRef.current[1] = el}} className="min-h-screen flex items-center px-6 py-20 bg-[#13171F]">
+      <section ref={(el: HTMLDivElement | null) => {if(el) sectionsRef.current[1] = el}} className="min-h-screen flex items-center px-6 py-20 bg-[#13171F]">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-black text-center mb-12">How I Serve You</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -75,7 +75,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={el => {if(el) sectionsRef.current[2] = el}} className="min-h-screen flex items-center px-6 py-20">
+      <section ref={(el: HTMLDivElement | null) => {if(el) sectionsRef.current[2] = el}} className="min-h-screen flex items-center px-6 py-20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-black mb-6">Get Your Quote</h2>
           <p className="text-[#A9B1BE] text-lg mb-8">See what protection costs. No pressure.</p>
@@ -83,7 +83,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={el => {if(el) sectionsRef.current[3] = el}} className="min-h-screen flex items-center px-6 py-20 bg-[#13171F]">
+      <section ref={(el: HTMLDivElement | null) => {if(el) sectionsRef.current[3] = el}} className="min-h-screen flex items-center px-6 py-20 bg-[#13171F]">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl font-black mb-6">Ready to Protect What Matters?</h2>
           <p className="text-[#A9B1BE] text-xl mb-8">No hard sell. Just honest conversation.</p>
