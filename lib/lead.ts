@@ -1,14 +1,16 @@
+// Client-side lead session ID (persisted in localStorage)
 export function ensureLeadSessionId(): string {
   if (typeof window === 'undefined') return ''
   const k = 'lead_session_id'
   let v = localStorage.getItem(k)
   if (!v) {
     v = (self as any).crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2)
-    localStorage.setItem(k, v as string)
+    localStorage.setItem(k, v)
   }
-  return v as string
+  return v
 }
 
+// Capture UTM params from current URL
 export function captureUtms(): Record<string, string> {
   if (typeof window === 'undefined') return {}
   const p = new URLSearchParams(location.search)
@@ -21,6 +23,7 @@ export function captureUtms(): Record<string, string> {
   return out
 }
 
+// Build hidden field string for Fillout embed
 export function buildFilloutParams(): string {
   const params = {
     lead_session_id: ensureLeadSessionId(),
