@@ -101,7 +101,7 @@ function HeroSection() {
   return (
     <section ref={sectionRef} className="section-pinned z-10" id="hero">
       <div className="hero-bg absolute inset-0">
-        <img src="/hero_family_home.jpg" alt="Family in modern home" className="w-full h-full object-cover" />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover object-top" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/80 via-[#0B0F17]/50 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -154,7 +154,7 @@ function WhatIfSection() {
   return (
     <section ref={ref} className="section-pinned z-20" id="whatif">
       <div className="whatif-bg absolute inset-0">
-        <img src="/whatif_family_walking.jpg" alt="Family walking" className="w-full h-full object-cover" />
+        <img src="/jackson-coaching.jpg" alt="Jackson coaching youth baseball" className="w-full h-full object-cover object-top" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -201,7 +201,7 @@ function BlueprintSection() {
   return (
     <section ref={ref} className="section-pinned z-30" id="blueprint">
       <div className="blueprint-bg absolute inset-0">
-        <img src="/blueprint_family_couch.jpg" alt="Family on couch" className="w-full h-full object-cover" />
+        <img src="/jackson-hero.png" alt="Latimore Life & Legacy" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -283,7 +283,7 @@ function CoverageSection() {
   return (
     <section ref={ref} className="section-pinned z-50" id="coverage">
       <div className="coverage-bg absolute inset-0">
-        <img src="/coverage_family_outdoors.jpg" alt="Family outdoors" className="w-full h-full object-cover" />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover object-top" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -330,7 +330,7 @@ function ServicesSection() {
   return (
     <section ref={ref} className="section-pinned z-[60]" id="services">
       <div className="services-bg absolute inset-0">
-        <img src="/services_family_walking.jpg" alt="Family walking on path" className="w-full h-full object-cover" />
+        <img src="/jackson-headshot.png" alt="Jackson Latimore" className="w-full h-full object-cover object-center" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -378,7 +378,7 @@ function IndependenceSection() {
   return (
     <section ref={ref} className="section-pinned z-[70]" id="about">
       <div className="independence-bg absolute inset-0">
-        <img src="/independence_family_couch.jpg" alt="Family relaxing" className="w-full h-full object-cover" />
+        <img src="/jackson-coaching.jpg" alt="Jackson Latimore coaching" className="w-full h-full object-cover object-top" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -448,10 +448,25 @@ function SocialProofSection() {
             </div>
           ))}
         </div>
-        <div className="mt-16 text-center">
-          <p className="text-[#A9B1BE] text-lg max-w-2xl mx-auto">
-            I'm {BRAND.advisor}. My job is to make protection simple, honest, and built around your life.
-          </p>
+        <div className="mt-20 grid lg:grid-cols-2 gap-12 items-center border-t border-[#F7F7F5]/10 pt-16">
+          <div>
+            <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full max-w-sm mx-auto rounded-2xl object-cover object-top aspect-square" />
+          </div>
+          <div>
+            <p className="micro-label text-[#C9A25F] mb-4">Why I Do This</p>
+            <h3 className="heading-display text-[clamp(1.5rem,3vw,2.5rem)] text-[#F7F7F5] mb-6">I Needed This Plan Too.</h3>
+            <p className="text-[#A9B1BE] text-lg leading-relaxed mb-6">
+              In December 2010, a defibrillator saved my life on the basketball court at East Stroudsburg University.
+              I was 22. I had no plan, no policy, nothing protecting the people I loved.
+            </p>
+            <p className="text-[#A9B1BE] text-lg leading-relaxed mb-8">
+              That moment is why I built Latimore Life &amp; Legacy — to make sure no family in our region gets caught without a plan when it matters most. <span className="text-[#C9A25F] font-semibold">#TheBeatGoesOn</span>
+            </p>
+            <div className="flex items-center gap-3 bg-[#131b2a] rounded-xl p-4 border border-[#C9A25F]/20">
+              <img src="/news-headline.jpg" alt="Pocono Record news" className="w-20 h-14 object-cover rounded-lg flex-shrink-0" />
+              <p className="text-[#A9B1BE] text-sm italic">"Defibrillator saves basketball player at ESU" — Pocono Record, Dec. 8, 2010</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -472,7 +487,7 @@ function ContactSection() {
   return (
     <section ref={ref} className="relative z-[90] min-h-screen" id="contact">
       <div className="absolute inset-0">
-        <img src="/closing_family_outdoors.jpg" alt="Family outdoors" className="w-full h-full object-cover" />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover object-top" />
         <div className="absolute inset-0 bg-[#0B0F17]/80" />
       </div>
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 lg:px-[6vw] py-24">
