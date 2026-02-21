@@ -543,10 +543,16 @@ function Footer() {
               ))}
             </div>
           </div>
-          <div className="flex items-center gap-6">
-            <a href={`tel:${BRAND.phone}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Phone className="w-5 h-5" /></a>
-            <a href={`mailto:${BRAND.email}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Mail className="w-5 h-5" /></a>
-            <a href={BRAND.bookingUrl} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Calendar className="w-5 h-5" /></a>
+          <div className="flex flex-col items-center gap-4">
+            <a href="https://agents.ethoslife.com/invite/29ad1" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-2">
+              <img src="/ethos-qr.png" alt="Apply for Life Insurance via Ethos" className="w-24 h-24 rounded-lg border border-[#F7F7F5]/10 group-hover:border-[#C9A25F]/50 transition-colors" />
+              <span className="text-[#A9B1BE] text-xs group-hover:text-[#C9A25F] transition-colors text-center">Apply Now — Ethos Life</span>
+            </a>
+            <div className="flex items-center gap-6">
+              <a href={`tel:${BRAND.phone}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Phone className="w-5 h-5" /></a>
+              <a href={`mailto:${BRAND.email}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Mail className="w-5 h-5" /></a>
+              <a href={BRAND.bookingUrl} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Calendar className="w-5 h-5" /></a>
+            </div>
           </div>
         </div>
         <div className="border-t border-[#F7F7F5]/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
