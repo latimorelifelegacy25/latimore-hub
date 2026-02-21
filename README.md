@@ -107,3 +107,33 @@ Visit http://localhost:3000
 ---
 
 *#TheBeatGoesOn — Latimore Life & Legacy LLC*
+
+
+---
+
+## Optional — Asset Integration Pack
+
+This repo includes an asset importer at `./latimore_asset_integration/scripts/copy-assets.mjs`.
+
+If you have one or more ZIPs/folders of site assets, extract them into a folder (example: `./_assets_src`) and run:
+
+```bash
+node latimore_asset_integration/scripts/copy-assets.mjs ./_assets_src
+```
+
+It will copy images/fonts into:
+- `public/latimore/brand`
+- `public/latimore/images`
+- `public/fonts`
+
+…and write an import map to `latimore_asset_integration/import-map.json`.
+If CSS files are found, they’re appended to `app/globals.css.append.txt` for manual review/merge.
+
+---
+
+## Optional — AI Social Content Workflow
+
+A workflow export is included at `./workflows/latimore_ai_social_workflow.json`.
+If you use a GPT-chain / workflow runner that supports this format, import it and edit the `state.keys` values to match your brand + week.
+
+(Original file upload reference: fileciteturn0file0)
