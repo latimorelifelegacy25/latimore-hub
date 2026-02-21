@@ -48,7 +48,7 @@ function Navigation() {
             <Link href="/retirement" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Retirement</Link>
             <Link href="/consult" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Consult</Link>
             <a href={BRAND.bookingUrl} className="cta-gold text-xs px-5 py-2.5">
-              Book a Call
+              Secure Your Legacy
             </a>
           </div>
           <button className="md:hidden text-[#F7F7F5]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -65,7 +65,7 @@ function Navigation() {
             ))}
             <Link href="/retirement" onClick={() => setMobileMenuOpen(false)} className="text-[#F7F7F5] text-2xl font-semibold">Retirement</Link>
             <Link href="/consult" onClick={() => setMobileMenuOpen(false)} className="text-[#F7F7F5] text-2xl font-semibold">Request Consult</Link>
-            <a href={BRAND.bookingUrl} className="cta-gold mt-4">Book Your Blueprint</a>
+            <a href={BRAND.bookingUrl} className="cta-gold mt-4">Secure Your Legacy</a>
           </div>
         </div>
       )}
@@ -118,7 +118,7 @@ function HeroSection() {
           </p>
           <div className="hero-cta flex flex-col sm:flex-row gap-4">
             <a href={BRAND.bookingUrl} className="cta-gold">
-              Book Your Protection Blueprint <ArrowRight className="ml-2 w-4 h-4" />
+              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
             <Link href="/retirement" className="px-8 py-4 border border-[#F7F7F5]/20 text-[#F7F7F5] rounded-full font-bold text-sm hover:bg-[#F7F7F5]/5 transition-all flex items-center justify-center">
               <TrendingUp className="mr-2 w-4 h-4" /> Retirement Planning
@@ -171,7 +171,7 @@ function WhatIfSection() {
               Most families are one event away from financial strain. We map the risks—then build a plan that keeps life on track.
             </p>
             <a href={BRAND.bookingUrl} className="whatif-cta cta-gold">
-              See the Protection Blueprint <ArrowRight className="ml-2 w-4 h-4" />
+              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
         </div>
@@ -211,7 +211,7 @@ function BlueprintSection() {
               We'll map what needs protecting—mortgage, income, retirement, legacy—then shop the market for the right fit. No pressure. No jargon.
             </p>
             <a href={BRAND.bookingUrl} className="blueprint-cta cta-gold">
-              Request Your Blueprint <ArrowRight className="ml-2 w-4 h-4" />
+              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
           <div className="order-1 lg:order-2 text-right">
@@ -300,7 +300,7 @@ function CoverageSection() {
               Independent guidance for families and business owners across Pennsylvania's coal region and Wyoming Valley.
             </p>
             <a href={BRAND.bookingUrl} className="coverage-cta cta-gold">
-              See Local Options <ArrowRight className="ml-2 w-4 h-4" />
+              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
         </div>
@@ -340,7 +340,7 @@ function ServicesSection() {
               Term, IUL, final expense, mortgage protection, key-person coverage, and tax-smart retirement income—designed around your life, not a sales quota.
             </p>
             <a href={BRAND.bookingUrl} className="services-cta cta-gold">
-              Explore Services <ArrowRight className="ml-2 w-4 h-4" />
+              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
           <div className="order-1 lg:order-2 text-right">
@@ -395,7 +395,7 @@ function IndependenceSection() {
               No single carrier agenda. We compare options, explain tradeoffs in plain English, and let you choose what fits.
             </p>
             <a href={BRAND.bookingUrl} className="independence-cta cta-gold">
-              Meet Jackson <ArrowRight className="ml-2 w-4 h-4" />
+              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
         </div>
@@ -499,7 +499,7 @@ function ContactSection() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
           <a href={BRAND.bookingUrl} className="cta-gold">
-            Book Your Protection Blueprint <ArrowRight className="ml-2 w-4 h-4" />
+            Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
           </a>
           <Link href="/consult" className="px-8 py-4 border border-[#F7F7F5]/30 text-[#F7F7F5] hover:bg-[#F7F7F5]/10 rounded-full font-bold text-sm flex items-center justify-center transition-all">
             Request a Consultation
@@ -538,7 +538,7 @@ function Footer() {
             </div>
             <div>
               <p className="text-[#F7F7F5] font-semibold mb-3">Company</p>
-              {[['consult','Request Consult'],['book','Book a Time'],['legal/privacy','Privacy'],['legal/terms','Terms'],['legal/disclosures','Disclosures']].map(([href, label]) => (
+              {[['consult','Request Consult'],['book','Secure Your Legacy'],['legal/privacy','Privacy'],['legal/terms','Terms'],['legal/disclosures','Disclosures']].map(([href, label]) => (
                 <Link key={href} href={`/${href}`} className="block text-[#A9B1BE] hover:text-[#C9A25F] transition-colors mb-2">{label}</Link>
               ))}
             </div>

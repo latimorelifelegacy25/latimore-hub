@@ -12,8 +12,8 @@ export default function BookPage() {
           <ArrowLeft size={16} /> Back to Home
         </Link>
         <div className="mb-8">
-          <p className="micro-label text-[#C9A25F] mb-3">Pick a Time That Works</p>
-          <h1 className="heading-display text-[clamp(2rem,5vw,3.5rem)] text-[#F7F7F5]">Book a Consultation</h1>
+          <p className="micro-label text-[#C9A25F] mb-3">Start Here</p>
+          <h1 className="heading-display text-[clamp(2rem,5vw,3.5rem)] text-[#F7F7F5]">Secure Your Legacy</h1>
           <p className="text-[#A9B1BE] mt-3 text-lg">
             Select a 30-minute slot below. {BRAND.advisor} will confirm and prepare for your call.
           </p>
@@ -24,7 +24,7 @@ export default function BookPage() {
             style={{ border: 0 }}
             width="100%"
             height={800}
-            title="Book a consultation with Latimore Life & Legacy"
+            title="Secure Your Legacy with Latimore Life & Legacy"
           />
         </div>
         <p className="text-[#A9B1BE]/50 text-xs mt-4 text-center">
