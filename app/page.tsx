@@ -101,7 +101,7 @@ function HeroSection() {
   return (
     <section ref={sectionRef} className="section-pinned z-10" id="hero">
       <div className="hero-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover" style={{objectPosition: '50% 30%'}} />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full" style={{objectFit: 'cover', objectPosition: '50% 55%', transform: 'scale(0.65)', transformOrigin: '50% 35%'}} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/80 via-[#0B0F17]/50 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
