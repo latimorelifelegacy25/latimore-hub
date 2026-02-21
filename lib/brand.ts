@@ -9,7 +9,7 @@ export const BRAND = {
   paLicense: '1268820',
   bookingUrl: 'https://calendly.com/jackson1989-latimorelegacy',
   ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
-  filloutUrl: 'https://globalfinancialimpact.fillout.com/t/tMz7ZcqpaZus',
+  filloutUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
   counties: ['Schuylkill', 'Luzerne', 'Northumberland'],
   hashtag: '#TheBeatGoesOn',
 } as const
