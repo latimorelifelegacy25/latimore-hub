@@ -69,6 +69,10 @@ function Nav() {
           {[['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']].map(([href, label]) => (
             <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
           ))}
+          <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer"
+            style={{ color: '#E5C882', textDecoration: 'none', fontSize: '1rem', fontWeight: 600 }}>
+            Facebook
+          </a>
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
             style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.75rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
             Book Consultation
@@ -101,6 +105,7 @@ function Footer() {
             <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
               <a href={BRAND.instagram} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Instagram</a>
               <a href={BRAND.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>LinkedIn</a>
+              <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Facebook</a>
             </div>
           </div>
           <div>
