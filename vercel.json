@@ -1,15 +1,3 @@
 {
-  "buildCommand": null,
-  "outputDirectory": "public",
-  "rewrites": [
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/products", "destination": "/products.html" },
-    { "source": "/services", "destination": "/services.html" },
-    { "source": "/education", "destination": "/education.html" },
-    { "source": "/contact", "destination": "/contact.html" },
-    { "source": "/retirement", "destination": "/retirement.html" },
-    { "source": "/blueprint", "destination": "/blueprint.html" },
-    { "source": "/card", "destination": "/card/index.html" },
-    { "source": "/hub", "destination": "/hub/index.html" }
-  ]
+  "regions": ["iad1"]
 }

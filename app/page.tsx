@@ -1,655 +1,267 @@
 'use client'
 
-import { useEffect, useRef, useLayoutEffect, useState } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import {
-  ChevronDown, Phone, Mail, Calendar, Shield,
-  CheckCircle2, Menu, X, ArrowRight, TrendingUp
-} from 'lucide-react'
-import { BRAND } from '@/lib/brand'
+import Image from 'next/image'
 
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger)
+const BRAND = {
+  name: 'Latimore Life & Legacy',
+  phone: '(856) 895-1457',
+  phoneRaw: '8568951457',
+  email: 'jackson1989@latimorelegacy.com',
+  paLicense: '1268820',
+  nipr: '21638507',
+  bookingUrl: 'https://globalfinancialimpact.fillout.com/t/tMz7ZcqpaZus',
+  ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
+  instagram: 'https://www.instagram.com/jacksonlatimore.global',
+  linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
 }
 
-// ── Navigation ────────────────────────────────────────────────────
-function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+const services = [
+  { title: 'Tax-Advantaged Wealth Accumulation', desc: 'Build wealth using tax-deferred and tax-free growth strategies' },
+  { title: 'Asset Protection & Plan Rollovers', desc: 'Protect wealth and roll over 401(k), 403(b), pension plans strategically' },
+  { title: 'College Education Funding', desc: 'Strategic funding for higher education without crippling debt' },
+  { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
+  { title: 'Life Insurance & Living Benefits', desc: 'Income replacement, critical illness, and final expense coverage' },
+  { title: 'Estate & Legacy Planning', desc: 'Wealth transfer strategies and estate tax solutions' },
+  { title: 'Indexed Growth Strategies', desc: 'Market-linked growth with downside protection' },
+  { title: 'Mortgage Protection', desc: 'Ensure your family keeps the home if something happens to you' },
+  { title: 'Business & Key-Person Insurance', desc: 'Protect your business from loss of critical personnel' },
+  { title: 'Retirement Income Strategies', desc: 'Guaranteed lifetime income with annuities and safe-money vehicles' },
+]
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 100)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const scrollToSection = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    setMobileMenuOpen(false)
-  }
-
+function Nav() {
+  const [open, setOpen] = useState(false)
   return (
-    <>
-      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${
-        isScrolled ? 'bg-[#0B0F17]/95 backdrop-blur-md py-4' : 'bg-transparent py-6'
-      }`}>
-        <div className="w-full px-6 lg:px-12 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-[#F7F7F5] font-black text-lg tracking-[0.15em]">{BRAND.name}</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-8">
-            {[['services','Services'],['process','Process'],['about','About'],['contact','Contact']].map(([id, label]) => (
-              <button key={id} onClick={() => scrollToSection(id)} className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">
-                {label}
-              </button>
-            ))}
-            <Link href="/retirement" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Retirement</Link>
-            <Link href="/consult" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Consult</Link>
-            <a href={BRAND.bookingUrl} className="cta-gold text-xs px-5 py-2.5">
-              Book Consultation
-            </a>
-            <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" className="text-xs px-5 py-2.5 rounded-full border border-[#C9A25F] text-[#C9A25F] hover:bg-[#C9A25F] hover:text-[#0B0F17] font-bold transition-all">
-              Get Quote
-            </a>
-          </div>
-          <button className="md:hidden text-[#F7F7F5]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </nav>
+    <nav style={{ background: '#0E1A2B', padding: '1rem 0', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontSize: '1.2rem', fontWeight: 700 }}>
+          <div style={{ width: 40, height: 40, background: '#C9A24D', color: '#0E1A2B', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1.5rem' }}>L</div>
+          {BRAND.name}
+        </Link>
 
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-[99] bg-[#0B0F17]/98 backdrop-blur-lg md:hidden">
-          <div className="flex flex-col items-center justify-center h-full gap-8">
-            {[['services','Services'],['process','Process'],['about','About'],['contact','Contact']].map(([id, label]) => (
-              <button key={id} onClick={() => scrollToSection(id)} className="text-[#F7F7F5] text-2xl font-semibold">{label}</button>
-            ))}
-            <Link href="/retirement" onClick={() => setMobileMenuOpen(false)} className="text-[#F7F7F5] text-2xl font-semibold">Retirement</Link>
-            <Link href="/consult" onClick={() => setMobileMenuOpen(false)} className="text-[#F7F7F5] text-2xl font-semibold">Request Consult</Link>
-            <a href={BRAND.bookingUrl} className="cta-gold mt-4">Secure Your Legacy</a>
-          </div>
+        {/* Desktop nav */}
+        <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }} className="desktop-nav">
+          {[['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']].map(([href, label]) => (
+            <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.95rem' }}>{label}</Link>
+          ))}
+          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
+            style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem' }}>
+            Book Consultation
+          </a>
+          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer"
+            style={{ background: '#E5C882', color: '#0E1A2B', padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.9rem', boxShadow: '0 0 15px rgba(197,162,77,0.4)' }}>
+            Get Quote
+          </a>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">
+          {open ? '✕' : '☰'}
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      {open && (
+        <div style={{ background: '#0E1A2B', padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {[['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']].map(([href, label]) => (
+            <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
+          ))}
+          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
+            style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.75rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
+            Book Consultation
+          </a>
+          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer"
+            style={{ background: '#E5C882', color: '#0E1A2B', padding: '0.75rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', textAlign: 'center' }}>
+            Get Quote
+          </a>
         </div>
       )}
-    </>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-btn { display: block !important; }
+        }
+      `}</style>
+    </nav>
   )
 }
 
-// ── Hero Section ──────────────────────────────────────────────────
-function HeroSection() {
-  const sectionRef = useRef<HTMLDivElement>(null)
-
-  useLayoutEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.hero-bg', { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 1.2, ease: 'power2.out' })
-      gsap.fromTo('.hero-label', { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.6, delay: 0.3, ease: 'power2.out' })
-      gsap.fromTo('.hero-headline span', { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.8, stagger: 0.08, delay: 0.4, ease: 'power3.out' })
-      gsap.fromTo('.hero-subheadline', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, delay: 0.8, ease: 'power2.out' })
-      gsap.fromTo('.hero-cta', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, delay: 1, ease: 'power2.out' })
-
-      const scrollTl = gsap.timeline({
-        scrollTrigger: { trigger: section, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 }
-      })
-      scrollTl
-        .fromTo('.hero-headline', { x: 0, opacity: 1 }, { x: '40vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .fromTo('.hero-bg', { scale: 1, opacity: 1 }, { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .fromTo('.hero-cta', { y: 0, opacity: 1 }, { y: '12vh', opacity: 0, ease: 'power2.in' }, 0.75)
-    }, section)
-    return () => ctx.revert()
-  }, [])
-
-  return (
-    <section ref={sectionRef} className="section-pinned z-10" id="hero">
-      <div className="hero-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/80 via-[#0B0F17]/50 to-transparent" />
-      </div>
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
-        <div className="max-w-4xl">
-          <p className="hero-label micro-label text-[#C9A25F] mb-6">Independent Protection Advisor</p>
-          <h1 className="hero-headline heading-display text-[clamp(2.5rem,8vw,5.5rem)] text-[#F7F7F5] mb-8">
-            <span className="block">Protecting</span>
-            <span className="block">Today.</span>
-            <span className="block text-[#C9A25F]">Securing</span>
-            <span className="block">Tomorrow.</span>
-          </h1>
-          <p className="hero-subheadline text-[#A9B1BE] text-lg lg:text-xl max-w-xl mb-10 leading-relaxed">
-            Clear, education-first plans for families across Schuylkill, Luzerne & Northumberland Counties.
-          </p>
-          <div className="hero-cta flex flex-col sm:flex-row gap-4">
-            <a href={BRAND.bookingUrl} className="cta-gold">
-              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-            <Link href="/retirement" className="px-8 py-4 border border-[#F7F7F5]/20 text-[#F7F7F5] rounded-full font-bold text-sm hover:bg-[#F7F7F5]/5 transition-all flex items-center justify-center">
-              <TrendingUp className="mr-2 w-4 h-4" /> Retirement Planning
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="absolute bottom-10 right-6 lg:right-[6vw] text-[#A9B1BE] text-xs flex items-center gap-2">
-        <span>Scroll to begin</span><ChevronDown className="w-4 h-4 animate-bounce" />
-      </div>
-    </section>
-  )
-}
-
-// ── What If Section ───────────────────────────────────────────────
-function WhatIfSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: s, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 } })
-      tl.fromTo('.whatif-headline span', { x: '-60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
-        .fromTo('.whatif-caption', { x: '18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
-        .fromTo('.whatif-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
-        .fromTo('.whatif-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
-        .to('.whatif-headline', { x: '-35vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.whatif-caption', { x: '10vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.whatif-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .to('.whatif-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  return (
-    <section ref={ref} className="section-pinned z-20" id="whatif">
-      <div className="whatif-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson coaching youth baseball" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
-      </div>
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="whatif-headline heading-display text-[clamp(2.5rem,7vw,5rem)] text-[#F7F7F5]">
-              <span className="block">Protecting</span>
-              <span className="block">What Matters</span>
-              <span className="block text-[#C9A25F]">Most.</span>
-            </h2>
-          </div>
-          <div className="whatif-caption">
-            <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
-              Most families are one event away from financial strain. We map the risks—then build a plan that keeps life on track.
-            </p>
-            <a href={BRAND.bookingUrl} className="whatif-cta cta-gold">
-              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Legacy Section ─────────────────────────────────────────────
-function LegacySection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: s, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 } })
-      tl.fromTo('.legacy-headline span', { x: '60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
-        .fromTo('.legacy-caption', { x: '-18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
-        .fromTo('.legacy-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
-        .fromTo('.legacy-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
-        .to('.legacy-headline', { x: '35vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.legacy-caption', { x: '-10vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.legacy-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .to('.legacy-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  return (
-    <section ref={ref} className="section-pinned z-30" id="legacy">
-      <div className="legacy-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
-      </div>
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="legacy-caption order-2 lg:order-1">
-            <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
-              We'll map what needs protecting—mortgage, income, retirement, legacy—then shop the market for the right fit. No pressure. No jargon.
-            </p>
-            <a href={BRAND.bookingUrl} className="legacy-cta cta-gold">
-              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          </div>
-          <div className="order-1 lg:order-2 text-right">
-            <h2 className="legacy-headline heading-display text-[clamp(2.5rem,7vw,5rem)] text-[#F7F7F5]">
-              <span className="block">Build A</span>
-              <span className="block">Protection</span>
-              <span className="block text-[#C9A25F]">Legacy.</span>
-            </h2>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Process Section ───────────────────────────────────────────────
-function ProcessSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.process-heading', { y: 40, opacity: 0 }, { y: 0, opacity: 1, scrollTrigger: { trigger: s, start: 'top 80%', end: 'top 50%', scrub: 0.5 } })
-      gsap.fromTo('.process-card', { y: 80, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.12, scrollTrigger: { trigger: '.process-grid', start: 'top 80%', end: 'top 40%', scrub: 0.5 } })
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  const steps = [
-    { num: '01', title: 'Discovery Call', desc: '15–20 minutes to understand your priorities.' },
-    { num: '02', title: 'Your Legacy Plan', desc: 'A clear plan showing what to protect and why.' },
-    { num: '03', title: 'Compare Options', desc: 'We shop carriers to match coverage and budget.' },
-    { num: '04', title: 'Implement & Review', desc: 'Apply, confirm beneficiaries, and schedule annual reviews.' },
-  ]
-  return (
-    <section ref={ref} className="relative z-40 bg-[#F4F1EA] py-24 lg:py-32" id="process">
-      <div className="px-6 lg:px-[6vw]">
-        <h2 className="process-heading heading-display text-[clamp(2rem,5vw,4rem)] text-[#0B0F17] mb-16">How It Works</h2>
-        <div className="process-grid grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((step, i) => (
-            <div key={i} className="process-card bg-white p-8 rounded-2xl shadow-sm border border-[#0B0F17]/5">
-              <span className="text-[#C9A25F] text-sm font-black tracking-widest mb-4 block">{step.num}</span>
-              <h3 className="text-[#0B0F17] font-bold text-xl mb-3">{step.title}</h3>
-              <p className="text-[#0B0F17]/60 text-sm leading-relaxed">{step.desc}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* 10-Strategy Grid */}
-        <div className="mt-20">
-          <h3 className="heading-display text-[clamp(1.5rem,3vw,2.5rem)] text-[#0B0F17] mb-4 text-center">Comprehensive Financial Protection</h3>
-          <p className="text-[#0B0F17]/60 text-center mb-10">10 strategies to build, protect, and transfer wealth</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { title: 'Tax-Advantaged Wealth Accumulation', desc: 'Build wealth using tax-deferred and tax-free growth strategies' },
-              { title: 'Asset Protection & Plan Rollovers', desc: 'Protect wealth and roll over 401(k), 403(b), pension plans strategically' },
-              { title: 'College Education Funding', desc: 'Strategic funding for higher education without crippling debt' },
-              { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
-              { title: 'Life Insurance & Living Benefits', desc: 'Income replacement, critical illness, and final expense coverage' },
-              { title: 'Estate & Legacy Planning', desc: 'Wealth transfer strategies and estate tax solutions' },
-              { title: 'Indexed Growth Strategies', desc: 'Market-linked growth with downside protection' },
-              { title: 'Mortgage Protection', desc: 'Ensure your family keeps the home if something happens to you' },
-              { title: 'Business & Key-Person Insurance', desc: 'Protect your business from loss of critical personnel' },
-              { title: 'Retirement Income Planning', desc: 'Guaranteed income options, tax-deferred growth, and annuity strategies' },
-            ].map((item, i) => (
-              <div key={i} className="bg-white border border-[#0B0F17]/8 rounded-xl p-6 hover:border-[#C9A25F]/40 hover:shadow-md transition-all">
-                <h4 className="text-[#0B0F17] font-bold text-base mb-2">{item.title}</h4>
-                <p className="text-[#0B0F17]/55 text-sm leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <a href={BRAND.bookingUrl} className="cta-gold inline-flex items-center gap-2">
-              Ready to Explore Your Options? <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Coverage Section ──────────────────────────────────────────────
-function CoverageSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: s, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 } })
-      tl.fromTo('.coverage-headline span', { x: '-60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
-        .fromTo('.coverage-caption', { x: '18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
-        .fromTo('.coverage-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
-        .fromTo('.coverage-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
-        .to('.coverage-headline', { x: '-35vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.coverage-caption', { x: '10vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.coverage-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .to('.coverage-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  return (
-    <section ref={ref} className="section-pinned z-50" id="coverage">
-      <div className="coverage-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
-      </div>
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="coverage-headline heading-display text-[clamp(2rem,6vw,4.5rem)] text-[#F7F7F5]">
-              <span className="block">Schuylkill</span>
-              <span className="block">Luzerne</span>
-              <span className="block text-[#C9A25F]">Northumberland</span>
-            </h2>
-          </div>
-          <div className="coverage-caption">
-            <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
-              Independent guidance for families and business owners across Pennsylvania's coal region and Wyoming Valley.
-            </p>
-            <a href={BRAND.bookingUrl} className="coverage-cta cta-gold">
-              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Services Section ──────────────────────────────────────────────
-function ServicesSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: s, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 } })
-      tl.fromTo('.services-headline span', { x: '60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
-        .fromTo('.services-caption', { x: '-18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
-        .fromTo('.services-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
-        .fromTo('.services-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
-        .to('.services-headline', { x: '35vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.services-caption', { x: '-10vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.services-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .to('.services-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  return (
-    <section ref={ref} className="section-pinned z-[60]" id="services">
-      <div className="services-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
-      </div>
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="services-caption order-2 lg:order-1">
-            <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
-              Term, IUL, final expense, mortgage protection, key-person coverage, and tax-smart retirement income—designed around your life, not a sales quota.
-            </p>
-            <a href={BRAND.bookingUrl} className="services-cta cta-gold">
-              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          </div>
-          <div className="order-1 lg:order-2 text-right">
-            <h2 className="services-headline heading-display text-[clamp(2rem,6vw,4.5rem)] text-[#F7F7F5]">
-              <span className="block">Life</span>
-              <span className="block">Income</span>
-              <span className="block">Retirement</span>
-              <span className="block text-[#C9A25F]">Business</span>
-            </h2>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Independence Section ──────────────────────────────────────────
-function IndependenceSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ scrollTrigger: { trigger: s, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 } })
-      tl.fromTo('.independence-headline span', { x: '-60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
-        .fromTo('.independence-caption', { x: '18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
-        .fromTo('.independence-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
-        .fromTo('.independence-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
-        .to('.independence-headline', { x: '-35vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.independence-caption', { x: '10vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.independence-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .to('.independence-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  return (
-    <section ref={ref} className="section-pinned z-[70]" id="about">
-      <div className="independence-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson Latimore coaching" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
-      </div>
-      <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h2 className="independence-headline heading-display text-[clamp(2.5rem,7vw,5rem)] text-[#F7F7F5]">
-              <span className="block">Shop</span>
-              <span className="block">The</span>
-              <span className="block text-[#C9A25F]">Market.</span>
-            </h2>
-          </div>
-          <div className="independence-caption">
-            <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
-              No single carrier agenda. We compare options, explain tradeoffs in plain English, and let you choose what fits.
-            </p>
-            <a href={BRAND.bookingUrl} className="independence-cta cta-gold">
-              Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Social Proof Section ──────────────────────────────────────────
-function SocialProofSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.social-heading', { y: 40, opacity: 0 }, { y: 0, opacity: 1, scrollTrigger: { trigger: s, start: 'top 80%', end: 'top 50%', scrub: 0.5 } })
-      gsap.fromTo('.testimonial-card', { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.12, scrollTrigger: { trigger: '.testimonials-grid', start: 'top 80%', end: 'top 40%', scrub: 0.5 } })
-      gsap.fromTo('.badge-item', { scale: 0.96, opacity: 0 }, { scale: 1, opacity: 1, stagger: 0.08, scrollTrigger: { trigger: '.badges-row', start: 'top 85%', end: 'top 60%', scrub: 0.5 } })
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  const testimonials = [
-    { quote: 'Jackson explained everything without pressure. We finally feel protected.', author: 'A family in Luzerne County' },
-    { quote: 'He shopped multiple carriers and found us better coverage for less.', author: 'Small business owner, Schuylkill County' },
-    { quote: 'Jackson made it easy to understand exactly what we needed to protect our family.', author: 'Retiree, Northumberland County' },
-  ]
-  const badges = [
-    { icon: <Shield className="w-5 h-5" />, text: 'Independent Advisor' },
-    { icon: <CheckCircle2 className="w-5 h-5" />, text: 'Multi-Carrier Options' },
-    { icon: <Calendar className="w-5 h-5" />, text: 'Annual Reviews Included' },
-  ]
-  return (
-    <section ref={ref} className="relative z-[80] bg-[#0B0F17] py-24 lg:py-32" id="testimonials">
-      <div className="px-6 lg:px-[6vw]">
-        <h2 className="social-heading heading-display text-[clamp(1.5rem,4vw,3rem)] text-[#F7F7F5] text-center mb-16">
-          Trusted By Families Across The Region
-        </h2>
-        <div className="testimonials-grid grid md:grid-cols-3 gap-6 mb-16">
-          {testimonials.map((t, i) => (
-            <div key={i} className="testimonial-card bg-[#1a2535] p-8 rounded-2xl border border-[#F7F7F5]/5">
-              <p className="text-[#F7F7F5] text-lg leading-relaxed mb-6 italic">"{t.quote}"</p>
-              <p className="text-[#A9B1BE] text-sm">— {t.author}</p>
-            </div>
-          ))}
-        </div>
-        <div className="badges-row flex flex-wrap justify-center gap-4">
-          {badges.map((b, i) => (
-            <div key={i} className="badge-item flex items-center gap-2 px-6 py-3 bg-[#1a2535] rounded-full border border-[#C9A25F]/30">
-              <span className="text-[#C9A25F]">{b.icon}</span>
-              <span className="text-[#F7F7F5] text-sm font-medium">{b.text}</span>
-            </div>
-          ))}
-        </div>
-        <div className="mt-20 grid lg:grid-cols-2 gap-12 items-center border-t border-[#F7F7F5]/10 pt-16">
-          <div>
-            <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full max-w-sm mx-auto rounded-2xl object-cover object-top aspect-square" />
-          </div>
-          <div>
-            <p className="micro-label text-[#C9A25F] mb-4">Why I Do This</p>
-            <h3 className="heading-display text-[clamp(1.5rem,3vw,2.5rem)] text-[#F7F7F5] mb-6">I Needed This Plan Too.</h3>
-            <p className="text-[#A9B1BE] text-lg leading-relaxed mb-6">
-              In December 2010, a defibrillator saved my life on the basketball court at East Stroudsburg University.
-              I was 22. I had no plan, no policy, nothing protecting the people I loved.
-            </p>
-            <p className="text-[#A9B1BE] text-lg leading-relaxed mb-8">
-              That moment is why I built Latimore Life &amp; Legacy — to make sure no family in our region gets caught without a plan when it matters most. <span className="text-[#C9A25F] font-semibold">#TheBeatGoesOn</span>
-            </p>
-            <div className="flex items-center gap-3 bg-[#131b2a] rounded-xl p-4 border border-[#C9A25F]/20">
-              <img src="/news-headline.jpg" alt="Pocono Record news" className="w-20 h-14 object-cover rounded-lg flex-shrink-0" />
-              <p className="text-[#A9B1BE] text-sm italic">"Defibrillator saves basketball player at ESU" — Pocono Record, Dec. 8, 2010</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Contact Section ───────────────────────────────────────────────
-function ContactSection() {
-  const ref = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const s = ref.current; if (!s) return
-    const ctx = gsap.context(() => {
-      gsap.fromTo('.contact-headline', { y: 50, opacity: 0 }, { y: 0, opacity: 1, scrollTrigger: { trigger: s, start: 'top 80%', end: 'top 50%', scrub: 0.5 } })
-      gsap.fromTo('.contact-sub', { y: 30, opacity: 0 }, { y: 0, opacity: 1, scrollTrigger: { trigger: s, start: 'top 75%', end: 'top 45%', scrub: 0.5 } })
-    }, s)
-    return () => ctx.revert()
-  }, [])
-  return (
-    <section ref={ref} className="relative z-[90] min-h-screen" id="contact">
-      <div className="absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
-        <div className="absolute inset-0 bg-[#0B0F17]/80" />
-      </div>
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 lg:px-[6vw] py-24">
-        <h2 className="contact-headline heading-display text-[clamp(2.5rem,8vw,6rem)] text-[#F7F7F5] text-center mb-6">
-          Ready When You Are.
-        </h2>
-        <p className="contact-sub text-[#A9B1BE] text-lg lg:text-xl text-center max-w-2xl mb-12">
-          Book a 15–20 minute call. We'll map your priorities and next steps—no pressure.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <a href={BRAND.bookingUrl} className="cta-gold">
-            Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
-          </a>
-          <Link href="/consult" className="px-8 py-4 border border-[#F7F7F5]/30 text-[#F7F7F5] hover:bg-[#F7F7F5]/10 rounded-full font-bold text-sm flex items-center justify-center transition-all">
-            Request a Consultation
-          </Link>
-        </div>
-        <div className="flex flex-col sm:flex-row gap-8 text-center">
-          <a href={`mailto:${BRAND.email}`} className="flex items-center gap-2 text-[#A9B1BE] hover:text-[#C9A25F] transition-colors">
-            <Mail className="w-4 h-4" /><span className="text-sm">{BRAND.email}</span>
-          </a>
-          <a href={`tel:${BRAND.phone}`} className="flex items-center gap-2 text-[#A9B1BE] hover:text-[#C9A25F] transition-colors">
-            <Phone className="w-4 h-4" /><span className="text-sm">{BRAND.phone}</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ── Footer ────────────────────────────────────────────────────────
 function Footer() {
   return (
-    <footer className="relative z-[100] bg-[#0B0F17] border-t border-[#F7F7F5]/5 py-12">
-      <div className="px-6 lg:px-[6vw]">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-8 mb-8">
+    <footer style={{ background: '#0E1A2B', color: '#fff', padding: '3rem 0 1rem' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
           <div>
-            <p className="text-[#F7F7F5] font-black text-lg tracking-[0.15em]">{BRAND.name}</p>
-            <p className="text-[#A9B1BE] text-sm mt-1">{BRAND.fullName}</p>
-            <p className="text-[#A9B1BE]/60 text-xs mt-2">{BRAND.hashtag}</p>
-          </div>
-          <div className="grid grid-cols-2 gap-8 text-sm">
-            <div>
-              <p className="text-[#F7F7F5] font-semibold mb-3">Services</p>
-              {[['velocity','Velocity'],['depth','Depth'],['group','Group & Workshops'],['retirement','Retirement']].map(([href, label]) => (
-                <Link key={href} href={`/${href}`} className="block text-[#A9B1BE] hover:text-[#C9A25F] transition-colors mb-2">{label}</Link>
-              ))}
-            </div>
-            <div>
-              <p className="text-[#F7F7F5] font-semibold mb-3">Company</p>
-              {[['consult','Request Consult'],['book','Secure Your Legacy'],['legal/privacy','Privacy'],['legal/terms','Terms'],['legal/disclosures','Disclosures']].map(([href, label]) => (
-                <Link key={href} href={`/${href}`} className="block text-[#A9B1BE] hover:text-[#C9A25F] transition-colors mb-2">{label}</Link>
-              ))}
+            <h4 style={{ color: '#E5C882', marginBottom: '1rem' }}>{BRAND.name}</h4>
+            <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '0.9rem', lineHeight: 1.7 }}>Protection-first strategies for working families, professionals, and local organizations across Central Pennsylvania.</p>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+              <a href={BRAND.instagram} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>Instagram</a>
+              <a href={BRAND.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }}>LinkedIn</a>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-4">
-            <a href="https://agents.ethoslife.com/invite/29ad1" target="_blank" rel="noopener noreferrer" className="group flex flex-col items-center gap-2">
-              <img src="/ethos-qr.png" alt="Apply for Life Insurance via Ethos" className="w-24 h-24 rounded-lg border border-[#F7F7F5]/10 group-hover:border-[#C9A25F]/50 transition-colors" />
-              <span className="text-[#A9B1BE] text-xs group-hover:text-[#C9A25F] transition-colors text-center">Apply Now — Ethos Life</span>
-            </a>
-            <div className="flex items-center gap-6">
-              <a href={`tel:${BRAND.phone}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Phone className="w-5 h-5" /></a>
-              <a href={`mailto:${BRAND.email}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Mail className="w-5 h-5" /></a>
-              <a href={BRAND.bookingUrl} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Calendar className="w-5 h-5" /></a>
+          <div>
+            <h4 style={{ color: '#E5C882', marginBottom: '1rem' }}>Quick Links</h4>
+            {[['/about','About Jackson'],['/products','Products'],['/services','Services'],['/contact','Contact']].map(([href, label]) => (
+              <Link key={href} href={href} style={{ display: 'block', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', marginBottom: '0.5rem' }}>{label}</Link>
+            ))}
+          </div>
+          <div>
+            <h4 style={{ color: '#E5C882', marginBottom: '1rem' }}>Contact</h4>
+            <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '0.5rem' }}><strong>Phone:</strong> {BRAND.phone}</p>
+            <p style={{ color: 'rgba(255,255,255,0.8)', marginBottom: '0.5rem' }}><strong>Email:</strong> {BRAND.email}</p>
+            <p style={{ color: 'rgba(255,255,255,0.8)' }}><strong>Service Area:</strong> Schuylkill, Luzerne & Northumberland Counties, PA</p>
+          </div>
+          <div>
+            <h4 style={{ color: '#E5C882', marginBottom: '1rem' }}>Get Started</h4>
+            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-block', background: '#C9A24D', color: '#0E1A2B', padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', marginBottom: '0.75rem' }}>
+              Book Consultation
+            </a><br />
+            <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer"
+              style={{ display: 'inline-block', background: '#C9A24D', color: '#0E1A2B', padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', marginBottom: '0.75rem' }}>
+              Instant Quote
+            </a><br />
+            <div style={{ marginTop: '1rem' }}>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', marginBottom: '0.5rem' }}>Scan to apply:</p>
+              <img src="/ethos-qr.png" alt="Ethos QR Code" style={{ width: 80, height: 80, borderRadius: 8 }} />
             </div>
           </div>
         </div>
-        <div className="border-t border-[#F7F7F5]/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
-          <p className="text-[#A9B1BE]/40 text-xs">© {new Date().getFullYear()} {BRAND.fullName} LLC. PA License #{BRAND.paLicense}. All rights reserved.</p>
-          <p className="text-[#A9B1BE]/40 text-xs text-center md:text-right max-w-lg">
-            Insurance products and features vary by carrier and state. Benefits are not guaranteed and may require additional premium. No rate/return promises. Serving Schuylkill, Luzerne, and Northumberland Counties, PA.
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: '1.5rem', textAlign: 'center' }}>
+          <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', maxWidth: 900, margin: '0 auto 1rem' }}>
+            Licensed in Pennsylvania (DOI #{BRAND.paLicense}, NIPR #{BRAND.nipr}). Independent contractor affiliated with Global Financial Impact. Products offered through appointed carriers. For educational purposes only; not tax or legal advice.
           </p>
+          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>© {new Date().getFullYear()} Latimore Life & Legacy LLC. All rights reserved.</p>
         </div>
       </div>
     </footer>
   )
 }
 
-// ── Home Page ─────────────────────────────────────────────────────
 export default function HomePage() {
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const timer = setTimeout(() => {
-      const pinned = ScrollTrigger.getAll().filter(st => st.vars.pin).sort((a, b) => a.start - b.start)
-      const maxScroll = ScrollTrigger.maxScroll(window)
-      if (!maxScroll || pinned.length === 0) return
-      const ranges = pinned.map(st => ({
-        start: st.start / maxScroll,
-        end: (st.end ?? st.start) / maxScroll,
-        center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
-      }))
-      ScrollTrigger.create({
-        snap: {
-          snapTo: (value) => {
-            const inPinned = ranges.some(r => value >= r.start - 0.02 && value <= r.end + 0.02)
-            if (!inPinned) return value
-            return ranges.reduce((closest, r) =>
-              Math.abs(r.center - value) < Math.abs(closest - value) ? r.center : closest,
-              ranges[0]?.center ?? 0
-            )
-          },
-          duration: { min: 0.15, max: 0.35 },
-          delay: 0,
-          ease: 'power2.out',
-        },
-      })
-    }, 500)
-    return () => {
-      clearTimeout(timer)
-      ScrollTrigger.getAll().forEach(st => st.kill())
-    }
-  }, [])
-
   return (
-    <div className="relative">
-      <div className="grain-overlay" />
-      <Navigation />
-      <main className="relative">
-        <HeroSection />
-        <WhatIfSection />
-        <LegacySection />
-        <ProcessSection />
-        <CoverageSection />
-        <ServicesSection />
-        <IndependenceSection />
-        <SocialProofSection />
-        <ContactSection />
+    <>
+      <Nav />
+      <main>
+        {/* Hero */}
+        <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '4rem 0' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '3rem', alignItems: 'center' }} className="hero-grid">
+            <div>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1rem', lineHeight: 1.2 }}>
+                Protecting What Matters Most to <span style={{ color: '#E5C882' }}>Pennsylvania Families</span>
+              </h1>
+              <p style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 600, color: '#E5C882', margin: '1.5rem 0' }}>Father | Survivor | Leader</p>
+              <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.9)', marginBottom: '2rem', lineHeight: 1.7 }}>
+                Independent insurance consultant serving Schuylkill, Luzerne & Northumberland Counties with life insurance, annuities, and financial protection strategies.
+              </p>
+              <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
+                {['✓ PA Licensed (DOI #1268820)', '✓ MBA Candidate', '✓ 3 Counties Served'].map(b => (
+                  <span key={b} style={{ background: 'rgba(197,162,77,0.2)', padding: '0.5rem 1rem', borderRadius: 20, fontSize: '0.9rem', border: '1px solid #C9A24D' }}>{b}</span>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
+                  style={{ background: '#C9A24D', color: '#0E1A2B', padding: '1rem 2rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>
+                  Book Free Consultation
+                </a>
+                <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer"
+                  style={{ background: '#E5C882', color: '#0E1A2B', padding: '1rem 2rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '1rem', boxShadow: '0 0 20px rgba(197,162,77,0.5)' }}>
+                  Get Instant Quote
+                </a>
+              </div>
+            </div>
+            <div>
+              <img src="/jackson-headshot.jpg" alt="Jackson M. Latimore Sr." style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }} />
+              <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: 10, marginTop: '1rem', textAlign: 'center' }}>
+                <h3 style={{ color: '#E5C882', marginBottom: '0.5rem' }}>Jackson M. Latimore Sr.</h3>
+                <p style={{ color: 'rgba(255,255,255,0.8)' }}>CEO & Founder</p>
+                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem' }}>Independent Financial Consultant</p>
+              </div>
+            </div>
+          </div>
+          <style>{`@media(max-width:768px){.hero-grid{grid-template-columns:1fr !important;}}`}</style>
+        </section>
+
+        {/* Services Grid */}
+        <section style={{ padding: '4rem 0', background: '#F5F5F5' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
+            <h2 style={{ textAlign: 'center', fontSize: 'clamp(1.8rem,4vw,2.5rem)', marginBottom: '1rem', color: '#0E1A2B' }}>Comprehensive Financial Protection</h2>
+            <p style={{ textAlign: 'center', fontSize: '1.1rem', color: '#666', marginBottom: '3rem' }}>10 strategies to build, protect, and transfer wealth</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+              {services.map((s, i) => (
+                <div key={i} style={{ background: '#fff', padding: '1.5rem', borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.08)', borderTop: '3px solid #C9A24D' }}>
+                  <h3 style={{ color: '#0E1A2B', fontSize: '1.05rem', marginBottom: '0.5rem' }}>{s.title}</h3>
+                  <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: 1.6 }}>{s.desc}</p>
+                </div>
+              ))}
+            </div>
+            <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+              <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
+                style={{ background: '#C9A24D', color: '#0E1A2B', padding: '1rem 2.5rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>
+                Ready to Explore Your Options?
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* My Story */}
+        <section style={{ background: '#0E1A2B', color: '#fff', padding: '4rem 0' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
+            <h2 style={{ textAlign: 'center', fontSize: 'clamp(1.8rem,4vw,2.5rem)', marginBottom: '2rem', color: '#fff' }}>My Story: Why Protection Matters</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '3rem' }} className="story-grid">
+              <div style={{ textAlign: 'center' }}>
+                <img src="/hospital-recovery.jpg" alt="Jackson recovering in hospital" style={{ width: '100%', borderRadius: 10, boxShadow: '0 5px 20px rgba(0,0,0,0.3)', marginBottom: '0.75rem' }} />
+                <p style={{ color: '#E5C882', fontSize: '0.9rem' }}>December 2010 - Pocono Medical Center</p>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <img src="/news-headline.jpg" alt="Pocono Record coverage" style={{ width: '100%', borderRadius: 10, boxShadow: '0 5px 20px rgba(0,0,0,0.3)', marginBottom: '0.75rem' }} />
+                <p style={{ color: '#E5C882', fontSize: '0.9rem' }}>Local news coverage of the life-saving event</p>
+              </div>
+            </div>
+            <div style={{ maxWidth: 800, margin: '0 auto' }}>
+              <p style={{ marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: 1.8 }}>
+                During a college basketball game on December 7, 2010, my heart stopped. I went into sudden cardiac arrest at East Stroudsburg University. I was 22 years old.
+              </p>
+              <p style={{ marginBottom: '1.5rem', fontSize: '1.1rem', lineHeight: 1.8 }}>
+                I survived because athletic trainers had immediate access to an AED — placed there by the Gregory W. Moyer Defibrillator Fund after 15-year-old Greg Moyer died of cardiac arrest in 2000.
+              </p>
+              <p style={{ background: 'rgba(197,162,77,0.2)', padding: '1.5rem', borderLeft: '4px solid #C9A24D', fontSize: '1.15rem', fontWeight: 600, color: '#E5C882', marginBottom: '2rem', lineHeight: 1.7 }}>
+                That experience taught me that preparedness is everything. Financial protection isn&apos;t about selling policies — it&apos;s about ensuring families have what they need when the unexpected happens.
+              </p>
+              <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link href="/about" style={{ background: 'transparent', color: '#fff', border: '2px solid #C9A24D', padding: '0.9rem 2rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none' }}>
+                  Read Full Story
+                </Link>
+                <Link href="/contact" style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.9rem 2rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none' }}>
+                  Work With Me
+                </Link>
+              </div>
+            </div>
+          </div>
+          <style>{`@media(max-width:768px){.story-grid{grid-template-columns:1fr !important;}}`}</style>
+        </section>
+
+        {/* CTA Section */}
+        <section style={{ background: 'linear-gradient(135deg, #C9A24D 0%, #E5C882 100%)', padding: '4rem 0', textAlign: 'center' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', color: '#0E1A2B', marginBottom: '1rem' }}>Ready to Protect Your Family&apos;s Future?</h2>
+            <p style={{ fontSize: '1.2rem', color: '#0E1A2B', marginBottom: '2rem' }}>Let&apos;s discuss your financial protection strategy</p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
+                style={{ background: '#0E1A2B', color: '#fff', padding: '1rem 2rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>
+                Book Free Consultation
+              </a>
+              <a href={`tel:${BRAND.phoneRaw}`}
+                style={{ background: 'transparent', color: '#0E1A2B', border: '2px solid #0E1A2B', padding: '1rem 2rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '1rem' }}>
+                Call {BRAND.phone}
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
-    </div>
+    </>
   )
 }
