@@ -37,7 +37,7 @@ function Nav() {
     <nav style={{ background: '#0E1A2B', padding: '1rem 0', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontSize: '1.2rem', fontWeight: 700 }}>
-          <div style={{ width: 40, height: 40, background: '#C9A24D', color: '#0E1A2B', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: '1.5rem' }}>L</div>
+          <img src="/logo.jpg" alt="Latimore Life & Legacy LLC" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
           {BRAND.name}
         </Link>
 
