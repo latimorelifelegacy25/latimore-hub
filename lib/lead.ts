@@ -4,8 +4,8 @@ export function ensureLeadSessionId(): string {
   const k = 'lead_session_id'
   let v = localStorage.getItem(k)
   if (!v) {
-    v = (self as any).crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2)
-    localStorage.setItem(k, v)
+    v = ((self as any).crypto?.randomUUID?.() ?? Math.random().toString(36).slice(2)) as string
+    localStorage.setItem(k, v as string)
   }
   return v
 }
