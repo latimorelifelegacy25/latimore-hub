@@ -7,7 +7,7 @@ export const BRAND = {
   email: 'jackson1989@latimorelegacy.com',
   nipr: '21638507',
   paLicense: '1268820',
-  bookingUrl: 'https://calendly.com/jackson1989-latimorelegacy',
+  bookingUrl: '/book',
   ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
   filloutUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
   counties: ['Schuylkill', 'Luzerne', 'Northumberland'],

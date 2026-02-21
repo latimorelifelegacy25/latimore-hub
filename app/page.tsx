@@ -47,7 +47,7 @@ function Navigation() {
             ))}
             <Link href="/retirement" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Retirement</Link>
             <Link href="/consult" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Consult</Link>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="cta-gold text-xs px-5 py-2.5">
+            <a href={BRAND.bookingUrl} className="cta-gold text-xs px-5 py-2.5">
               Book a Call
             </a>
           </div>
@@ -65,7 +65,7 @@ function Navigation() {
             ))}
             <Link href="/retirement" onClick={() => setMobileMenuOpen(false)} className="text-[#F7F7F5] text-2xl font-semibold">Retirement</Link>
             <Link href="/consult" onClick={() => setMobileMenuOpen(false)} className="text-[#F7F7F5] text-2xl font-semibold">Request Consult</Link>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="cta-gold mt-4">Book Your Blueprint</a>
+            <a href={BRAND.bookingUrl} className="cta-gold mt-4">Book Your Blueprint</a>
           </div>
         </div>
       )}
@@ -117,7 +117,7 @@ function HeroSection() {
             Clear, education-first plans for families across Schuylkill, Luzerne & Northumberland Counties.
           </p>
           <div className="hero-cta flex flex-col sm:flex-row gap-4">
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="cta-gold">
+            <a href={BRAND.bookingUrl} className="cta-gold">
               Book Your Protection Blueprint <ArrowRight className="ml-2 w-4 h-4" />
             </a>
             <Link href="/retirement" className="px-8 py-4 border border-[#F7F7F5]/20 text-[#F7F7F5] rounded-full font-bold text-sm hover:bg-[#F7F7F5]/5 transition-all flex items-center justify-center">
@@ -170,7 +170,7 @@ function WhatIfSection() {
             <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
               Most families are one event away from financial strain. We map the risks—then build a plan that keeps life on track.
             </p>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="whatif-cta cta-gold">
+            <a href={BRAND.bookingUrl} className="whatif-cta cta-gold">
               See the Protection Blueprint <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
@@ -210,7 +210,7 @@ function BlueprintSection() {
             <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
               We'll map what needs protecting—mortgage, income, retirement, legacy—then shop the market for the right fit. No pressure. No jargon.
             </p>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="blueprint-cta cta-gold">
+            <a href={BRAND.bookingUrl} className="blueprint-cta cta-gold">
               Request Your Blueprint <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
@@ -299,7 +299,7 @@ function CoverageSection() {
             <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
               Independent guidance for families and business owners across Pennsylvania's coal region and Wyoming Valley.
             </p>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="coverage-cta cta-gold">
+            <a href={BRAND.bookingUrl} className="coverage-cta cta-gold">
               See Local Options <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
@@ -339,7 +339,7 @@ function ServicesSection() {
             <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
               Term, IUL, final expense, mortgage protection, key-person coverage, and tax-smart retirement income—designed around your life, not a sales quota.
             </p>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="services-cta cta-gold">
+            <a href={BRAND.bookingUrl} className="services-cta cta-gold">
               Explore Services <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
@@ -394,7 +394,7 @@ function IndependenceSection() {
             <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
               No single carrier agenda. We compare options, explain tradeoffs in plain English, and let you choose what fits.
             </p>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="independence-cta cta-gold">
+            <a href={BRAND.bookingUrl} className="independence-cta cta-gold">
               Meet Jackson <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
@@ -498,7 +498,7 @@ function ContactSection() {
           Book a 15–20 minute call. We'll map your priorities and next steps—no pressure.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="cta-gold">
+          <a href={BRAND.bookingUrl} className="cta-gold">
             Book Your Protection Blueprint <ArrowRight className="ml-2 w-4 h-4" />
           </a>
           <Link href="/consult" className="px-8 py-4 border border-[#F7F7F5]/30 text-[#F7F7F5] hover:bg-[#F7F7F5]/10 rounded-full font-bold text-sm flex items-center justify-center transition-all">
@@ -546,7 +546,7 @@ function Footer() {
           <div className="flex items-center gap-6">
             <a href={`tel:${BRAND.phone}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Phone className="w-5 h-5" /></a>
             <a href={`mailto:${BRAND.email}`} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Mail className="w-5 h-5" /></a>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Calendar className="w-5 h-5" /></a>
+            <a href={BRAND.bookingUrl} className="text-[#A9B1BE] hover:text-[#C9A25F] transition-colors"><Calendar className="w-5 h-5" /></a>
           </div>
         </div>
         <div className="border-t border-[#F7F7F5]/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
