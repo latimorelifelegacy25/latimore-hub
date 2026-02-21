@@ -1,16 +1,15 @@
 {
-  "regions": ["iad1"],
-  "functions": {
-    "app/api/fillout/route.ts": { "maxDuration": 15 },
-    "app/api/reports/**":       { "maxDuration": 20 }
-  },
-  "headers": [
-    {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options",        "value": "DENY" }
-      ]
-    }
+  "buildCommand": null,
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/products", "destination": "/products.html" },
+    { "source": "/services", "destination": "/services.html" },
+    { "source": "/education", "destination": "/education.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/retirement", "destination": "/retirement.html" },
+    { "source": "/blueprint", "destination": "/blueprint.html" },
+    { "source": "/card", "destination": "/card/index.html" },
+    { "source": "/hub", "destination": "/hub/index.html" }
   ]
 }
