@@ -1,7 +1,5 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function sendMail({
   to,
   from,
@@ -18,6 +16,7 @@ export async function sendMail({
     return { ok: false, error: 'missing RESEND_API_KEY' }
   }
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
     const r = await resend.emails.send({ to, from, subject, html })
     return { ok: true, id: r.data?.id }
   } catch (err: any) {
