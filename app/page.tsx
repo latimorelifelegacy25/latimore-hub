@@ -15,6 +15,7 @@ const BRAND = {
   ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
   instagram: 'https://www.instagram.com/jacksonlatimore.global',
   linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
+  facebook: 'https://www.facebook.com/LatimoreLegacyLL',
 }
 
 const services = [
@@ -45,6 +46,7 @@ function Nav() {
           {[['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']].map(([href, label]) => (
             <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.95rem' }}>{label}</Link>
           ))}
+          <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#E5C882', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>Facebook</a>
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
             style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem' }}>
             Book Consultation
