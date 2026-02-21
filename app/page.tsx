@@ -101,7 +101,7 @@ function HeroSection() {
   return (
     <section ref={sectionRef} className="section-pinned z-10" id="hero">
       <div className="hero-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover object-top" />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/80 via-[#0B0F17]/50 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -154,7 +154,7 @@ function WhatIfSection() {
   return (
     <section ref={ref} className="section-pinned z-20" id="whatif">
       <div className="whatif-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson coaching youth baseball" className="w-full h-full object-cover object-top" />
+        <img src="/jackson-coaching.jpg" alt="Jackson coaching youth baseball" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -201,7 +201,7 @@ function BlueprintSection() {
   return (
     <section ref={ref} className="section-pinned z-30" id="blueprint">
       <div className="blueprint-bg absolute inset-0">
-        <img src="/jackson-hero.png" alt="Latimore Life & Legacy" className="w-full h-full object-cover object-center" />
+        <img src="/jackson-hero.png" alt="Latimore Life & Legacy" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -283,7 +283,7 @@ function CoverageSection() {
   return (
     <section ref={ref} className="section-pinned z-50" id="coverage">
       <div className="coverage-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover object-top" />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -330,7 +330,7 @@ function ServicesSection() {
   return (
     <section ref={ref} className="section-pinned z-[60]" id="services">
       <div className="services-bg absolute inset-0">
-        <img src="/jackson-headshot.png" alt="Jackson Latimore" className="w-full h-full object-cover object-center" />
+        <img src="/jackson-headshot.png" alt="Jackson Latimore" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -378,7 +378,7 @@ function IndependenceSection() {
   return (
     <section ref={ref} className="section-pinned z-[70]" id="about">
       <div className="independence-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson Latimore coaching" className="w-full h-full object-cover object-top" />
+        <img src="/jackson-coaching.jpg" alt="Jackson Latimore coaching" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -487,7 +487,7 @@ function ContactSection() {
   return (
     <section ref={ref} className="relative z-[90] min-h-screen" id="contact">
       <div className="absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover object-top" />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center bg-[#0B0F17]" />
         <div className="absolute inset-0 bg-[#0B0F17]/80" />
       </div>
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 lg:px-[6vw] py-24">
