@@ -180,45 +180,45 @@ function WhatIfSection() {
   )
 }
 
-// ── Blueprint Section ─────────────────────────────────────────────
-function BlueprintSection() {
+// ── Legacy Section ─────────────────────────────────────────────
+function LegacySection() {
   const ref = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     const s = ref.current; if (!s) return
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ scrollTrigger: { trigger: s, start: 'top top', end: '+=130%', pin: true, scrub: 0.6 } })
-      tl.fromTo('.blueprint-headline span', { x: '60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
-        .fromTo('.blueprint-caption', { x: '-18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
-        .fromTo('.blueprint-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
-        .fromTo('.blueprint-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
-        .to('.blueprint-headline', { x: '35vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.blueprint-caption', { x: '-10vw', opacity: 0, ease: 'power2.in' }, 0.7)
-        .to('.blueprint-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
-        .to('.blueprint-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
+      tl.fromTo('.legacy-headline span', { x: '60vw', opacity: 0 }, { x: 0, opacity: 1, stagger: 0.03, ease: 'none' }, 0)
+        .fromTo('.legacy-caption', { x: '-18vw', opacity: 0 }, { x: 0, opacity: 1, ease: 'none' }, 0.05)
+        .fromTo('.legacy-bg', { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, ease: 'none' }, 0)
+        .fromTo('.legacy-cta', { y: '10vh', opacity: 0 }, { y: 0, opacity: 1, ease: 'none' }, 0.18)
+        .to('.legacy-headline', { x: '35vw', opacity: 0, ease: 'power2.in' }, 0.7)
+        .to('.legacy-caption', { x: '-10vw', opacity: 0, ease: 'power2.in' }, 0.7)
+        .to('.legacy-bg', { scale: 1.06, opacity: 0.3, ease: 'power2.in' }, 0.7)
+        .to('.legacy-cta', { y: '8vh', opacity: 0, ease: 'power2.in' }, 0.75)
     }, s)
     return () => ctx.revert()
   }, [])
   return (
-    <section ref={ref} className="section-pinned z-30" id="blueprint">
-      <div className="blueprint-bg absolute inset-0">
+    <section ref={ref} className="section-pinned z-30" id="legacy">
+      <div className="legacy-bg absolute inset-0">
         <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover" style={{objectPosition: '70% 30%'}} />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="blueprint-caption order-2 lg:order-1">
+          <div className="legacy-caption order-2 lg:order-1">
             <p className="text-[#A9B1BE] text-lg lg:text-xl leading-relaxed mb-8">
               We'll map what needs protecting—mortgage, income, retirement, legacy—then shop the market for the right fit. No pressure. No jargon.
             </p>
-            <a href={BRAND.bookingUrl} className="blueprint-cta cta-gold">
+            <a href={BRAND.bookingUrl} className="legacy-cta cta-gold">
               Secure Your Legacy <ArrowRight className="ml-2 w-4 h-4" />
             </a>
           </div>
           <div className="order-1 lg:order-2 text-right">
-            <h2 className="blueprint-headline heading-display text-[clamp(2.5rem,7vw,5rem)] text-[#F7F7F5]">
+            <h2 className="legacy-headline heading-display text-[clamp(2.5rem,7vw,5rem)] text-[#F7F7F5]">
               <span className="block">Build A</span>
               <span className="block">Protection</span>
-              <span className="block text-[#C9A25F]">Blueprint.</span>
+              <span className="block text-[#C9A25F]">Legacy.</span>
             </h2>
           </div>
         </div>
@@ -240,7 +240,7 @@ function ProcessSection() {
   }, [])
   const steps = [
     { num: '01', title: 'Discovery Call', desc: '15–20 minutes to understand your priorities.' },
-    { num: '02', title: 'The Blueprint', desc: 'A clear plan showing what to protect and why.' },
+    { num: '02', title: 'Your Legacy Plan', desc: 'A clear plan showing what to protect and why.' },
     { num: '03', title: 'Compare Options', desc: 'We shop carriers to match coverage and budget.' },
     { num: '04', title: 'Implement & Review', desc: 'Apply, confirm beneficiaries, and schedule annual reviews.' },
   ]
@@ -419,7 +419,7 @@ function SocialProofSection() {
   const testimonials = [
     { quote: 'Jackson explained everything without pressure. We finally feel protected.', author: 'A family in Luzerne County' },
     { quote: 'He shopped multiple carriers and found us better coverage for less.', author: 'Small business owner, Schuylkill County' },
-    { quote: 'The Blueprint made it easy to understand what we actually needed.', author: 'Retiree, Northumberland County' },
+    { quote: 'Jackson made it easy to understand exactly what we needed to protect our family.', author: 'Retiree, Northumberland County' },
   ]
   const badges = [
     { icon: <Shield className="w-5 h-5" />, text: 'Independent Advisor' },
@@ -602,7 +602,7 @@ export default function HomePage() {
       <main className="relative">
         <HeroSection />
         <WhatIfSection />
-        <BlueprintSection />
+        <LegacySection />
         <ProcessSection />
         <CoverageSection />
         <ServicesSection />
