@@ -1,5 +1,5 @@
 export const BRAND = {
-  name: 'LATIMORE',
+  name: 'LATIMORE LIFE LEGACY',
   fullName: 'Latimore Life & Legacy',
   tagline: 'Protecting Today. Securing Tomorrow.',
   advisor: 'Jackson M. Latimore Sr.',

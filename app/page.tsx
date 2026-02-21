@@ -48,7 +48,10 @@ function Navigation() {
             <Link href="/retirement" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Retirement</Link>
             <Link href="/consult" className="text-[#A9B1BE] hover:text-[#F7F7F5] text-sm font-medium transition-colors">Consult</Link>
             <a href={BRAND.bookingUrl} className="cta-gold text-xs px-5 py-2.5">
-              Secure Your Legacy
+              Book Consultation
+            </a>
+            <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" className="text-xs px-5 py-2.5 rounded-full border border-[#C9A25F] text-[#C9A25F] hover:bg-[#C9A25F] hover:text-[#0B0F17] font-bold transition-all">
+              Get Quote
             </a>
           </div>
           <button className="md:hidden text-[#F7F7F5]" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -101,7 +104,7 @@ function HeroSection() {
   return (
     <section ref={sectionRef} className="section-pinned z-10" id="hero">
       <div className="hero-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full" style={{objectFit: 'cover', objectPosition: '50% 55%', transform: 'scale(0.65)', transformOrigin: '50% 35%'}} />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/80 via-[#0B0F17]/50 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -154,16 +157,16 @@ function WhatIfSection() {
   return (
     <section ref={ref} className="section-pinned z-20" id="whatif">
       <div className="whatif-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson coaching youth baseball" className="w-full h-full object-cover" style={{objectPosition: '50% 20%'}} />
+        <img src="/jackson-coaching.jpg" alt="Jackson coaching youth baseball" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <h2 className="whatif-headline heading-display text-[clamp(2.5rem,7vw,5rem)] text-[#F7F7F5]">
-              <span className="block">What If</span>
-              <span className="block">Something</span>
-              <span className="block text-[#C9A25F]">Happens?</span>
+              <span className="block">Protecting</span>
+              <span className="block">What Matters</span>
+              <span className="block text-[#C9A25F]">Most.</span>
             </h2>
           </div>
           <div className="whatif-caption">
@@ -201,7 +204,7 @@ function LegacySection() {
   return (
     <section ref={ref} className="section-pinned z-30" id="legacy">
       <div className="legacy-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover" style={{objectPosition: '70% 30%'}} />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -257,6 +260,36 @@ function ProcessSection() {
             </div>
           ))}
         </div>
+
+        {/* 10-Strategy Grid */}
+        <div className="mt-20">
+          <h3 className="heading-display text-[clamp(1.5rem,3vw,2.5rem)] text-[#0B0F17] mb-4 text-center">Comprehensive Financial Protection</h3>
+          <p className="text-[#0B0F17]/60 text-center mb-10">10 strategies to build, protect, and transfer wealth</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              { title: 'Tax-Advantaged Wealth Accumulation', desc: 'Build wealth using tax-deferred and tax-free growth strategies' },
+              { title: 'Asset Protection & Plan Rollovers', desc: 'Protect wealth and roll over 401(k), 403(b), pension plans strategically' },
+              { title: 'College Education Funding', desc: 'Strategic funding for higher education without crippling debt' },
+              { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
+              { title: 'Life Insurance & Living Benefits', desc: 'Income replacement, critical illness, and final expense coverage' },
+              { title: 'Estate & Legacy Planning', desc: 'Wealth transfer strategies and estate tax solutions' },
+              { title: 'Indexed Growth Strategies', desc: 'Market-linked growth with downside protection' },
+              { title: 'Mortgage Protection', desc: 'Ensure your family keeps the home if something happens to you' },
+              { title: 'Business & Key-Person Insurance', desc: 'Protect your business from loss of critical personnel' },
+              { title: 'Retirement Income Planning', desc: 'Guaranteed income options, tax-deferred growth, and annuity strategies' },
+            ].map((item, i) => (
+              <div key={i} className="bg-white border border-[#0B0F17]/8 rounded-xl p-6 hover:border-[#C9A25F]/40 hover:shadow-md transition-all">
+                <h4 className="text-[#0B0F17] font-bold text-base mb-2">{item.title}</h4>
+                <p className="text-[#0B0F17]/55 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-10">
+            <a href={BRAND.bookingUrl} className="cta-gold inline-flex items-center gap-2">
+              Ready to Explore Your Options? <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -283,7 +316,7 @@ function CoverageSection() {
   return (
     <section ref={ref} className="section-pinned z-50" id="coverage">
       <div className="coverage-bg absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover" style={{objectPosition: '50% 25%'}} />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -330,7 +363,7 @@ function ServicesSection() {
   return (
     <section ref={ref} className="section-pinned z-[60]" id="services">
       <div className="services-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson Latimore" className="w-full h-full object-cover" style={{objectPosition: '50% 15%'}} />
+        <img src="/jackson-coaching.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-gradient-to-l from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -378,7 +411,7 @@ function IndependenceSection() {
   return (
     <section ref={ref} className="section-pinned z-[70]" id="about">
       <div className="independence-bg absolute inset-0">
-        <img src="/jackson-coaching.jpg" alt="Jackson Latimore coaching" className="w-full h-full object-cover" style={{objectPosition: '50% 20%'}} />
+        <img src="/jackson-coaching.jpg" alt="Jackson Latimore coaching" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F17]/90 via-[#0B0F17]/60 to-transparent" />
       </div>
       <div className="relative z-10 h-full flex flex-col justify-center px-6 lg:px-[6vw]">
@@ -487,7 +520,7 @@ function ContactSection() {
   return (
     <section ref={ref} className="relative z-[90] min-h-screen" id="contact">
       <div className="absolute inset-0">
-        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-cover" style={{objectPosition: '50% 25%'}} />
+        <img src="/jackson-outdoor.jpg" alt="Jackson Latimore" className="w-full h-full object-contain object-center" style={{background:'#0B0F17'}} />
         <div className="absolute inset-0 bg-[#0B0F17]/80" />
       </div>
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 lg:px-[6vw] py-24">
