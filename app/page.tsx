@@ -157,7 +157,7 @@ export default function HomePage() {
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '3rem', alignItems: 'center' }} className="hero-grid">
             <div>
               <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1rem', lineHeight: 1.2 }}>
-                Protecting What Matters Most to <span style={{ color: '#E5C882' }}>Pennsylvania Families</span>
+                Life Insurance & Financial Protection for Families in <span style={{ color: '#E5C882' }}>Schuylkill, Luzerne & Northumberland County</span>
               </h1>
               <p style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 600, color: '#E5C882', margin: '1.5rem 0' }}>Father | Survivor | Leader</p>
               <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.9)', marginBottom: '2rem', lineHeight: 1.7 }}>
@@ -180,7 +180,7 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <img src="/jackson-headshot.jpg" alt="Jackson M. Latimore Sr." style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)' }} />
+              <img src="/jackson-library.jpg" alt="Jackson M. Latimore Sr. — Independent Insurance Consultant" style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover' }} />
               <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: 10, marginTop: '1rem', textAlign: 'center' }}>
                 <h3 style={{ color: '#E5C882', marginBottom: '0.5rem' }}>Jackson M. Latimore Sr.</h3>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>CEO & Founder</p>
@@ -188,7 +188,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <style>{`@media(max-width:768px){.hero-grid{grid-template-columns:1fr !important;}}`}</style>
+          <style>{`@media(max-width:768px){.hero-grid{grid-template-columns:1fr !important;}} @media(max-width:1100px){.services-grid{grid-template-columns:repeat(3,1fr) !important;}} @media(max-width:640px){.services-grid{grid-template-columns:repeat(2,1fr) !important;}}`}</style>
         </section>
 
         {/* Services Grid */}
@@ -196,7 +196,7 @@ export default function HomePage() {
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
             <h2 style={{ textAlign: 'center', fontSize: 'clamp(1.8rem,4vw,2.5rem)', marginBottom: '1rem', color: '#0E1A2B' }}>Comprehensive Financial Protection</h2>
             <p style={{ textAlign: 'center', fontSize: '1.1rem', color: '#666', marginBottom: '3rem' }}>10 strategies to build, protect, and transfer wealth</p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1.5rem' }} className="services-grid">
               {services.map((s, i) => (
                 <div key={i} style={{ background: '#fff', padding: '1.5rem', borderRadius: 8, boxShadow: '0 2px 10px rgba(0,0,0,0.08)', borderTop: '3px solid #C9A24D' }}>
                   <h3 style={{ color: '#0E1A2B', fontSize: '1.05rem', marginBottom: '0.5rem' }}>{s.title}</h3>
