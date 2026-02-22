@@ -148,10 +148,10 @@ export default function HomePage() {
       <Nav />
       <main>
         {/* Hero */}
-        <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '2rem 0' }}>
-          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '3rem', alignItems: 'center' }} className="hero-grid">
-            <div>
-              <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1rem', lineHeight: 1.2 }}>
+        <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '2.5rem 0' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '3rem', alignItems: 'flex-start' }} className="hero-grid">
+            <div style={{ paddingTop: 0 }}>
+              <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1rem', marginTop: 0, lineHeight: 1.2 }}>
                 Life Insurance & Financial Protection for Families in <span style={{ color: '#E5C882' }}>Schuylkill, Luzerne & Northumberland County</span>
               </h1>
               <p style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 600, color: '#E5C882', margin: '1.5rem 0' }}>Father | Survivor | Leader</p>
@@ -175,7 +175,7 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <img src="/jackson-library.jpg" alt="Jackson M. Latimore Sr. — Independent Insurance Consultant" style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover' }} />
+              <img src="/jackson-library.jpg" alt="Jackson M. Latimore Sr. — Independent Insurance Consultant" style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
               <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: 10, marginTop: '1rem', textAlign: 'center' }}>
                 <h3 style={{ color: '#E5C882', marginBottom: '0.5rem' }}>Jackson M. Latimore Sr.</h3>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>CEO & Founder</p>
