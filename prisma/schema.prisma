@@ -124,3 +124,16 @@ model EmailLog {
   providerId String?
   error      String?
 }
+
+model CardEvent {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  event     String   // 'visit' | 'click'
+  label     String?
+  referrer  String?
+  userAgent String?
+  timestamp DateTime @default(now())
+
+  @@index([event])
+  @@index([timestamp])
+}

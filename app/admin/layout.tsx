@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LayoutDashboard, KanbanSquare, CheckSquare, BarChart2, ArrowLeft } from 'lucide-react'
+import { LayoutDashboard, KanbanSquare, CheckSquare, BarChart2, ArrowLeft, Smartphone } from 'lucide-react'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,6 +15,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           { href: '/admin/pipeline', label: 'Pipeline', icon: <KanbanSquare size={16} /> },
           { href: '/admin/tasks', label: 'Tasks', icon: <CheckSquare size={16} /> },
           { href: '/admin/reports', label: 'Reports', icon: <BarChart2 size={16} /> },
+          { href: '/admin/card-analytics', label: 'Card Analytics', icon: <Smartphone size={16} /> },
         ].map(item => (
           <Link key={item.href} href={item.href}
             className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#A9B1BE] hover:text-[#F7F7F5] hover:bg-[#F7F7F5]/5 transition-all">
