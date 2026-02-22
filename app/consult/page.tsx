@@ -1,44 +1,50 @@
 'use client'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { BRAND } from '@/lib/brand'
 import { useEffect } from 'react'
 
 export default function ConsultPage() {
   useEffect(() => {
-    // Load Fillout embed script
     const script = document.createElement('script')
     script.src = 'https://server.fillout.com/embed/v1/'
     script.async = true
     document.body.appendChild(script)
-    return () => {
-      document.body.removeChild(script)
-    }
+    return () => { document.body.removeChild(script) }
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#0B0F17]">
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <Link href="/" className="inline-flex items-center gap-2 text-[#A9B1BE] hover:text-[#C9A25F] transition-colors text-sm mb-8">
-          <ArrowLeft size={16} /> Back to Home
-        </Link>
-        <div className="mb-8">
-          <p className="micro-label text-[#C9A25F] mb-3">No Pressure · No Jargon</p>
-          <h1 className="heading-display text-[clamp(2rem,5vw,3.5rem)] text-[#F7F7F5]">Request a Free Consultation</h1>
-          <p className="text-[#A9B1BE] mt-3 text-lg">A 30-minute conversation about your priorities. We'll listen first, then educate.</p>
+    <div style={{ minHeight: '100vh', background: '#0E1A2B', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+      <nav style={{ background: '#0E1A2B', borderBottom: '1px solid rgba(201,162,77,0.2)', padding: '1rem 0' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontWeight: 700 }}>
+            <img src="/logo.jpg" alt="Logo" style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover' }} />
+            Latimore Life & Legacy
+          </Link>
+          <Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.9rem' }}>← Back to Home</Link>
         </div>
-        <div className="bg-[#1a2535] rounded-2xl overflow-hidden border border-[#F7F7F5]/6 p-2">
+      </nav>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '3rem 20px' }}>
+        <div style={{ marginBottom: '2.5rem' }}>
+          <p style={{ color: '#C9A24D', fontWeight: 600, letterSpacing: 2, fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Get Started</p>
+          <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem,4vw,2.8rem)', marginBottom: '0.75rem', lineHeight: 1.2 }}>Request a Consultation</h1>
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.05rem', lineHeight: 1.7 }}>
+            Fill out the form below and Jackson will reach out within one business day to schedule your free consultation.
+          </p>
+        </div>
+        <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)', minHeight: 600 }}>
           <div
-            style={{ width: '100%', height: '500px' }}
             data-fillout-id="tMz7ZcqpaZus"
             data-fillout-embed-type="standard"
             data-fillout-inherit-parameters
-            data-fillout-dynamic-resize
+            style={{ width: '100%', height: 600 }}
           />
         </div>
-        <p className="text-[#A9B1BE]/50 text-xs mt-4 text-center">
-          Insurance products vary by carrier and state. No rate or return promises. PA License #{BRAND.paLicense}
-        </p>
+        <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(201,162,77,0.1)', border: '1px solid rgba(201,162,77,0.3)', borderRadius: 10, textAlign: 'center' }}>
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
+            Prefer to call or text? <a href="tel:8568951457" style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>(856) 895-1457</a>
+            &nbsp;·&nbsp;
+            <a href="mailto:jackson1989@latimorelegacy.com" style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>jackson1989@latimorelegacy.com</a>
+          </p>
+        </div>
       </div>
     </div>
   )

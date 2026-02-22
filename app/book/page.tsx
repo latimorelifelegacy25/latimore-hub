@@ -1,35 +1,37 @@
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { BRAND } from '@/lib/brand'
 
 const GCAL_SRC = 'https://calendar.google.com/calendar/appointments/AcZssZ0pWKOYTgg4xc8vleuqTnfpTwqm8oYaG2B5TxA=?gv=true'
 
 export default function BookPage() {
   return (
-    <div className="min-h-screen bg-[#0B0F17]">
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <Link href="/" className="inline-flex items-center gap-2 text-[#A9B1BE] hover:text-[#C9A25F] transition-colors text-sm mb-8">
-          <ArrowLeft size={16} /> Back to Home
-        </Link>
-        <div className="mb-8">
-          <p className="micro-label text-[#C9A25F] mb-3">Start Here</p>
-          <h1 className="heading-display text-[clamp(2rem,5vw,3.5rem)] text-[#F7F7F5]">Secure Your Legacy</h1>
-          <p className="text-[#A9B1BE] mt-3 text-lg">
-            Select a 30-minute slot below. {BRAND.advisor} will confirm and prepare for your call.
+    <div style={{ minHeight: '100vh', background: '#0E1A2B', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
+      <nav style={{ background: '#0E1A2B', borderBottom: '1px solid rgba(201,162,77,0.2)', padding: '1rem 0' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontWeight: 700 }}>
+            <img src="/logo.jpg" alt="Logo" style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover' }} />
+            Latimore Life & Legacy
+          </Link>
+          <Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.9rem' }}>← Back to Home</Link>
+        </div>
+      </nav>
+      <div style={{ maxWidth: 900, margin: '0 auto', padding: '3rem 20px' }}>
+        <div style={{ marginBottom: '2.5rem' }}>
+          <p style={{ color: '#C9A24D', fontWeight: 600, letterSpacing: 2, fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Free Consultation</p>
+          <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem,4vw,2.8rem)', marginBottom: '0.75rem', lineHeight: 1.2 }}>Secure Your Legacy</h1>
+          <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.05rem', lineHeight: 1.7 }}>
+            Select a 30-minute slot below. Jackson will confirm and prepare for your call. No obligation — just a real conversation about protecting your family.
           </p>
         </div>
-        <div className="bg-[#1a2535] rounded-2xl overflow-hidden border border-[#F7F7F5]/6">
-          <iframe
-            src={GCAL_SRC}
-            style={{ border: 0 }}
-            width="100%"
-            height={800}
-            title="Secure Your Legacy with Latimore Life & Legacy"
-          />
+        <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
+          <iframe src={GCAL_SRC} style={{ width: '100%', height: 700, border: 'none', display: 'block' }} title="Book a Consultation" />
         </div>
-        <p className="text-[#A9B1BE]/50 text-xs mt-4 text-center">
-          Prefer email? <a href={`mailto:${BRAND.email}`} className="text-[#C9A25F] hover:underline">{BRAND.email}</a>
-        </p>
+        <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(201,162,77,0.1)', border: '1px solid rgba(201,162,77,0.3)', borderRadius: 10, textAlign: 'center' }}>
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
+            Prefer to call or text? <a href="tel:8568951457" style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>(856) 895-1457</a>
+            &nbsp;·&nbsp;
+            <a href="mailto:jackson1989@latimorelegacy.com" style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>jackson1989@latimorelegacy.com</a>
+          </p>
+        </div>
       </div>
     </div>
   )
