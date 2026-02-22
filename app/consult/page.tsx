@@ -1,15 +1,7 @@
 'use client'
 import Link from 'next/link'
-import { useEffect } from 'react'
 
 export default function ConsultPage() {
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.src = 'https://server.fillout.com/embed/v1/'
-    script.async = true
-    document.body.appendChild(script)
-    return () => { document.body.removeChild(script) }
-  }, [])
 
   return (
     <div style={{ minHeight: '100vh', background: '#0E1A2B', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
@@ -30,12 +22,14 @@ export default function ConsultPage() {
             Fill out the form below and Jackson will reach out within one business day to schedule your free consultation.
           </p>
         </div>
-        <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)', minHeight: 600 }}>
-          <div
-            data-fillout-id="tMz7ZcqpaZus"
-            data-fillout-embed-type="standard"
-            data-fillout-inherit-parameters
-            style={{ width: '100%', height: 600 }}
+        <div style={{ borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
+          <iframe
+            src="https://latimorelifelegacy.fillout.com/latimorelifelegacy"
+            width="100%"
+            height="700"
+            frameBorder="0"
+            style={{ display: 'block', border: 'none' }}
+            title="Free Consultation Request"
           />
         </div>
         <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(201,162,77,0.1)', border: '1px solid rgba(201,162,77,0.3)', borderRadius: 10, textAlign: 'center' }}>
