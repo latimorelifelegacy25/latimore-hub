@@ -46,7 +46,6 @@ function Nav() {
           {[['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']].map(([href, label]) => (
             <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.95rem' }}>{label}</Link>
           ))}
-          <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer" style={{ color: '#E5C882', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>Facebook</a>
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
             style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem' }}>
             Book Consultation
@@ -69,10 +68,6 @@ function Nav() {
           {[['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']].map(([href, label]) => (
             <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
           ))}
-          <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer"
-            style={{ color: '#E5C882', textDecoration: 'none', fontSize: '1rem', fontWeight: 600 }}>
-            Facebook
-          </a>
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
             style={{ background: '#C9A24D', color: '#0E1A2B', padding: '0.75rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>
             Book Consultation
@@ -153,7 +148,7 @@ export default function HomePage() {
       <Nav />
       <main>
         {/* Hero */}
-        <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '4rem 0' }}>
+        <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '2rem 0' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '3rem', alignItems: 'center' }} className="hero-grid">
             <div>
               <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1rem', lineHeight: 1.2 }}>

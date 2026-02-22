@@ -199,7 +199,6 @@ function Nav() {
           {navLinks.map(([href, label]) => (
             <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.9rem' }}>{label}</Link>
           ))}
-          <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer" style={{ color: goldLight, textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600 }}>Facebook</a>
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
           <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
         </div>
@@ -210,7 +209,6 @@ function Nav() {
           {navLinks.map(([href, label]) => (
             <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
           ))}
-          <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer" style={{ color: goldLight, textDecoration: 'none', fontSize: '1rem', fontWeight: 600 }}>Facebook</a>
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>Book Consultation</a>
           <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', textAlign: 'center' }}>Get Quote</a>
         </div>
