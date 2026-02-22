@@ -11,7 +11,7 @@ const BRAND = {
   email: 'jackson1989@latimorelegacy.com',
   paLicense: '1268820',
   nipr: '21638507',
-  bookingUrl: 'https://globalfinancialimpact.fillout.com/t/tMz7ZcqpaZus',
+  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
   ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
   instagram: 'https://www.instagram.com/jacksonlatimore.global',
   linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
@@ -22,6 +22,7 @@ const services = [
   { title: 'Tax-Advantaged Wealth Accumulation', desc: 'Build wealth using tax-deferred and tax-free growth strategies' },
   { title: 'Asset Protection & Plan Rollovers', desc: 'Protect wealth and roll over 401(k), 403(b), pension plans strategically' },
   { title: 'College Education Funding', desc: 'Strategic funding for higher education without crippling debt' },
+  { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
   { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
   { title: 'Life Insurance & Living Benefits', desc: 'Income replacement, critical illness, and final expense coverage' },
   { title: 'Estate & Legacy Planning', desc: 'Wealth transfer strategies and estate tax solutions' },
@@ -175,7 +176,11 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <img src="/jackson-library.jpg" alt="Jackson M. Latimore Sr. — Independent Insurance Consultant" style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+              <img
+                src="/jackson-library.jpg"
+                alt="Jackson M. Latimore Sr. — Independent Insurance Consultant"
+                style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', objectPosition: 'center 15%', display: 'block' }}
+              />
               <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: 10, marginTop: '1rem', textAlign: 'center' }}>
                 <h3 style={{ color: '#E5C882', marginBottom: '0.5rem' }}>Jackson M. Latimore Sr.</h3>
                 <p style={{ color: 'rgba(255,255,255,0.8)' }}>CEO & Founder</p>
