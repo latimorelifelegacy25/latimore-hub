@@ -217,6 +217,67 @@ export default function ProductsPage() {
       </section>
       <style>{`@media(max-width:768px){.biz-grid{grid-template-columns:1fr !important;}}`}</style>
 
+      {/* Business Solutions */}
+      <section style={{ padding: '5rem 0', background: '#fff' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <span style={{ fontSize: '2.5rem' }}>💼</span>
+            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', color: '#0E1A2B', margin: 0 }}>Business Solutions</h2>
+          </div>
+          <p style={{ color: '#666', fontSize: '1.05rem', marginBottom: '3rem', maxWidth: 700 }}>
+            Life insurance isn't just for families. These employer-sponsored strategies help businesses attract, retain, and protect their most valuable people — while creating real financial advantages.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+            {[
+              {
+                title: 'Executive Bonus Plan (Section 162)',
+                tagline: 'Reward and retain your talented employees.',
+                description: 'The business pays a bonus to a select employee, who uses it to fund a permanent life insurance policy they own. The employer deducts the bonus, and the employee builds tax-advantaged cash value. A powerful retention tool with no ERISA complexity.',
+                bestFor: 'Business owners, key executives, select employee incentives',
+                icon: '🏆',
+              },
+              {
+                title: 'Endorsement Split Dollar',
+                tagline: 'Employer cost reimbursement with an incentive to retain.',
+                description: 'The employer and employee share the cost and benefits of a life insurance policy. The employer is reimbursed for premiums paid upon death or policy surrender, while the employee gets valuable coverage and a retention incentive.',
+                bestFor: 'Employers who want cost recovery, executive benefit programs',
+                icon: '🤝',
+              },
+              {
+                title: 'Buy-Sell with Life Insurance',
+                tagline: 'Protect the continuity of your business.',
+                description: 'A legally binding agreement funded by life insurance that ensures surviving business partners can buy out a deceased partner\'s share — at a fair price, without liquidating assets or taking on debt. Keeps the business running and the family protected.',
+                bestFor: 'Business partners, partnerships, multi-owner LLCs and S-corps',
+                icon: '🔄',
+              },
+            ].map((s) => (
+              <div key={s.title} style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 15px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ background: '#0E1A2B', padding: '1.5rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '1.5rem' }}>{s.icon}</span>
+                    <h3 style={{ color: '#E5C882', fontSize: '1.1rem', margin: 0, lineHeight: 1.3 }}>{s.title}</h3>
+                  </div>
+                  <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', margin: 0, fontStyle: 'italic' }}>{s.tagline}</p>
+                </div>
+                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <p style={{ color: '#444', lineHeight: 1.8, fontSize: '0.95rem', flex: 1 }}>{s.description}</p>
+                  <div style={{ background: 'rgba(197,162,77,0.1)', borderRadius: 6, padding: '0.75rem 1rem', margin: '1rem 0' }}>
+                    <p style={{ color: '#0E1A2B', fontSize: '0.85rem', fontWeight: 600, margin: 0 }}>✓ Best for: {s.bestFor}</p>
+                  </div>
+                  <a href="https://latimorelifelegacy.fillout.com/latimorelifelegacy" target="_blank" rel="noopener noreferrer"
+                    style={{ display: 'block', background: '#C9A24D', color: '#0E1A2B', textAlign: 'center', padding: '0.85rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}>
+                    Schedule Consultation →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ marginTop: '2rem', color: '#888', fontSize: '0.85rem', textAlign: 'center' }}>
+            Business solutions issued by North American Company for Life and Health Insurance®. Nothing in this section constitutes tax or legal advice — consult a qualified advisor.
+          </p>
+        </div>
+      </section>
+
       {/* Carriers */}
       <section style={{ background: '#0E1A2B', padding: '4rem 0', textAlign: 'center' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 20px' }}>
