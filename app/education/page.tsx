@@ -10,7 +10,7 @@ const BRAND = {
   email: 'jackson1989@latimorelegacy.com',
   paLicense: '1268820',
   nipr: '21638507',
-  bookingUrl: 'https://globalfinancialimpact.fillout.com/t/tMz7ZcqpaZus',
+  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
   ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
   instagram: 'https://www.instagram.com/jacksonlatimore.global',
   linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
