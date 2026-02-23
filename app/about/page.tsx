@@ -68,7 +68,7 @@ export default function AboutPage() {
           </div>
           <div style={{ textAlign: 'center' }}>
             <img
-              src="/jackson-library.jpg"
+              src="/jackson-blue.jpg"
               alt="Jackson M. Latimore Sr."
               style={{ width: '100%', maxWidth: 420, borderRadius: 12, boxShadow: '0 20px 50px rgba(0,0,0,0.4)', objectFit: 'cover', objectPosition: 'center 15%', height: 480 }}
             />
@@ -113,6 +113,33 @@ export default function AboutPage() {
           </blockquote>
         </div>
         <style>{`@media(max-width:640px){.story-photos{grid-template-columns:1fr !important;}}`}</style>
+      </section>
+
+      {/* Community Section with Coaching Photo */}
+      <section style={{ background: '#0E1A2B', color: '#fff', padding: '4rem 0' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }} className="community-grid">
+          <div>
+            <p style={{ color: '#E5C882', fontWeight: 600, letterSpacing: 2, fontSize: '0.85rem', textTransform: 'uppercase', marginBottom: '1rem' }}>Beyond the Office</p>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.3rem)', marginBottom: '1.5rem', lineHeight: 1.3 }}>
+              Rooted in the <span style={{ color: '#E5C882' }}>Community I Serve</span>
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.9, fontSize: '1.05rem', marginBottom: '1.25rem' }}>
+              I coach youth baseball in Frackville through the Black Diamond program. The same kids I coach on the diamond are the ones whose families I help protect with life insurance and financial planning.
+            </p>
+            <p style={{ color: 'rgba(255,255,255,0.75)', lineHeight: 1.9, fontSize: '1rem' }}>
+              When I sit across from a client, I'm not just their advisor — I'm their neighbor. That changes everything about how I work.
+            </p>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <img
+              src="/jackson-coaching-baseball.jpg"
+              alt="Jackson coaching Frackville Baseball 2024"
+              style={{ width: '100%', maxWidth: 420, borderRadius: 12, boxShadow: '0 8px 30px rgba(0,0,0,0.4)', objectFit: 'cover' }}
+            />
+            <p style={{ color: '#E5C882', fontSize: '0.85rem', marginTop: '0.75rem' }}>Frackville Black Diamond Baseball — 2024</p>
+          </div>
+        </div>
+        <style>{`@media(max-width:768px){.community-grid{grid-template-columns:1fr !important;}}`}</style>
       </section>
 
       {/* Credentials */}
