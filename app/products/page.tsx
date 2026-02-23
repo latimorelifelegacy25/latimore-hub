@@ -93,7 +93,7 @@ const products = [
       {
         name: 'Fixed Indexed Annuity (FIA)',
         tagline: 'Growth without risk. Income you can\'t outlive.',
-        description: 'Your premium earns interest linked to a market index (like the S&P 500) — but with a guaranteed floor so you never lose principal. Convert to a lifetime income stream at retirement. Carriers: North American Company, F&G, American Equity.',
+        description: 'Your premium earns interest linked to a market index (like the S&P 500) — but with a guaranteed floor so you never lose principal. Convert to a lifetime income stream at retirement. Carriers: F&G, American Equity.',
         bestFor: 'Pre-retirees (50–65), conservative investors, pension replacement',
         cta: 'Schedule Consultation',
         ctaUrl: BRAND.bookingUrl,
@@ -167,7 +167,7 @@ export default function ProductsPage() {
             <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', color: '#0E1A2B', margin: 0 }}>Business Solutions</h2>
           </div>
           <p style={{ color: '#555', fontSize: '1.05rem', marginBottom: '3rem', maxWidth: 700 }}>
-            Life insurance isn't just for families. These North American Company strategies help business owners protect their companies, reward key people, and plan for transitions.
+            Life insurance isn't just for families. These strategies help business owners protect their companies, reward key people, and plan for transitions.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="biz-grid">
             {[
@@ -204,7 +204,6 @@ export default function ProductsPage() {
                   <div style={{ background: 'rgba(197,162,77,0.1)', borderRadius: 6, padding: '0.75rem 1rem', margin: '1rem 0' }}>
                     <p style={{ color: '#0E1A2B', fontSize: '0.83rem', fontWeight: 600, margin: 0 }}>✓ Best for: {p.bestFor}</p>
                   </div>
-                  <p style={{ color: '#888', fontSize: '0.78rem', margin: '0 0 1rem', fontStyle: 'italic' }}>Issued by North American Company for Life & Health Insurance</p>
                   <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
                     style={{ display: 'block', background: '#C9A24D', color: '#0E1A2B', textAlign: 'center', padding: '0.85rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}>
                     Schedule Consultation →
@@ -273,7 +272,7 @@ export default function ProductsPage() {
             ))}
           </div>
           <p style={{ marginTop: '2rem', color: '#888', fontSize: '0.85rem', textAlign: 'center' }}>
-            Business solutions issued by North American Company for Life and Health Insurance®. Nothing in this section constitutes tax or legal advice — consult a qualified advisor.
+            Nothing in this section constitutes tax or legal advice — consult a qualified advisor.
           </p>
         </div>
       </section>
@@ -284,7 +283,7 @@ export default function ProductsPage() {
           <h2 style={{ color: '#fff', fontSize: 'clamp(1.5rem,4vw,2rem)', marginBottom: '0.75rem' }}>Carrier Relationships</h2>
           <p style={{ color: 'rgba(255,255,255,0.65)', marginBottom: '2.5rem' }}>Access to multiple top-rated carriers means I find the best fit — not the easiest sale.</p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-            {['North American Company', 'F&G (Fidelity & Guaranty)', 'American Equity', 'Ethos Life / TruStage', 'American General / Corebridge Financial'].map(c => (
+            {['F&G (Fidelity & Guaranty)', 'American Equity', 'Ethos Life / TruStage', 'American General / Corebridge Financial'].map(c => (
               <span key={c} style={{ background: 'rgba(197,162,77,0.15)', border: '1px solid #C9A24D', color: '#E5C882', padding: '0.6rem 1.2rem', borderRadius: 20, fontSize: '0.9rem', fontWeight: 600 }}>{c}</span>
             ))}
           </div>
