@@ -155,62 +155,6 @@ export default function ProductsPage() {
         </section>
       ))}
 
-      {/* Business Solutions */}
-      <section style={{ padding: '5rem 0', background: '#fff' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.75rem' }}>
-            <span style={{ fontSize: '2.5rem' }}></span>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.3rem)', color: '#0E1A2B', margin: 0 }}>Business Solutions</h2>
-          </div>
-          <p style={{ color: '#555', fontSize: '1.05rem', marginBottom: '3rem', maxWidth: 700 }}>
-            Life insurance isn't just for families. These strategies help business owners protect their companies, reward key people, and plan for transitions.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="biz-grid">
-            {[
-              {
-                name: 'Executive Bonus Plan',
-                tagline: 'Reward and retain your talented employees.',
-                description: 'An employer-paid bonus allows select employees to purchase their own life insurance policy. The employee owns the policy and its cash value — making it a powerful retention tool with built-in tax advantages.',
-                bestFor: 'Business owners looking to reward key executives',
-                icon: '⭐',
-              },
-              {
-                name: 'Buy-Sell with Life Insurance',
-                tagline: 'Protect the continuity of your business.',
-                description: 'A funded buy-sell agreement ensures that if a business partner dies, the surviving owners have the capital to buy out the deceased\'s share — keeping the business in the right hands without a financial crisis.',
-                bestFor: 'Business partners, co-owners, family businesses',
-                icon: '',
-              },
-              {
-                name: 'Endorsement Split Dollar',
-                tagline: 'Employer cost reimbursement with retention incentive.',
-                description: 'The employer and employee share the cost of a life insurance policy. The employer is reimbursed from the death benefit or cash value, while the employee gets valuable coverage as part of their compensation.',
-                bestFor: 'Employers retaining and rewarding select employees',
-                icon: '',
-              },
-            ].map((p) => (
-              <div key={p.name} style={{ background: '#fff', border: '1px solid #e5e5e5', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 15px rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ background: '#0E1A2B', padding: '1.5rem' }}>
-                  <div style={{ fontSize: '1.8rem', marginBottom: '0.5rem' }}>{p.icon}</div>
-                  <h3 style={{ color: '#E5C882', fontSize: '1.1rem', margin: '0 0 0.25rem' }}>{p.name}</h3>
-                  <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.88rem', margin: 0, fontStyle: 'italic' }}>{p.tagline}</p>
-                </div>
-                <div style={{ padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <p style={{ color: '#444', lineHeight: 1.8, fontSize: '0.93rem', flex: 1 }}>{p.description}</p>
-                  <div style={{ background: 'rgba(197,162,77,0.1)', borderRadius: 6, padding: '0.75rem 1rem', margin: '1rem 0' }}>
-                    <p style={{ color: '#0E1A2B', fontSize: '0.83rem', fontWeight: 600, margin: 0 }}> Best for: {p.bestFor}</p>
-                  </div>
-                  <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer"
-                    style={{ display: 'block', background: '#C9A24D', color: '#0E1A2B', textAlign: 'center', padding: '0.85rem', borderRadius: 6, fontWeight: 700, textDecoration: 'none', fontSize: '0.95rem' }}>
-                    Schedule Consultation →
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      <style>{`@media(max-width:768px){.biz-grid{grid-template-columns:1fr !important;}}`}</style>
 
       {/* Business Solutions */}
       <section style={{ padding: '5rem 0', background: '#fff' }}>
