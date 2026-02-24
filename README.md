@@ -44,7 +44,11 @@ Push this folder to a new GitHub repo (e.g. `latimore-hub`).
 | Variable | Value |
 |---|---|
 | `DATABASE_URL` | Supabase Postgres URI |
-| `FILL0UT_SECRET` | From Fillout webhook settings |
+| `FILLOUT_SECRET` | From Fillout webhook settings |
+| `BOOKING_WEBHOOK_SECRET` | Protects `/api/booking/notify` (set a long random secret) |
+| `ADMIN_EMAILS` | Optional: comma-separated allowlist for admin logins |
+| `ALLOW_GMAIL_DEV` | Optional: allow Gmail sign-in for local dev (`true`/`false`) |
+| `NEXT_PUBLIC_BASE_URL` | Public base URL for absolute links in emails |
 | `GA4_ID` | Your GA4 measurement ID |
 | `GOOGLE_CLIENT_ID` | OAuth client ID |
 | `GOOGLE_CLIENT_SECRET` | OAuth client secret |
@@ -59,13 +63,13 @@ Push this folder to a new GitHub repo (e.g. `latimore-hub`).
 ## Step 6 — Fillout Webhook
 1. In Fillout, go to form `tMz7ZcqpaZus` → Settings → Webhooks
 2. Add webhook URL: `https://latimorehub.vercel.app/api/fillout`
-3. Copy the signing secret → set as `FILL0UT_SECRET`
+3. Copy the signing secret → set as `FILLOUT_SECRET`
 4. Make sure hidden fields exist: `lead_session_id`, `utm_source`, `utm_medium`, `utm_campaign`, `interest_type`, `county`
 
 ---
 
 ## Step 7 — Smoke Test
-- [ ] Visit site → cinematic scroll works ✓
+- [ ] Visit site → cinematic scroll works 
 - [ ] Submit Fillout form → check `/admin` for new inquiry
 - [ ] Check your email inbox for notification
 - [ ] Check lead's email for thank-you

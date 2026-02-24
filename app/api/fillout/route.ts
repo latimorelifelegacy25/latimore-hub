@@ -16,7 +16,7 @@ function normalizeSignature(sig: string): string {
 }
 
 function verifySignature(rawBody: string, sig: string | null): boolean {
-  const secret = process.env.FILL0UT_SECRET
+  const secret = process.env.FILLOUT_SECRET
   if (!secret) return true // skip in dev
   if (!sig) return false
   try {

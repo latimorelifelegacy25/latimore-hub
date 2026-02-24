@@ -7,7 +7,7 @@ const COLUMNS = [
   { id: 'New_Inquiry', title: 'New', color: '#3b82f6' },
   { id: 'Qualified',   title: 'Qualified', color: '#a855f7' },
   { id: 'Booked',      title: 'Booked', color: '#C9A25F' },
-  { id: 'Closed_Won',  title: 'Won ✓', color: '#22c55e' },
+  { id: 'Closed_Won',  title: 'Won', color: '#22c55e' },
   { id: 'Closed_Lost', title: 'Lost', color: '#6b7280' },
 ]
 

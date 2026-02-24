@@ -2,20 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { BRAND } from '@/lib/brand'
+import { TrendingUp, Lock, GraduationCap } from 'lucide-react'
 
-const BRAND = {
-  name: 'Latimore Life & Legacy',
-  phone: '(856) 895-1457',
-  phoneRaw: '8568951457',
-  email: 'jackson1989@latimorelegacy.com',
-  paLicense: '1268820',
-  nipr: '21638507',
-  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
-  ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
-  instagram: 'https://www.instagram.com/jacksonlatimore.global',
-  linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
-  facebook: 'https://www.facebook.com/LatimoreLegacyLL',
-}
 
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
@@ -38,7 +27,7 @@ function Nav() {
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
           <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
         </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? '✕' : '☰'}</button>
+        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
       </div>
       {open && (
         <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -96,7 +85,7 @@ function Footer() {
 const services = [
   {
     number: '01',
-    icon: '📈',
+    icon: <TrendingUp size={28} />,
     title: 'Tax-Advantaged Wealth Accumulation',
     who: 'Working professionals, self-employed individuals, high earners',
     summary: 'Build wealth using vehicles that grow tax-deferred or tax-free — reducing what you pay the IRS over your lifetime while building a stronger financial foundation.',
@@ -110,7 +99,7 @@ const services = [
   },
   {
     number: '02',
-    icon: '🔒',
+    icon: <Lock size={28} />,
     title: 'Asset Protection & Plan Rollovers',
     who: 'Job changers, retirees, anyone with a 401(k), 403(b), or pension',
     summary: 'When you leave a job or retire, your retirement funds need a safe destination. A strategic rollover protects your principal, avoids unnecessary taxes, and positions your money for growth.',
@@ -124,7 +113,7 @@ const services = [
   },
   {
     number: '03',
-    icon: '🎓',
+    icon: <GraduationCap size={28} />,
     title: 'College Education Funding',
     who: 'Parents and grandparents planning ahead for a child\'s education',
     summary: 'Fund higher education without putting your retirement at risk or burdening a child with debt — using strategies that grow tax-free and remain flexible if plans change.',
@@ -138,7 +127,7 @@ const services = [
   },
   {
     number: '04',
-    icon: '💳',
+    icon: '',
     title: 'Debt Management',
     who: 'Families carrying high-interest debt limiting their financial progress',
     summary: 'High-interest debt is one of the biggest barriers to building wealth. Strategic planning can free up cash flow and redirect it toward protection and growth.',
@@ -152,7 +141,7 @@ const services = [
   },
   {
     number: '05',
-    icon: '🛡️',
+    icon: '',
     title: 'Life Insurance & Living Benefits',
     who: 'Individuals and families at any stage of life',
     summary: 'Life insurance is the foundation of financial protection — and modern policies do more than pay a death benefit. Living benefit riders allow you to access your policy during a health crisis.',
@@ -166,7 +155,7 @@ const services = [
   },
   {
     number: '06',
-    icon: '🏛️',
+    icon: '',
     title: 'Estate & Legacy Planning',
     who: 'Business owners, property owners, and families wanting to transfer wealth',
     summary: 'How you transfer wealth matters as much as how you build it. A proper estate strategy ensures your assets go to who you intend — without being eroded by taxes, probate, or delays.',
@@ -180,7 +169,7 @@ const services = [
   },
   {
     number: '07',
-    icon: '📊',
+    icon: '',
     title: 'Indexed Growth Strategies',
     who: 'Savers and pre-retirees who want market-linked growth without market risk',
     summary: 'Indexed products track market performance while protecting your principal with a floor. You participate in upside when markets rise — and lose nothing when they fall.',
@@ -194,7 +183,7 @@ const services = [
   },
   {
     number: '08',
-    icon: '🏠',
+    icon: '',
     title: 'Mortgage Protection',
     who: 'Homeowners with a mortgage and dependents relying on their income',
     summary: 'If you pass away unexpectedly, your family should not lose the home. Mortgage protection ensures the bank is paid and your family stays where they built their life.',
@@ -208,7 +197,7 @@ const services = [
   },
   {
     number: '09',
-    icon: '🏢',
+    icon: '',
     title: 'Business & Key-Person Insurance',
     who: 'Small business owners, partnerships, and organizations dependent on key staff',
     summary: 'The sudden loss of a key employee or owner can devastate a business. Key-person insurance provides the capital to survive, restructure, or recruit and train a replacement.',
@@ -222,7 +211,7 @@ const services = [
   },
   {
     number: '10',
-    icon: '💵',
+    icon: '',
     title: 'Retirement Income Strategies',
     who: 'Pre-retirees and retirees wanting guaranteed income they cannot outlive',
     summary: 'Running out of money in retirement is one of the most significant financial risks Americans face. Guaranteed income strategies remove that fear entirely.',
@@ -262,7 +251,7 @@ export default function ServicesPage() {
         {/* Services Grid */}
         <section style={{ padding: '4rem 0', background: '#F5F5F5' }}>
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(340px,1fr))', gap: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '2rem' }}>
               {services.map((s) => (
                 <div key={s.number} style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.07)', border: '1px solid rgba(0,0,0,0.05)' }}>
                   <div style={{ background: navy, padding: '1.5rem' }}>
@@ -278,7 +267,7 @@ export default function ServicesPage() {
                     <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                       {s.points.map((p, i) => (
                         <li key={i} style={{ display: 'flex', gap: '0.6rem', marginBottom: '0.5rem', color: '#333', fontSize: '0.88rem', lineHeight: 1.5 }}>
-                          <span style={{ color: gold, fontWeight: 700, flexShrink: 0 }}>✓</span>{p}
+                          <span style={{ color: gold, fontWeight: 700, flexShrink: 0 }}></span>{p}
                         </li>
                       ))}
                     </ul>
@@ -295,12 +284,12 @@ export default function ServicesPage() {
             <h2 style={{ textAlign: 'center', color: '#fff', fontSize: 'clamp(1.5rem,3vw,2rem)', marginBottom: '3rem' }}>Who We Serve</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: '1.5rem' }}>
               {[
-                ['👨‍👩‍👧', 'Young Families', 'Income replacement, mortgage protection, and starting a savings strategy before costs rise with age.'],
-                ['👴', 'Pre-Retirees', '401(k) rollovers, safe-money accumulation, and guaranteed lifetime income planning.'],
-                ['🏢', 'Business Owners', 'Key-person coverage, buy-sell funding, and executive benefit strategies.'],
-                ['🏫', 'Local Organizations', 'Key-person insurance for school districts, nonprofits, and municipal employers.'],
-                ['👩‍⚕️', 'Healthcare Workers', 'Disability protection, living benefits, and retirement income for shift workers.'],
-                ['🔧', 'Trade Workers', 'Affordable term coverage, final expense planning, and mortgage protection for skilled trades.'],
+                ['‍‍', 'Young Families', 'Income replacement, mortgage protection, and starting a savings strategy before costs rise with age.'],
+                ['', 'Pre-Retirees', '401(k) rollovers, safe-money accumulation, and guaranteed lifetime income planning.'],
+                ['', 'Business Owners', 'Key-person coverage, buy-sell funding, and executive benefit strategies.'],
+                ['', 'Local Organizations', 'Key-person insurance for school districts, nonprofits, and municipal employers.'],
+                ['‍', 'Healthcare Workers', 'Disability protection, living benefits, and retirement income for shift workers.'],
+                ['', 'Trade Workers', 'Affordable term coverage, final expense planning, and mortgage protection for skilled trades.'],
               ].map(([icon, title, desc]) => (
                 <div key={title} style={{ background: 'rgba(255,255,255,0.06)', border: `1px solid ${gold}30`, borderRadius: 10, padding: '1.5rem' }}>
                   <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{icon}</div>

@@ -4,9 +4,21 @@ import { rateLimit } from '@/lib/rate-limit'
 import { BookingNotifySchema } from '@/lib/schemas'
 import { logger } from '@/lib/logger'
 
+function verifyWebhookSecret(req: NextRequest): boolean {
+  const secret = process.env.BOOKING_WEBHOOK_SECRET
+  if (!secret) return true // allow in dev
+  const provided = req.headers.get('x-webhook-secret') ?? ''
+  return provided === secret
+}
+
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'booking')
   if (limited) return limited
+
+  if (!verifyWebhookSecret(req)) {
+    logger.warn({}, 'Booking notify: invalid webhook secret')
+    return NextResponse.json({ ok: false, error: 'invalid secret' }, { status: 401 })
+  }
 
   const body = await req.json().catch(() => null)
   const parse = BookingNotifySchema.safeParse(body)

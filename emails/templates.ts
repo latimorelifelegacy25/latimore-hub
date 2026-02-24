@@ -1,3 +1,7 @@
+import { BRAND } from '@/lib/brand'
+
+const BASE_URL = BRAND.baseUrl
+
 // Internal notification email
 export function InquiryNotification(p: {
   firstName?: string
@@ -16,7 +20,7 @@ export function InquiryNotification(p: {
       <p style="color:#A9B1BE;margin:4px 0 0;font-size:12px">#TheBeatGoesOn — New Inquiry</p>
     </div>
     <div style="background:#ffffff;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px">
-      <h3 style="margin:0 0 16px;font-size:20px">🔔 New Inquiry: ${name}</h3>
+      <h3 style="margin:0 0 16px;font-size:20px"> New Inquiry: ${name}</h3>
       <table style="width:100%;border-collapse:collapse">
         <tr><td style="padding:8px 0;color:#6b7280;width:120px">Email</td><td style="padding:8px 0;font-weight:600">${p.email}</td></tr>
         ${p.phone ? `<tr><td style="padding:8px 0;color:#6b7280">Phone</td><td style="padding:8px 0;font-weight:600">${p.phone}</td></tr>` : ''}
@@ -25,7 +29,7 @@ export function InquiryNotification(p: {
         <tr><td style="padding:8px 0;color:#6b7280">Session ID</td><td style="padding:8px 0;font-size:11px;color:#9ca3af">${p.leadSessionId ?? '—'}</td></tr>
       </table>
       <div style="margin-top:24px">
-        <a href="https://latimorehub.vercel.app/admin" style="background:#0B0F17;color:#C9A25F;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px">View in LatimoreHub Admin →</a>
+        <a href="${BASE_URL}/admin" style="background:#0B0F17;color:#C9A25F;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:700;font-size:14px">View in LatimoreHub Admin →</a>
       </div>
     </div>
   </div>`
@@ -45,7 +49,7 @@ export function ThankYou(p: { firstName?: string }) {
       <p>Thanks for reaching out to Latimore Life & Legacy. We received your request and will follow up within 24 hours.</p>
       <p>If you'd like to choose a time now, you can book directly below:</p>
       <div style="margin:24px 0">
-        <a href="https://latimorehub.vercel.app/book" style="background:#C9A25F;color:#0B0F17;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px">Book a 30-Minute Consultation →</a>
+        <a href="${BASE_URL}${BRAND.bookingUrl}" style="background:#C9A25F;color:#0B0F17;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px">Book a 30-Minute Consultation →</a>
       </div>
       <p style="color:#6b7280;font-size:13px">No pressure. No jargon. Just a clear conversation about what matters to you.</p>
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />

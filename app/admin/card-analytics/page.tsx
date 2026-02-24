@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Eye, MousePointerClick, Link2, Target } from 'lucide-react'
 
 type ClickStat = { label: string | null; _count: { label: number } }
 type CardEventRow = {
@@ -24,7 +25,7 @@ const navy = '#0E1A2B'
 const gold = '#C9A24D'
 const lightGold = 'rgba(201,162,77,0.12)'
 
-function StatCard({ icon, label, value }: { icon: string; label: string; value: number }) {
+function StatCard({ icon, label, value }: { icon: ReactNode; label: string; value: number }) {
   return (
     <div style={{
       background: '#fff',
@@ -122,9 +123,9 @@ export default function CardAnalyticsPage() {
 
       {/* Stats Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-        <StatCard icon="👁️" label="Total Visits" value={data.totalVisits} />
-        <StatCard icon="👆" label="Total Clicks" value={data.totalClicks} />
-        <StatCard icon="🔗" label="Actions Tracked" value={data.clicks.length} />
+        <StatCard icon={<Eye size={22} />} label="Total Visits" value={data.totalVisits} />
+        <StatCard icon={<MousePointerClick size={22} />} label="Total Clicks" value={data.totalClicks} />
+        <StatCard icon={<Link2 size={22} />} label="Actions Tracked" value={data.clicks.length} />
         <div style={{
           background: '#fff',
           border: '1px solid #e8e8e8',
@@ -134,7 +135,7 @@ export default function CardAnalyticsPage() {
           boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
         }}>
           <p style={{ color: '#999', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 0.5rem' }}>
-            🎯 Booking CVR
+            Booking CVR
           </p>
           <p style={{ color: navy, fontSize: '2.25rem', fontWeight: 700, margin: 0, lineHeight: 1 }}>
             {conversionRate}%

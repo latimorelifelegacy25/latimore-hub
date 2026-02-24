@@ -1,21 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: NextRequest) {
-  try {
-    const body = await req.json()
-    const { event, label, referrer, userAgent, timestamp } = body
+  const limited = rateLimit(req, 'cardEvents')
+  if (limited) return limited
 
-    if (!event) {
+  try {
+    const body = await req.json().catch(() => null)
+    const { event, label, referrer, userAgent, timestamp } = (body ?? {}) as any
+
+    if (!event || typeof event !== 'string') {
       return NextResponse.json({ error: 'Missing event' }, { status: 400 })
     }
 
     await prisma.cardEvent.create({
       data: {
-        event,
-        label: label ?? null,
-        referrer: referrer ?? null,
-        userAgent: userAgent ?? null,
+        event: event.slice(0, 40),
+        label: typeof label === 'string' ? label.slice(0, 200) : null,
+        referrer: typeof referrer === 'string' ? referrer.slice(0, 500) : null,
+        userAgent: typeof userAgent === 'string' ? userAgent.slice(0, 300) : null,
         timestamp: timestamp ? new Date(timestamp) : new Date(),
       },
     })
@@ -27,7 +33,13 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const limited = rateLimit(req, 'reports')
+  if (limited) return limited
+
+  const session = await getServerSession(authOptions)
+  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+
   try {
     const [totalVisits, clicks, recent, visitsByDay] = await Promise.all([
       prisma.cardEvent.count({ where: { event: 'visit' } }),
@@ -51,7 +63,6 @@ export async function GET() {
         },
       }),
 
-      // Visits grouped by day for last 30 days
       prisma.$queryRaw<{ day: string; count: number }[]>`
         SELECT
           DATE_TRUNC('day', timestamp)::date::text AS day,

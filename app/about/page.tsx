@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { BRAND } from '@/lib/brand'
+import { BadgeCheck, GraduationCap, FileText } from 'lucide-react'
 
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
@@ -24,7 +26,7 @@ function Nav() {
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
           <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
         </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? '✕' : '☰'}</button>
+        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
       </div>
       {open && (
         <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -40,12 +42,6 @@ function Nav() {
   )
 }
 
-const BRAND = {
-  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
-  ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
-  phone: '(856) 895-1457',
-  phoneRaw: '8568951457',
-}
 
 export default function AboutPage() {
   return (
@@ -148,12 +144,12 @@ export default function AboutPage() {
           <h2 style={{ textAlign: 'center', fontSize: 'clamp(1.8rem,4vw,2.3rem)', color: '#0E1A2B', marginBottom: '3rem' }}>Credentials & Background</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="creds-grid">
             {[
-              { icon: '🏛️', title: 'Licensed in Pennsylvania', body: 'PA DOI License #1268820 | NIPR #21638507. Independent contractor — I work for you, not a captive company.' },
-              { icon: '🎓', title: 'MBA Candidate', body: 'Currently pursuing a Master of Business Administration. Prior degree: Master of Public Administration, East Stroudsburg University.' },
-              { icon: '📋', title: 'Political Science & Public Admin', body: 'B.S. Political Science. Background in Social Security paralegal work and home health aide services — I understand real families.' },
-              { icon: '🏢', title: 'Affiliated with Global Financial Impact', body: 'Independent contractor operating under GFI — giving me access to top-tier carriers without the limitations of captive agents.' },
-              { icon: '🏈', title: 'Youth Sports Coach', body: 'Active coach in Schuylkill County. Community is everything. I serve the same families I root for on the sidelines.' },
-              { icon: '⚡', title: 'Cardiac Arrest Survivor', body: 'Survived sudden cardiac arrest at age 22. This isn\'t a job — it\'s a calling born from personal experience with life\'s fragility.' },
+              { icon: <BadgeCheck size={32} color={navy} />, title: 'Licensed in Pennsylvania', body: 'PA DOI License #1268820 | NIPR #21638507. Independent contractor — I work for you, not a captive company.' },
+              { icon: <GraduationCap size={32} color={navy} />, title: 'MBA Candidate', body: 'Currently pursuing a Master of Business Administration. Prior degree: Master of Public Administration, East Stroudsburg University.' },
+              { icon: <FileText size={32} color={navy} />, title: 'Political Science & Public Admin', body: 'B.S. Political Science. Background in Social Security paralegal work and home health aide services — I understand real families.' },
+              { icon: '', title: 'Affiliated with Global Financial Impact', body: 'Independent contractor operating under GFI — giving me access to top-tier carriers without the limitations of captive agents.' },
+              { icon: '', title: 'Youth Sports Coach', body: 'Active coach in Schuylkill County. Community is everything. I serve the same families I root for on the sidelines.' },
+              { icon: '', title: 'Cardiac Arrest Survivor', body: 'Survived sudden cardiac arrest at age 22. This isn\'t a job — it\'s a calling born from personal experience with life\'s fragility.' },
             ].map((c, i) => (
               <div key={i} style={{ background: '#fff', padding: '2rem', borderRadius: 10, boxShadow: '0 2px 15px rgba(0,0,0,0.07)', borderTop: '3px solid #C9A24D' }}>
                 <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{c.icon}</div>
@@ -174,7 +170,7 @@ export default function AboutPage() {
           <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
             {['Schuylkill County', 'Luzerne County', 'Northumberland County'].map(c => (
               <div key={c} style={{ background: 'rgba(197,162,77,0.15)', border: '1px solid #C9A24D', padding: '1.5rem 2.5rem', borderRadius: 10 }}>
-                <p style={{ color: '#E5C882', fontWeight: 700, fontSize: '1.1rem', margin: 0 }}>📍 {c}</p>
+                <p style={{ color: '#E5C882', fontWeight: 700, fontSize: '1.1rem', margin: 0 }}> {c}</p>
               </div>
             ))}
           </div>

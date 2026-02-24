@@ -2,20 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { BRAND } from '@/lib/brand'
+import { Calendar, Phone, Mail, Quote, Facebook, QrCode } from 'lucide-react'
 
-const BRAND = {
-  name: 'Latimore Life & Legacy',
-  phone: '(856) 895-1457',
-  phoneRaw: '8568951457',
-  email: 'jackson1989@latimorelegacy.com',
-  paLicense: '1268820',
-  nipr: '21638507',
-  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
-  ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
-  instagram: 'https://www.instagram.com/jacksonlatimore.global',
-  linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
-  facebook: 'https://www.facebook.com/LatimoreLegacyLL',
-}
 
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
@@ -38,7 +27,7 @@ function Nav() {
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
           <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
         </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? '✕' : '☰'}</button>
+        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
       </div>
       {open && (
         <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -119,7 +108,7 @@ export default function ContactPage() {
 
               {/* Book */}
               <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${gold}`, textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>📅</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Calendar size={44} color="#C9A24D" /></div>
                 <h2 style={{ color: navy, fontSize: '1.3rem', marginBottom: '0.75rem' }}>Book a Consultation</h2>
                 <p style={{ color: '#555', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Schedule a free, no-obligation consultation at a time that works for you. Jackson will review your situation and walk you through your options.
@@ -132,7 +121,7 @@ export default function ContactPage() {
 
               {/* Phone */}
               <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${gold}`, textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>📞</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Phone size={44} color="#C9A24D" /></div>
                 <h2 style={{ color: navy, fontSize: '1.3rem', marginBottom: '0.75rem' }}>Call or Text</h2>
                 <p style={{ color: '#555', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Prefer to call? Reach Jackson directly. Calls and texts welcome during business hours across Schuylkill, Luzerne, and Northumberland Counties.
@@ -145,7 +134,7 @@ export default function ContactPage() {
 
               {/* Email */}
               <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${gold}`, textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>✉️</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Mail size={44} color="#C9A24D" /></div>
                 <h2 style={{ color: navy, fontSize: '1.3rem', marginBottom: '0.75rem' }}>Send an Email</h2>
                 <p style={{ color: '#555', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Have a question or want to share some background before your consultation? Send a message and expect a response within one business day.
@@ -158,7 +147,7 @@ export default function ContactPage() {
 
               {/* Get Quote */}
               <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${gold}`, textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>⚡</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Quote size={44} color="#C9A24D" /></div>
                 <h2 style={{ color: navy, fontSize: '1.3rem', marginBottom: '0.75rem' }}>Get an Instant Quote</h2>
                 <p style={{ color: '#555', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Want a quick term life insurance quote online? Apply in minutes. No medical exam required for many applicants. Fast approval decisions.
@@ -171,7 +160,7 @@ export default function ContactPage() {
 
               {/* Facebook */}
               <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${gold}`, textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>📘</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Facebook size={44} color="#C9A24D" /></div>
                 <h2 style={{ color: navy, fontSize: '1.3rem', marginBottom: '0.75rem' }}>Follow on Facebook</h2>
                 <p style={{ color: '#555', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Follow the Latimore Life & Legacy Facebook page for educational content, community updates, and financial protection tips.
@@ -184,7 +173,7 @@ export default function ContactPage() {
 
               {/* QR */}
               <div style={{ background: '#fff', borderRadius: 12, padding: '2rem', boxShadow: '0 4px 20px rgba(0,0,0,0.08)', borderTop: `4px solid ${gold}`, textAlign: 'center' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>📱</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><QrCode size={44} color="#C9A24D" /></div>
                 <h2 style={{ color: navy, fontSize: '1.3rem', marginBottom: '0.75rem' }}>Scan to Apply</h2>
                 <p style={{ color: '#555', lineHeight: 1.7, marginBottom: '1.5rem', fontSize: '0.95rem' }}>
                   Scan the QR code to go directly to the instant life insurance application. Takes minutes on your phone.
@@ -207,9 +196,9 @@ export default function ContactPage() {
             </p>
             <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '3rem' }}>
               {[
-                ['📷 Instagram', BRAND.instagram],
-                ['💼 LinkedIn', BRAND.linkedin],
-                ['📘 Facebook', BRAND.facebook],
+                [' Instagram', BRAND.instagram],
+                [' LinkedIn', BRAND.linkedin],
+                [' Facebook', BRAND.facebook],
               ].map(([label, href]) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer"
                   style={{ background: 'rgba(255,255,255,0.08)', border: `1px solid ${gold}50`, color: goldLight, padding: '0.75rem 1.5rem', borderRadius: 6, textDecoration: 'none', fontWeight: 600, fontSize: '0.95rem' }}>
@@ -218,7 +207,7 @@ export default function ContactPage() {
               ))}
             </div>
             <div style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${gold}30`, borderRadius: 10, padding: '2rem', maxWidth: 600, margin: '0 auto' }}>
-              <p style={{ color: goldLight, fontWeight: 700, marginBottom: '0.5rem' }}>📍 Service Area</p>
+              <p style={{ color: goldLight, fontWeight: 700, marginBottom: '0.5rem' }}> Service Area</p>
               <p style={{ color: 'rgba(255,255,255,0.8)', lineHeight: 1.7 }}>
                 Schuylkill County · Luzerne County · Northumberland County<br />
                 <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem' }}>Central & Northeastern Pennsylvania</span>

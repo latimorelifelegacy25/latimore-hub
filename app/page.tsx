@@ -3,26 +3,13 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { BRAND } from '@/lib/brand'
 
-const BRAND = {
-  name: 'Latimore Life & Legacy',
-  phone: '(856) 895-1457',
-  phoneRaw: '8568951457',
-  email: 'jackson1989@latimorelegacy.com',
-  paLicense: '1268820',
-  nipr: '21638507',
-  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
-  ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
-  instagram: 'https://www.instagram.com/jacksonlatimore.global',
-  linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
-  facebook: 'https://www.facebook.com/LatimoreLegacyLL',
-}
 
 const services = [
   { title: 'Tax-Advantaged Wealth Accumulation', desc: 'Build wealth using tax-deferred and tax-free growth strategies' },
   { title: 'Asset Protection & Plan Rollovers', desc: 'Protect wealth and roll over 401(k), 403(b), pension plans strategically' },
   { title: 'College Education Funding', desc: 'Strategic funding for higher education without crippling debt' },
-  { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
   { title: 'Debt Management', desc: 'Consolidation strategies to eliminate high-interest debt' },
   { title: 'Life Insurance & Living Benefits', desc: 'Income replacement, critical illness, and final expense coverage' },
   { title: 'Estate & Legacy Planning', desc: 'Wealth transfer strategies and estate tax solutions' },
@@ -59,7 +46,7 @@ function Nav() {
 
         {/* Mobile hamburger */}
         <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">
-          {open ? '✕' : '☰'}
+          {open ? 'Close' : 'Menu'}
         </button>
       </div>
 
@@ -160,7 +147,7 @@ export default function HomePage() {
                 Independent insurance consultant serving Schuylkill, Luzerne & Northumberland Counties with life insurance, annuities, and financial protection strategies.
               </p>
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
-                {['✓ PA Licensed (DOI #1268820)', '✓ MBA Candidate', '✓ 3 Counties Served'].map(b => (
+                {['PA Licensed (DOI #1268820)', 'MBA Candidate', '3 Counties Served'].map(b => (
                   <span key={b} style={{ background: 'rgba(197,162,77,0.2)', padding: '0.5rem 1rem', borderRadius: 20, fontSize: '0.9rem', border: '1px solid #C9A24D' }}>{b}</span>
                 ))}
               </div>

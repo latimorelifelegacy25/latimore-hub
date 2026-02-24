@@ -1,23 +1,6 @@
 import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
+import { authOptions } from '@/lib/auth'
 
-const handler = NextAuth({
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      authorization: { params: { prompt: 'consent', access_type: 'offline', response_type: 'code' } },
-    }),
-  ],
-  callbacks: {
-    async signIn({ profile }) {
-      // Allow your domain + gmail for dev
-      const allowed = ['latimorelegacy.com', 'gmail.com']
-      const email = (profile?.email ?? '').toLowerCase()
-      return allowed.some(d => email.endsWith('@' + d))
-    },
-  },
-  pages: { signIn: '/admin/login' },
-})
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

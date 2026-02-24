@@ -1,23 +1,25 @@
 # LatimoreHub — Production Deploy Checklist
 
-## Security ✅ (all implemented)
+## Security (implemented)
 - [x] HMAC signature verification on Fillout webhook
 - [x] Zod validation on all POST routes
 - [x] Rate limiting on all API endpoints
 - [x] NextAuth middleware protecting /admin
+- [x] Admin-only API routes require an authenticated session
+- [x] Booking webhook protected by BOOKING_WEBHOOK_SECRET
 - [x] Security headers (CSP, X-Frame-Options, HSTS, etc.)
 - [x] robots.txt blocks /admin and /api
 - [x] No secrets in frontend code
 - [x] Supabase RLS SQL locks all tables to service-role only
 
-## Performance ✅ (all implemented)
+## Performance (implemented)
 - [x] Next.js image optimization (AVIF + WebP)
 - [x] Static asset caching headers (1-year immutable)
 - [x] Prisma singleton with connection pooling
 - [x] Non-blocking email sends (void + .then logging)
 - [x] GSAP loaded client-side only
 
-## SEO ✅ (all implemented)
+## SEO (implemented)
 - [x] Full metadata with title template
 - [x] OpenGraph + Twitter cards
 - [x] Structured data (LocalBusiness + WebSite JSON-LD)
@@ -26,7 +28,7 @@
 - [x] Canonical URLs
 - [x] themeColor + viewport meta
 
-## Observability ✅ (all implemented)
+## Observability (implemented)
 - [x] Pino structured logger on all API routes
 - [x] EmailLog table records every email attempt
 - [x] InquiryStageHistory tracks every pipeline move
@@ -80,7 +82,7 @@ openssl rand -base64 32
 ### 6. Fillout Webhook
 1. Form `tMz7ZcqpaZus` → Settings → Webhooks
 2. URL: `https://latimorehub.vercel.app/api/fillout`
-3. Copy signing secret → set as `FILL0UT_SECRET` in Vercel
+3. Copy signing secret → set as `FILLOUT_SECRET` in Vercel
 
 ### 7. Smoke Test
 - [ ] `/api/health` returns `{ ok: true, db: "connected" }`

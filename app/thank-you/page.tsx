@@ -4,7 +4,7 @@ export default function ThankYouPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#0E1A2B', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", textAlign: 'center' }}>
       <div style={{ maxWidth: 560 }}>
-        <div style={{ width: 72, height: 72, background: 'rgba(201,162,77,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontSize: '2rem' }}>✓</div>
+        <div style={{ width: 72, height: 72, background: 'rgba(201,162,77,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontSize: '2rem' }}></div>
         <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem,4vw,2.5rem)', marginBottom: '1rem', lineHeight: 1.2 }}>
           You&apos;re All Set
         </h1>

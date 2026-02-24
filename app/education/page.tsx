@@ -2,20 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { BRAND } from '@/lib/brand'
+import { Shield, PiggyBank, TrendingUp, Clock } from 'lucide-react'
 
-const BRAND = {
-  name: 'Latimore Life & Legacy',
-  phone: '(856) 895-1457',
-  phoneRaw: '8568951457',
-  email: 'jackson1989@latimorelegacy.com',
-  paLicense: '1268820',
-  nipr: '21638507',
-  bookingUrl: 'https://latimorelifelegacy.fillout.com/latimorelifelegacy',
-  ethosUrl: 'https://agents.ethoslife.com/invite/29ad1',
-  instagram: 'https://www.instagram.com/jacksonlatimore.global',
-  linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
-  facebook: 'https://www.facebook.com/LatimoreLegacyLL',
-}
 
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
@@ -38,7 +27,7 @@ function Nav() {
           <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
           <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
         </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? '✕' : '☰'}</button>
+        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
       </div>
       {open && (
         <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -95,7 +84,7 @@ function Footer() {
 
 const topics = [
   {
-    icon: '🛡️',
+    icon: <Shield size={28} />,
     title: 'What Is Life Insurance and Why Do You Need It?',
     body: `Life insurance pays a tax-free lump sum to your chosen beneficiary when you pass away. That money can replace your income, pay off your mortgage, cover final expenses, or fund your children's education — whatever your family needs most.
 
@@ -103,7 +92,7 @@ Without it, your family absorbs every financial obligation you leave behind. Wit
     callout: 'Key fact: The death benefit is generally income-tax-free to your beneficiary.',
   },
   {
-    icon: '⏱️',
+    icon: <Clock size={28} />,
     title: 'Term vs. Permanent Insurance — What Is the Difference?',
     body: `Term insurance covers you for a specific period — 10, 20, or 30 years. If you pass during that term, your beneficiary receives the death benefit. If the term ends and you are still living, coverage expires. It is the most affordable type of life insurance and ideal for income replacement during your working years.
 
@@ -111,7 +100,7 @@ Permanent insurance (whole life or universal life) never expires as long as prem
     callout: 'The right choice depends on your age, income, health, and long-term goals — not a one-size formula.',
   },
   {
-    icon: '💰',
+    icon: <PiggyBank size={28} />,
     title: 'What Are Living Benefits?',
     body: `Living benefits allow you to access a portion of your death benefit while you are still alive if you experience a qualifying health event — such as a heart attack, stroke, cancer diagnosis, or a condition that prevents you from performing daily activities.
 
@@ -119,7 +108,7 @@ This is a game-changer. Your life insurance policy becomes a safety net not just
     callout: 'Many policies include living benefit riders at no additional cost.',
   },
   {
-    icon: '📈',
+    icon: <TrendingUp size={28} />,
     title: 'How Do Annuities Work?',
     body: `An annuity is a contract between you and an insurance company. You make a lump-sum or series of payments, and in return the company guarantees growth and/or a stream of income — either immediately or at a future date.
 
@@ -127,7 +116,7 @@ Annuities are not market investments. They are insurance products designed to pr
     callout: 'Fixed and fixed-indexed annuities offer principal protection — your balance cannot go negative due to market losses.',
   },
   {
-    icon: '🔄',
+    icon: '',
     title: 'What Is a 401(k) Rollover and When Should You Do One?',
     body: `When you leave a job, you have options for your 401(k) funds: leave them with your former employer, roll them to your new employer's plan, roll them to an IRA, or convert them to an annuity or other protected vehicle.
 
@@ -135,7 +124,7 @@ Done correctly, a rollover is tax-free and penalty-free. Done incorrectly — or
     callout: 'You typically have 60 days from receiving a distribution to complete a rollover without penalty.',
   },
   {
-    icon: '🏢',
+    icon: '',
     title: 'What Is Key Person Insurance for a Business?',
     body: `Key person insurance is a life insurance policy owned by a business on a critical employee or owner. If that person passes away or becomes disabled, the business receives a tax-free death benefit to cover losses — lost revenue, recruitment and training costs, loan repayments, or to fund a buy-sell agreement.
 
@@ -143,7 +132,7 @@ For small businesses, the loss of one key person can be fatal to operations. Thi
     callout: 'Any business that would suffer a serious financial loss from losing one individual should consider key person coverage.',
   },
   {
-    icon: '🏠',
+    icon: '',
     title: 'What Is Mortgage Protection Insurance?',
     body: `Mortgage protection is a life insurance policy structured to cover your outstanding mortgage balance if you pass away. Your family stays in the home — the bank gets paid, and your loved ones are not forced to sell or move during an already devastating time.
 
@@ -151,7 +140,7 @@ Unlike private mortgage insurance (PMI), which protects the lender, mortgage pro
     callout: 'Mortgage protection is typically structured as a decreasing term policy that mirrors your mortgage balance.',
   },
   {
-    icon: '🎓',
+    icon: '',
     title: 'How Can Life Insurance Fund College Education?',
     body: `Certain permanent life insurance policies — particularly indexed universal life — can be structured as a college funding vehicle. You overfund the policy during your working years, allowing the cash value to grow tax-deferred. When college expenses arrive, you access funds through tax-free policy loans.
 
@@ -203,7 +192,7 @@ export default function EducationPage() {
                         <p key={j} style={{ color: '#444', lineHeight: 1.8, marginBottom: '1rem', fontSize: '0.97rem' }}>{para}</p>
                       ))}
                       <div style={{ background: `${gold}18`, border: `1px solid ${gold}50`, borderRadius: 8, padding: '1rem 1.25rem', marginTop: '0.5rem' }}>
-                        <p style={{ color: navy, fontWeight: 600, fontSize: '0.9rem', margin: 0 }}>💡 {t.callout}</p>
+                        <p style={{ color: navy, fontWeight: 600, fontSize: '0.9rem', margin: 0 }}> {t.callout}</p>
                       </div>
                     </div>
                   )}
