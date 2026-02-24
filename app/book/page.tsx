@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-const GCAL_SRC = 'https://calendar.google.com/calendar/appointments/AcZssZ0pWKOYTgg4xc8vleuqTnfpTwqm8oYaG2B5TxA=?gv=true'
+const FILLOUT_URL = 'https://latimorelifelegacy.fillout.com/latimorelifelegacy'
 
 export default function BookPage() {
   return (
@@ -19,11 +19,11 @@ export default function BookPage() {
           <p style={{ color: '#C9A24D', fontWeight: 600, letterSpacing: 2, fontSize: '0.8rem', textTransform: 'uppercase', marginBottom: '0.75rem' }}>Free Consultation</p>
           <h1 style={{ color: '#fff', fontSize: 'clamp(1.8rem,4vw,2.8rem)', marginBottom: '0.75rem', lineHeight: 1.2 }}>Secure Your Legacy</h1>
           <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: '1.05rem', lineHeight: 1.7 }}>
-            Select a 30-minute slot below. Jackson will confirm and prepare for your call. No obligation — just a real conversation about protecting your family.
+            Fill out the form below to book your free 30-minute consultation. No obligation — just a real conversation about protecting your family.
           </p>
         </div>
         <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
-          <iframe src={GCAL_SRC} style={{ width: '100%', height: 700, border: 'none', display: 'block' }} title="Book a Consultation" />
+          <iframe src={FILLOUT_URL} style={{ width: '100%', height: 700, border: 'none', display: 'block' }} title="Book a Consultation" />
         </div>
         <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(201,162,77,0.1)', border: '1px solid rgba(201,162,77,0.3)', borderRadius: 10, textAlign: 'center' }}>
           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
