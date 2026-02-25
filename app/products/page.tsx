@@ -51,7 +51,7 @@ const products = [
       {
         name: 'Term Life Insurance',
         tagline: 'Maximum protection. Minimum cost.',
-        description: 'Affordable coverage for 10–30 years — perfect for income replacement, mortgage protection, and young families building wealth. Carriers: Ethos Life, American General/Corebridge.',
+        description: 'Affordable coverage for 10–30 years — perfect for income replacement, mortgage protection, and young families building wealth.',
         bestFor: 'Young families, mortgage holders, income earners',
         cta: 'Get a Quote',
         ctaUrl: BRAND.ethosUrl,
@@ -89,7 +89,7 @@ const products = [
       {
         name: 'Fixed Indexed Annuity (FIA)',
         tagline: 'Growth without risk. Income you can\'t outlive.',
-        description: 'Your premium earns interest linked to a market index (like the S&P 500) — but with a guaranteed floor so you never lose principal. Convert to a lifetime income stream at retirement. Carriers: F&G, American Equity.',
+        description: 'Your premium earns interest linked to a market index (like the S&P 500) — but with a guaranteed floor so you never lose principal. Convert to a lifetime income stream at retirement.',
         bestFor: 'Pre-retirees (50–65), conservative investors, pension replacement',
         cta: 'Schedule Consultation',
         ctaUrl: BRAND.bookingUrl,
@@ -214,19 +214,6 @@ export default function ProductsPage() {
           <p style={{ marginTop: '2rem', color: '#888', fontSize: '0.85rem', textAlign: 'center' }}>
             Nothing in this section constitutes tax or legal advice — consult a qualified advisor.
           </p>
-        </div>
-      </section>
-
-      {/* Carriers */}
-      <section style={{ background: '#0E1A2B', padding: '4rem 0', textAlign: 'center' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 20px' }}>
-          <h2 style={{ color: '#fff', fontSize: 'clamp(1.5rem,4vw,2rem)', marginBottom: '0.75rem' }}>Carrier Relationships</h2>
-          <p style={{ color: 'rgba(255,255,255,0.65)', marginBottom: '2.5rem' }}>Access to multiple top-rated carriers means I find the best fit — not the easiest sale.</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
-            {['F&G (Fidelity & Guaranty)', 'American Equity', 'Ethos Life / TruStage', 'American General / Corebridge Financial'].map(c => (
-              <span key={c} style={{ background: 'rgba(197,162,77,0.15)', border: '1px solid #C9A24D', color: '#E5C882', padding: '0.6rem 1.2rem', borderRadius: 20, fontSize: '0.9rem', fontWeight: 600 }}>{c}</span>
-            ))}
-          </div>
         </div>
       </section>
 
