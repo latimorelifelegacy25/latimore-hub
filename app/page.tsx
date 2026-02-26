@@ -166,7 +166,7 @@ export default function HomePage() {
               <img
                 src="/jackson-library.jpg"
                 alt="Jackson M. Latimore Sr. — Independent Insurance Consultant"
-                style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', objectPosition: 'center 15%', display: 'block' }}
+                style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', objectPosition: 'center 40%', display: 'block' }}
               />
               <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: 10, marginTop: '1rem', textAlign: 'center' }}>
                 <h3 style={{ color: '#E5C882', marginBottom: '0.5rem' }}>Jackson M. Latimore Sr.</h3>
