@@ -1,6 +1,9 @@
 import { BRAND } from '@/lib/brand'
 
 const BASE_URL = BRAND.baseUrl
+const BOOKING_LINK = BRAND.bookingUrl.startsWith('http')
+  ? BRAND.bookingUrl
+  : `${BASE_URL}${BRAND.bookingUrl}`
 
 // Internal notification email
 export function InquiryNotification(p: {
@@ -49,7 +52,7 @@ export function ThankYou(p: { firstName?: string }) {
       <p>Thanks for reaching out to Latimore Life & Legacy. We received your request and will follow up within 24 hours.</p>
       <p>If you'd like to choose a time now, you can book directly below:</p>
       <div style="margin:24px 0">
-        <a href="${BASE_URL}${BRAND.bookingUrl}" style="background:#C9A25F;color:#0B0F17;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px">Book a 30-Minute Consultation →</a>
+        <a href="${BOOKING_LINK}" style="background:#C9A25F;color:#0B0F17;padding:14px 28px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px">Book a 30-Minute Consultation →</a>
       </div>
       <p style="color:#6b7280;font-size:13px">No pressure. No jargon. Just a clear conversation about what matters to you.</p>
       <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />

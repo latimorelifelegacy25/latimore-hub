@@ -2,17 +2,36 @@
 'use client'
 
 import Link from 'next/link'
+import Script from 'next/script'
 import { useState, useEffect } from 'react'
 import { BRAND } from '@/lib/brand'
 import { buildFilloutParams } from '@/lib/lead'
 
 export default function BookPage() {
-  // Dynamically build Fillout URL with hidden tracking params
-  const [iframeSrc, setIframeSrc] = useState(BRAND.filloutUrl)
+  const [embedReady, setEmbedReady] = useState(false)
 
   useEffect(() => {
+    // Ensure UTM + lead session params exist on the page URL so Fillout's
+    // `data-fillout-inherit-parameters` can pass them through automatically.
     const q = buildFilloutParams()
-    setIframeSrc(q ? `${BRAND.filloutUrl}?${q}` : BRAND.filloutUrl)
+    if (typeof window === 'undefined') return
+
+    try {
+      if (q) {
+        const url = new URL(window.location.href)
+        const incoming = new URLSearchParams(q)
+        let changed = false
+        incoming.forEach((value, key) => {
+          if (!url.searchParams.get(key)) {
+            url.searchParams.set(key, value)
+            changed = true
+          }
+        })
+        if (changed) window.history.replaceState({}, '', url.toString())
+      }
+    } finally {
+      setEmbedReady(true)
+    }
   }, [])
 
   return (
@@ -34,9 +53,26 @@ export default function BookPage() {
             Fill out the form below to book your free 30-minute consultation. No obligation — just a real conversation about protecting your family.
           </p>
         </div>
-        <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
-          <iframe src={iframeSrc} style={{ width: '100%', height: 700, border: 'none', display: 'block' }} title="Book a Consultation" />
+
+        <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)', minHeight: 500 }}>
+          {embedReady ? (
+            <>
+              <div
+                style={{ width: '100%', minHeight: 500 }}
+                data-fillout-id="tMz7ZcqpaZus"
+                data-fillout-embed-type="standard"
+                data-fillout-inherit-parameters="true"
+                data-fillout-dynamic-resize="true"
+              />
+              <Script src="https://server.fillout.com/embed/v1/" strategy="afterInteractive" />
+            </>
+          ) : (
+            <div style={{ height: 500, display: 'grid', placeItems: 'center', color: '#475569', fontSize: '0.95rem' }}>
+              Loading booking form…
+            </div>
+          )}
         </div>
+
         <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(201,162,77,0.1)', border: '1px solid rgba(201,162,77,0.3)', borderRadius: 10, textAlign: 'center' }}>
           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
             Prefer to call or text? <a href={`tel:${BRAND.phoneRaw}`} style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>{BRAND.phone}</a>
