@@ -68,7 +68,8 @@ function Nav() {
       )}
 
       <style>{`
-        @media (max-width: 768px) {
+        /* Collapse desktop navigation sooner on wider tablet screens */
+        @media (max-width: 1100px) {
           .desktop-nav { display: none !important; }
           .mobile-btn { display: block !important; }
         }
@@ -140,7 +141,7 @@ export default function HomePage() {
           <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: '3rem', alignItems: 'flex-start' }} className="hero-grid">
             <div style={{ paddingTop: 0 }}>
               <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', marginBottom: '1rem', marginTop: 0, lineHeight: 1.2 }}>
-                Life Insurance & Financial Protection for Families in <span style={{ color: '#E5C882' }}>Schuylkill, Luzerne & Northumberland County</span>
+                Life Insurance & Financial Protection for Families in <span style={{ color: '#E5C882' }}>Schuylkill, Luzerne & Northumberland Counties</span>
               </h1>
               <p style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 600, color: '#E5C882', margin: '1.5rem 0' }}>Father | Survivor | Leader</p>
               <p style={{ fontSize: '1.1rem', color: 'rgba(255,255,255,0.9)', marginBottom: '2rem', lineHeight: 1.7 }}>
@@ -166,7 +167,15 @@ export default function HomePage() {
               <img
                 src="/jackson-library.jpg"
                 alt="Jackson M. Latimore Sr. — Independent Insurance Consultant"
-                style={{ width: '100%', borderRadius: 10, boxShadow: '0 10px 30px rgba(0,0,0,0.3)', objectFit: 'cover', objectPosition: 'center 40%', display: 'block' }}
+                style={{
+                  width: '100%',
+                  borderRadius: 10,
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                  objectFit: 'cover',
+                  objectPosition: 'center 25%',
+                  display: 'block',
+                  maxHeight: 560,
+                }}
               />
               <div style={{ background: 'rgba(255,255,255,0.1)', padding: '1.5rem', borderRadius: 10, marginTop: '1rem', textAlign: 'center' }}>
                 <h3 style={{ color: '#E5C882', marginBottom: '0.5rem' }}>Jackson M. Latimore Sr.</h3>
@@ -175,7 +184,29 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <style>{`@media(max-width:768px){.hero-grid{grid-template-columns:1fr !important;}} @media(max-width:1100px){.services-grid{grid-template-columns:repeat(3,1fr) !important;}} @media(max-width:640px){.services-grid{grid-template-columns:repeat(2,1fr) !important;}}`}</style>
+          <style>{`
+            @media(max-width:1024px){
+              .hero-grid{
+                grid-template-columns:1fr !important;
+                gap:1.5rem !important;
+              }
+            }
+            @media(max-width:768px){
+              .hero-grid{
+                grid-template-columns:1fr !important;
+              }
+            }
+            @media(max-width:1100px){
+              .services-grid{
+                grid-template-columns:repeat(3,1fr) !important;
+              }
+            }
+            @media(max-width:640px){
+              .services-grid{
+                grid-template-columns:repeat(2,1fr) !important;
+              }
+            }
+          `}</style>
         </section>
 
         {/* Services Grid */}

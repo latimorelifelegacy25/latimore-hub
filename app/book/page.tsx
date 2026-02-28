@@ -1,15 +1,27 @@
-import Link from 'next/link'
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client'
 
-const FILLOUT_URL = 'https://latimorelifelegacy.fillout.com/latimorelifelegacy'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { BRAND } from '@/lib/brand'
+import { buildFilloutParams } from '@/lib/lead'
 
 export default function BookPage() {
+  // Dynamically build Fillout URL with hidden tracking params
+  const [iframeSrc, setIframeSrc] = useState(BRAND.filloutUrl)
+
+  useEffect(() => {
+    const q = buildFilloutParams()
+    setIframeSrc(q ? `${BRAND.filloutUrl}?${q}` : BRAND.filloutUrl)
+  }, [])
+
   return (
     <div style={{ minHeight: '100vh', background: '#0E1A2B', fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
       <nav style={{ background: '#0E1A2B', borderBottom: '1px solid rgba(201,162,77,0.2)', padding: '1rem 0' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontWeight: 700 }}>
-            <img src="/logo.jpg" alt="Logo" style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover' }} />
-            Latimore Life & Legacy
+            <img src="/logo.jpg" alt="Latimore Life & Legacy Logo" style={{ width: 40, height: 40, borderRadius: 8, objectFit: 'cover' }} />
+            {BRAND.name}
           </Link>
           <Link href="/" style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.9rem' }}>← Back to Home</Link>
         </div>
@@ -23,17 +35,16 @@ export default function BookPage() {
           </p>
         </div>
         <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' }}>
-          <iframe src={FILLOUT_URL} style={{ width: '100%', height: 700, border: 'none', display: 'block' }} title="Book a Consultation" />
+          <iframe src={iframeSrc} style={{ width: '100%', height: 700, border: 'none', display: 'block' }} title="Book a Consultation" />
         </div>
         <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(201,162,77,0.1)', border: '1px solid rgba(201,162,77,0.3)', borderRadius: 10, textAlign: 'center' }}>
           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
-            Prefer to call or text? <a href="tel:8568951457" style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>(856) 895-1457</a>
+            Prefer to call or text? <a href={`tel:${BRAND.phoneRaw}`} style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>{BRAND.phone}</a>
             &nbsp;·&nbsp;
-            <a href="mailto:jackson1989@latimorelegacy.com" style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>jackson1989@latimorelegacy.com</a>
+            <a href={`mailto:${BRAND.email}`} style={{ color: '#E5C882', fontWeight: 600, textDecoration: 'none' }}>{BRAND.email}</a>
           </p>
         </div>
       </div>
     </div>
   )
 }
-// force deploy Fri Feb 27 18:45:20 UTC 2026

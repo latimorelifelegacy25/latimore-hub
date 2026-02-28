@@ -66,8 +66,8 @@ npx prisma migrate deploy
 
 ### 4. Google OAuth
 1. console.cloud.google.com → APIs → Credentials → Create OAuth 2.0
-2. Authorized origins: `https://latimorehub.vercel.app`
-3. Authorized redirect: `https://latimorehub.vercel.app/api/auth/callback/google`
+2. Authorized origins: `https://latimorelifelegacy.com`
+3. Authorized redirect: `https://latimorelifelegacy.com/api/auth/callback/google`
 
 ### 5. Vercel
 1. Import repo
@@ -81,7 +81,7 @@ openssl rand -base64 32
 
 ### 6. Fillout Webhook
 1. Form `tMz7ZcqpaZus` → Settings → Webhooks
-2. URL: `https://latimorehub.vercel.app/api/fillout`
+2. URL: `https://latimorelifelegacy.com/api/fillout`
 3. Copy signing secret → set as `FILLOUT_SECRET` in Vercel
 
 ### 7. Smoke Test

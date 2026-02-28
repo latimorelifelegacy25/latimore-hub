@@ -12,14 +12,19 @@ export function ensureLeadSessionId(): string {
 
 // Capture UTM params from current URL
 export function captureUtms(): Record<string, string> {
+  // Only run in browser
   if (typeof window === 'undefined') return {}
   const p = new URLSearchParams(location.search)
-  const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'referrer']
+  // Only grab known UTM parameters; referrer handled separately below
+  const keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
   const out: Record<string, string> = {}
   keys.forEach((k) => {
     const v = p.get(k)
     if (v) out[k] = v
   })
+  // Pull referrer from query param if provided, otherwise fall back to document.referrer
+  const ref = p.get('referrer') || (typeof document !== 'undefined' ? document.referrer : '') || ''
+  if (ref) out.referrer = ref
   return out
 }
 
