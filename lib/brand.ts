@@ -35,5 +35,8 @@ export const BRAND = {
   counties: ['Schuylkill', 'Luzerne', 'Northumberland'],
 
   // Used for absolute URLs in emails
-  baseUrl: process.env.NEXT_PUBLIC_BASE_URL ?? 'https://latimorehub.vercel.app',
+  // Prefer the NEXT_PUBLIC_BASE_URL environment variable; otherwise default to
+  // the public domain latimorelifelegacy.com so generated links point at
+  // the correct live site rather than the old `latimorehub.vercel.app` preview.
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL ?? 'https://latimorelifelegacy.com',
 } as const

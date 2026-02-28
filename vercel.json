@@ -1,5 +1,5 @@
 {
   "framework": "nextjs",
   "regions": ["iad1"],
-  "buildCommand": "npx prisma generate && npx prisma db push --accept-data-loss && next build"
+  "buildCommand": "npx prisma generate && npx prisma db push && next build"
 }

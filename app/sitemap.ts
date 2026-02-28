@@ -1,6 +1,9 @@
 import { MetadataRoute } from 'next'
 
-const BASE = 'https://latimorehub.vercel.app'
+// Resolve the canonical base domain used for generating absolute URLs in the sitemap.
+// By default this falls back to the production domain latimorelifelegacy.com rather than the old
+// preview domain. It can be overridden by setting NEXT_PUBLIC_BASE_URL at deploy time.
+const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://latimorelifelegacy.com'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [

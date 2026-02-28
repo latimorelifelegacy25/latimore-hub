@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
-const BASE_URL = 'https://latimorehub.vercel.app'
+// Set the canonical base domain used for generating absolute URLs and OpenGraph metadata.
+// This value should match the production domain (`latimorelifelegacy.com`) rather than the
+// old Vercel preview domain. It can still be overridden via the NEXT_PUBLIC_BASE_URL
+// environment variable if necessary.
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://latimorelifelegacy.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
