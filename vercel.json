@@ -1,5 +1,5 @@
 {
   "framework": "nextjs",
   "regions": ["iad1"],
-  "buildCommand": "npm run build"
+  "buildCommand": "npx prisma generate && npx prisma db push && next build"
 }
