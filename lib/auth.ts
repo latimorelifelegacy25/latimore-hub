@@ -33,5 +33,5 @@ export const authOptions: NextAuthOptions = {
       return false
     },
   },
-  pages: { signIn: '/admin/login' },
+  pages: { signIn: '/login' },
 }
