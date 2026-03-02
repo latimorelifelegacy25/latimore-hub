@@ -26,11 +26,11 @@ export const BRAND = {
   // Social
   instagram: 'https://www.instagram.com/jacksonlatimore.global',
   linkedin: 'https://www.linkedin.com/in/startwithjacksongfi',
-  facebook: 'https://www.facebook.com/LatimoreLegacyLL',
+  facebook: 'https://www.facebook.com/LatimoreLegacyLLC/',
 
   instagramUrl: 'https://www.instagram.com/jacksonlatimore.global',
   linkedinUrl: 'https://www.linkedin.com/in/startwithjacksongfi',
-  facebookUrl: 'https://www.facebook.com/LatimoreLegacyLL',
+  facebookUrl: 'https://www.facebook.com/LatimoreLegacyLLC/',
 
   // Service region
   counties: ['Schuylkill', 'Luzerne', 'Northumberland'],
