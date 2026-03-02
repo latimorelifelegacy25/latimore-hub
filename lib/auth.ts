@@ -26,9 +26,9 @@ export const authOptions: NextAuthOptions = {
       // If explicitly configured, only allow these emails.
       if (adminEmails.length > 0) return adminEmails.includes(email)
 
-      // Default: allow Latimore legacy domain. Optionally allow Gmail for local dev.
+      // Default: allow Latimore legacy domain or Gmail.
       if (email.endsWith('@latimorelegacy.com')) return true
-      if (allowGmailDev && email.endsWith('@gmail.com')) return true
+      if (email.endsWith('@gmail.com')) return true
 
       return false
     },
