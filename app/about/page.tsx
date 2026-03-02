@@ -53,7 +53,7 @@ export default function AboutPage() {
           <div>
             <p style={{ color: '#E5C882', fontWeight: 600, marginBottom: '0.5rem', letterSpacing: 2, fontSize: '0.85rem', textTransform: 'uppercase' }}>About Jackson</p>
             <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', marginBottom: '1.5rem', lineHeight: 1.2 }}>
-              Father. Survivor. <span style={{ color: '#E5C882' }}>Your Trusted Advisor.</span>
+              Father. Survivor.<br /><span style={{ color: '#E5C882' }}>Your Trusted Advisor.</span>
             </h1>
             <p style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
               I didn't get into insurance to sell policies. I got into it because I know firsthand that life can change in a single heartbeat — and most families aren't prepared when it does.
@@ -78,7 +78,7 @@ export default function AboutPage() {
         <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 20px' }}>
           <p style={{ color: '#C9A24D', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, fontSize: '0.85rem', marginBottom: '0.75rem' }}>The Story Behind the Mission</p>
           <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', color: '#0E1A2B', marginBottom: '2rem', lineHeight: 1.3 }}>
-            December 7, 2010. My Heart Stopped.
+            December 7, 2010.<br />My Heart Stopped.
           </h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' }} className="story-photos">
@@ -144,7 +144,7 @@ export default function AboutPage() {
           <h2 style={{ textAlign: 'center', fontSize: 'clamp(1.8rem,4vw,2.3rem)', color: '#0E1A2B', marginBottom: '3rem' }}>Credentials & Background</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="creds-grid">
             {[
-              { icon: <BadgeCheck size={32} color={navy} />, title: 'Licensed in Pennsylvania', body: 'PA DOI License #1268820 | NIPR #21638507. Independent contractor — I work for you, not a captive company.' },
+              { icon: <BadgeCheck size={32} color={navy} />, title: 'Licensed in Pennsylvania', body: 'PA DOI License #1268820 | NIPR #21638507 — Independent contractor. I work for you, not a captive company.' },
               { icon: <GraduationCap size={32} color={navy} />, title: 'MBA Candidate', body: 'Currently pursuing a Master of Business Administration. Prior degree: Master of Public Administration, East Stroudsburg University.' },
               { icon: <FileText size={32} color={navy} />, title: 'Political Science & Public Admin', body: 'B.S. Political Science. Background in Social Security paralegal work and home health aide services — I understand real families.' },
               { icon: '', title: 'Affiliated with Global Financial Impact', body: 'Independent contractor operating under GFI — giving me access to top-tier carriers without the limitations of captive agents.' },
