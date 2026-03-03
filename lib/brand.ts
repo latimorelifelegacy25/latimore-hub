@@ -6,6 +6,7 @@ export const BRAND = {
 
   tagline: 'Protecting Today. Securing Tomorrow.',
   hashtag: '#TheBeatGoesOn',
+    cardUrl: 'https://card.latimorelifelegacy.com',
 
   advisor: 'Jackson M. Latimore Sr., Founder & CEO',
   affiliation: 'In Affiliation with Global Financial Impact',
