@@ -14,6 +14,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/retirement`,          lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/consult`,             lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.9 },
     { url: `${BASE}/book`,                lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.9 },
+        
+    { url: `${BASE}/book-now`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.9 },
+
     { url: `${BASE}/about`,               lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.5 },
     { url: `${BASE}/faq`,                 lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     { url: `${BASE}/legal/privacy`,       lastModified: new Date(), changeFrequency: 'yearly',  priority: 0.2 },
