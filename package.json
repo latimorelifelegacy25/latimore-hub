@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    // Run the Prisma client generator and apply migrations in production before building.
-    // Using `prisma migrate deploy` ensures that only committed migrations are applied and
-    // avoids the data‑loss hazard of `prisma db push --accept-data-loss`.
+  
+  
+  
     "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "next lint",
