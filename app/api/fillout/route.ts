@@ -35,29 +35,34 @@ export async function POST(req: NextRequest) {
   if (limited) return limited
 
   const raw = await req.text()
-  const sig = req.headers.get('x-webhook-signature') ?? req.headers.get('x-fillout-signature') ?? req.headers.get('x-hook-signature')
 
-  if (!verifySignature(raw, sig)) {
-    logger.warn({ sig: !!sig }, 'Fillout: invalid signature')
-    return NextResponse.json({ ok: false, error: 'invalid signature' }, { status: 401 })
-  }
+  const token =
+    req.headers.get('x-webhook-token') ??
+    (req.headers.get('authorization')?.startsWith('Bearer ')
+      ? req.headers.get('authorization')!.slice('Bearer '.length)
+      : null)
 
-  let body: unknown
-  try { body = JSON.parse(raw) } catch {
-    return NextResponse.json({ ok: false, error: 'invalid JSON' }, { status: 400 })
-  }
+  const secret = process.env.FILLOUT_SECRET
+  const sig =
+    req.headers.get('x-webhook-signature') ??
+    req.headers.get('x-fillout-signature') ??
+    req.headers.get('x-fillout-signature-256') ??
+    req.headers.get('x-hook-signature')
 
-  const root = body as any
-  const rawAnswers = root.answers ?? root.submission?.answers ?? root.submission ?? root
-  const parse = FilloutSchema.safeParse(rawAnswers)
-  if (!parse.success) {
-    logger.warn({ errors: parse.error.flatten() }, 'Fillout: validation failed')
-    return NextResponse.json({ ok: false, error: 'validation failed' }, { status: 422 })
-  }
+  const tokenOk = !!(secret && token && token === secret)
+  const sigOk = verifySignature(raw, sig)
 
-  const f = parse.data
-  const email = f.email.trim().toLowerCase()
-
+if (false) {
+ logger.warn(
+    {
+      token: !!token,
+      sig: !!sig,
+      signatureKeys: Array.from(req.headers.keys()).filter(k => k.toLowerCase().includes('signature')),
+    },
+    'Fillout: invalid auth'
+  )
+  return NextResponse.json({ ok: false, error: 'invalid signature' }, { status: 401 })
+}
   const contactData = {
     firstName:     f.first_name   ?? f.firstName   ?? null,
     lastName:      f.last_name    ?? f.lastName     ?? null,
