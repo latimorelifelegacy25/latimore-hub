@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import type { ReactNode } from 'react'
 import { Eye, MousePointerClick, Link2, Target } from 'lucide-react'
 
 type ClickStat = { label: string | null; _count: { label: number } }

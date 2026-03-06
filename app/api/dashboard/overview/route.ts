@@ -12,16 +12,6 @@ export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
-  const overview = await getDashboardOverview()
-
-  return NextResponse.json({
-    kpis: {
-      leadsThisMonth: overview.kpis.leadsThisMonth,
-      clicksThisMonth: overview.kpis.clicksThisMonth,
-      bookingsThisMonth: overview.kpis.bookingsThisMonth,
-      staleLeads: overview.kpis.staleLeads,
-    },
-    highlights: overview.highlights,
-    pipeline: overview.pipeline.map((row) => ({ status: row.stage, count: row.count })),
-  })
+  const data = await getDashboardOverview()
+  return NextResponse.json(data)
 }

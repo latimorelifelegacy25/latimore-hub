@@ -4,23 +4,23 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
-import { normalizeStage } from '@/lib/hub/normalizers'
 
 export async function GET(req: NextRequest) {
-  const limited = rateLimit(req, 'inquiries')
+  const limited = rateLimit(req, 'reports')
   if (limited) return limited
-
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
-  const { searchParams } = new URL(req.url)
-  const stage = normalizeStage(searchParams.get('stage') ?? searchParams.get('status') ?? 'New')
+  const items = await prisma.$queryRaw<Array<{ page: string | null; count: bigint | number }>>`
+    SELECT "pageUrl" AS page, COUNT(*) AS count
+    FROM "Event"
+    WHERE "pageUrl" IS NOT NULL
+    GROUP BY 1
+    ORDER BY COUNT(*) DESC
+    LIMIT 50
+  `
 
-  const items = await prisma.inquiry.findMany({
-    where: { stage },
-    orderBy: { createdAt: 'desc' },
-    include: { contact: true },
+  return NextResponse.json({
+    items: items.map((row) => ({ page: row.page, count: Number(row.count) })),
   })
-
-  return NextResponse.json({ items })
 }

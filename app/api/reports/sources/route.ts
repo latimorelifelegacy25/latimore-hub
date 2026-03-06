@@ -2,25 +2,22 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
-import { normalizeStage } from '@/lib/hub/normalizers'
+import { getSourceReport } from '@/lib/hub/reporting'
 
 export async function GET(req: NextRequest) {
-  const limited = rateLimit(req, 'inquiries')
+  const limited = rateLimit(req, 'reports')
   if (limited) return limited
-
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
-  const { searchParams } = new URL(req.url)
-  const stage = normalizeStage(searchParams.get('stage') ?? searchParams.get('status') ?? 'New')
-
-  const items = await prisma.inquiry.findMany({
-    where: { stage },
-    orderBy: { createdAt: 'desc' },
-    include: { contact: true },
+  const items = await getSourceReport()
+  return NextResponse.json({
+    items: items.map((row) => ({
+      source: row.source,
+      medium: row.medium,
+      campaign: row.campaign,
+      count: row._count._all,
+    })),
   })
-
-  return NextResponse.json({ items })
 }

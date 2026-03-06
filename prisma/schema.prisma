@@ -3,76 +3,145 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-enum InterestType {
-  Velocity
-  Depth
-  Group
-}
-
-enum InquiryStatus {
-  New_Inquiry
+enum PipelineStage {
+  New
+  Attempted_Contact
   Qualified
   Booked
-  Closed_Won
-  Closed_Lost
+  Sold
+  Follow_Up
+  Lost
+}
+
+enum ProductInterest {
+  Mortgage_Protection
+  Final_Expense
+  Term_Life
+  Whole_Life
+  Child_Whole_Life
+  Accident
+  Critical_Illness
+  IUL
+  Annuity
+  Retirement
+  Business
+  General
+}
+
+enum EventType {
+  page_view
+  cta_click
+  call_click
+  text_click
+  email_click
+  book_click
+  form_submit
+  lead_created
+  appointment_booked
+  stage_changed
+  county_selected
+  product_selected
+  lead_magnet_download
+}
+
+model LeadSession {
+  id              String            @id
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  firstSeenAt     DateTime          @default(now())
+  lastSeenAt      DateTime          @default(now())
+  landingPage     String?
+  referrer        String?
+  source          String?
+  medium          String?
+  campaign        String?
+  term            String?
+  content         String?
+  county          String?
+  productInterest ProductInterest?
+  contactId       String?
+  contact         Contact?          @relation(fields: [contactId], references: [id])
+  inquiries       Inquiry[]
+  events          Event[]
+
+  @@index([source, medium, campaign])
+  @@index([county])
+  @@index([contactId])
 }
 
 model Contact {
-  id            String       @id @default(uuid())
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  email         String       @unique
-  firstName     String?
-  lastName      String?
-  phone         String?
-  county        String?
-  leadSessionId String?
-  utmSource     String?
-  utmMedium     String?
-  utmCampaign   String?
-  utmTerm       String?
-  utmContent    String?
-  referrer      String?
-  inquiries     Inquiry[]
-  appointments  Appointment[]
-  tasks         Task[]
-  events        Event[]
+  id              String        @id @default(uuid())
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  email           String?       @unique
+  firstName       String?
+  lastName        String?
+  phone           String?
+  county          String?
+  primarySource   String?
+  primaryMedium   String?
+  primaryCampaign String?
+  leadSessions    LeadSession[]
+  inquiries       Inquiry[]
+  appointments    Appointment[]
+  tasks           Task[]
+  events          Event[]
+
+  @@index([county])
+  @@index([phone])
 }
 
 model Inquiry {
-  id            String         @id @default(uuid())
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  contact       Contact        @relation(fields: [contactId], references: [id])
-  contactId     String
-  interestType  InterestType
-  status        InquiryStatus  @default(New_Inquiry)
-  notes         String?
-  source        String?
-  leadSessionId String?
-  appointments  Appointment[]
-  tasks         Task[]
-  history       InquiryStageHistory[]
+  id              String           @id @default(uuid())
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  contactId       String
+  contact         Contact          @relation(fields: [contactId], references: [id])
+  leadSessionId   String?
+  leadSession     LeadSession?     @relation(fields: [leadSessionId], references: [id])
+  stage           PipelineStage    @default(New)
+  productInterest ProductInterest  @default(General)
+  source          String?
+  medium          String?
+  campaign        String?
+  landingPage     String?
+  county          String?
+  notes           String?
+  appointments    Appointment[]
+  tasks           Task[]
+  history         InquiryStageHistory[]
+  events          Event[]
 
-  @@index([status])
-  @@index([interestType])
+  @@index([stage])
+  @@index([productInterest])
+  @@index([source, medium, campaign])
+  @@index([county])
+  @@index([contactId])
 }
 
 model Appointment {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(now())
-  contact   Contact   @relation(fields: [contactId], references: [id])
-  contactId String
-  inquiry   Inquiry?  @relation(fields: [inquiryId], references: [id])
-  inquiryId String?
-  gcalId    String?
-  startAt   DateTime?
-  endAt     DateTime?
-  location  String?
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  contactId     String
+  contact       Contact   @relation(fields: [contactId], references: [id])
+  inquiryId     String?
+  inquiry       Inquiry?  @relation(fields: [inquiryId], references: [id])
+  bookingSource String?
+  source        String?
+  medium        String?
+  campaign      String?
+  scheduledFor  DateTime?
+  status        String    @default("Booked")
+  location      String?
+
+  @@index([scheduledFor])
+  @@index([status])
 }
 
 model Task {
@@ -82,31 +151,50 @@ model Task {
   title     String
   status    String    @default("Open")
   dueAt     DateTime?
-  inquiry   Inquiry?  @relation(fields: [inquiryId], references: [id])
   inquiryId String?
-  contact   Contact?  @relation(fields: [contactId], references: [id])
+  inquiry   Inquiry?  @relation(fields: [inquiryId], references: [id])
   contactId String?
+  contact   Contact?  @relation(fields: [contactId], references: [id])
+
+  @@index([status])
+  @@index([dueAt])
 }
 
 model Event {
-  id            String    @id @default(uuid())
-  happenedAt    DateTime  @default(now())
-  kind          String
-  leadSessionId String?
-  contact       Contact?  @relation(fields: [contactId], references: [id])
-  contactId     String?
-  payload       Json
+  id              String           @id @default(uuid())
+  createdAt       DateTime         @default(now())
+  eventType       EventType
+  contactId       String?
+  contact         Contact?         @relation(fields: [contactId], references: [id])
+  inquiryId       String?
+  inquiry         Inquiry?         @relation(fields: [inquiryId], references: [id])
+  leadSessionId   String?
+  leadSession     LeadSession?     @relation(fields: [leadSessionId], references: [id])
+  pageUrl         String?
+  referrer        String?
+  source          String?
+  medium          String?
+  campaign        String?
+  county          String?
+  productInterest ProductInterest?
+  metadata        Json?
+  occurredAt      DateTime         @default(now())
 
-  @@index([kind])
+  @@index([eventType, occurredAt])
+  @@index([source, medium, campaign])
+  @@index([county])
+  @@index([contactId])
+  @@index([inquiryId])
+  @@index([leadSessionId])
 }
 
 model InquiryStageHistory {
   id         String         @id @default(uuid())
   changedAt  DateTime       @default(now())
-  inquiry    Inquiry        @relation(fields: [inquiryId], references: [id])
   inquiryId  String
-  fromStatus InquiryStatus?
-  toStatus   InquiryStatus
+  inquiry    Inquiry        @relation(fields: [inquiryId], references: [id])
+  fromStage  PipelineStage?
+  toStage    PipelineStage
   actor      String?
   note       String?
 
@@ -123,17 +211,4 @@ model EmailLog {
   status     String
   providerId String?
   error      String?
-}
-
-model CardEvent {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  event     String   // 'visit' | 'click'
-  label     String?
-  referrer  String?
-  userAgent String?
-  timestamp DateTime @default(now())
-
-  @@index([event])
-  @@index([timestamp])
 }

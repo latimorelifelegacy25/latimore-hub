@@ -51,10 +51,12 @@ git push -u origin main
 
 ### 2. Supabase
 1. New project at supabase.com
-2. Settings → Database → copy **Transaction** pooler URL (port 6543)
-3. Run locally:
+2. Settings → Database → copy both URLs:
+   - **Transaction / Pooler** URL (port 6543) → `DATABASE_URL`
+   - **Direct connection** URL (port 5432) → `DIRECT_URL`
+3. Deploy uses checked-in Prisma migrations automatically:
 ```bash
-npx prisma migrate deploy
+npm run db:deploy
 ```
 4. In SQL Editor → paste + run `supabase-rls.sql`
 
@@ -72,7 +74,7 @@ npx prisma migrate deploy
 ### 5. Vercel
 1. Import repo
 2. Framework: Next.js (auto-detected)
-3. Add all env vars from `.env.local.example`
+3. Add all env vars from `.env.local.example` (including `DIRECT_URL`)
 4. Generate NEXTAUTH_SECRET:
 ```bash
 openssl rand -base64 32
@@ -107,3 +109,6 @@ openssl rand -base64 32
 | Launch Readiness| 6.5/10| **9.5/10** |
 
 *#TheBeatGoesOn*
+
+## Fresh database note
+This package now includes a checked-in Prisma migration at `prisma/migrations/202603060001_init/migration.sql` and uses `prisma migrate deploy` during the build.
