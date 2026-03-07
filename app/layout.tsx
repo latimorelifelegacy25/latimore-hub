@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { Suspense } from 'react'
 import PublicTracker from './_components/public-tracker'
 
 // Set the canonical base domain used for generating absolute URLs and OpenGraph metadata.
@@ -111,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body><PublicTracker />{children}</body>
+      <body><Suspense fallback={null}><PublicTracker /></Suspense>{children}</body>
     </html>
   )
 }
