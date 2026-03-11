@@ -21,7 +21,7 @@ type TrackerContextValue = {
 };
 
 const SESSION_KEY = 'llh_sid';
-const HUB_API = process.env.NEXT_PUBLIC_HUB_API_URL ?? 'https://latimorehub.vercel.app';
+const HUB_API = process.env.NEXT_PUBLIC_HUB_API_URL ?? 'https://lifeandlegacy.vercel.app';
 const TrackerContext = createContext<TrackerContextValue | null>(null);
 
 export function useTracker() {

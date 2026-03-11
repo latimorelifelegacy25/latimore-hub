@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const ALLOWED_ORIGINS = [
   'https://www.latimorelifelegacy.com',
   'https://latimorelifelegacy.com',
-  'https://latimorehub.vercel.app',
+  'https://lifeandlegacy.vercel.app',
   ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000','http://localhost:3001'] : []),
 ];
 
