@@ -1,1 +1,12 @@
-{"framework": "nextjs", "buildCommand": "npm run build"}
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "fluid": true,
+  "regions": ["iad1"],
+  "buildCommand": "npm run build",
+  "crons": [
+    {
+      "path": "/api/cron/daily-summary",
+      "schedule": "0 13 * * *"
+    }
+  ]
+}
