@@ -1,29 +1,12 @@
-import { withAuth } from 'next-auth/middleware'
-import { NextResponse } from 'next/server'
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/lib/supabase/proxy";
 
-export default withAuth(
-  function middleware(req) {
-    // Log admin access attempts in production
-    if (req.nextUrl.pathname.startsWith('/admin')) {
-      const token = req.nextauth.token
-      if (!token) {
-        return NextResponse.redirect(new URL('/api/auth/signin', req.url))
-      }
-    }
-    return NextResponse.next()
-  },
-  {
-    callbacks: {
-      authorized: ({ token, req }) => {
-        if (req.nextUrl.pathname.startsWith('/admin')) {
-          return !!token
-        }
-        return true
-      },
-    },
-  }
-)
+export async function middleware(request: NextRequest) {
+  return updateSession(request);
+}
 
 export const config = {
-  matcher: ['/admin/:path*'],
-}
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};

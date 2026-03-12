@@ -1,20 +1,39 @@
-export const dynamic = 'force-dynamic'
-import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
-import { prisma } from '@/lib/prisma'
-import { rateLimit } from '@/lib/rate-limit'
+export const runtime = "nodejs";
 
-export async function GET(req: NextRequest) {
-  const limited = rateLimit(req, 'default')
-  if (limited) return limited
+import { NextRequest, NextResponse } from "next/server";
+import { requireUser } from "@/lib/auth";
+import { supabaseAdmin } from "@/lib/supabase/admin";
 
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+export async function POST(request: NextRequest) {
+  const user = await requireUser();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const items = await prisma.task.findMany({
-    orderBy: { dueAt: 'asc' },
-    include: { contact: true, inquiry: true },
-  })
-  return NextResponse.json({ items })
+  const body = await request.json();
+
+  const { data: task, error } = await supabaseAdmin
+    .from("tasks")
+    .insert({
+      owner_user_id: user.id,
+      title: body.title,
+      due_label: body.due_label || body.due || "Today",
+      priority: body.priority || "Medium",
+      done: false,
+      contact_id: body.contact_id || null,
+    })
+    .select("*")
+    .single();
+
+  if (error || !task) {
+    return NextResponse.json({ error: error?.message ?? "Unable to create task" }, { status: 400 });
+  }
+
+  await supabaseAdmin.from("activity_events").insert({
+    owner_user_id: user.id,
+    contact_id: task.contact_id,
+    event_type: "task",
+    text: `Task created: ${task.title}`,
+    metadata: { priority: task.priority },
+  });
+
+  return NextResponse.json({ ok: true, task });
 }
