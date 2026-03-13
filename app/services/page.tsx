@@ -1,19 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { BRAND } from '@/lib/brand'
 import {
-  TrendingUp, Lock, GraduationCap, CreditCard, Shield,
-  Building2, LineChart, Home, Users, Wallet, Menu, X,
-  Baby, Target, Briefcase, Landmark, HeartPulse, Wrench, Check
+  TrendingUp,
+  Lock,
+  GraduationCap,
+  CreditCard,
+  Shield,
+  Building2,
+  LineChart,
+  Home,
+  Users,
+  Wallet,
+  Menu,
+  X,
+  Baby,
+  Target,
+  Briefcase,
+  Landmark,
+  HeartPulse,
+  Wrench,
+  Check,
 } from 'lucide-react'
 
-// Types
 interface Service {
   number: string
-  icon: React.ReactNode
+  icon: ReactNode
   title: string
   who: string
   summary: string
@@ -21,12 +36,11 @@ interface Service {
 }
 
 interface ClientSegment {
-  icon: React.ReactNode
+  icon: ReactNode
   title: string
   description: string
 }
 
-// Constants
 const NAVY = '#0E1A2B'
 const GOLD = '#C9A24D'
 const GOLD_LIGHT = '#E5C882'
@@ -46,7 +60,8 @@ const services: Service[] = [
     icon: <TrendingUp size={28} aria-hidden="true" />,
     title: 'Tax-Advantaged Wealth Accumulation',
     who: 'Working professionals, self-employed individuals, high earners',
-    summary: 'Build wealth using vehicles that grow tax-deferred or tax-free — reducing what you pay the IRS over your lifetime.',
+    summary:
+      'Build wealth using vehicles that grow tax-deferred or tax-free — reducing what you pay the IRS over your lifetime.',
     points: [
       'Indexed and fixed strategies that grow without market risk',
       'Tax-deferred accumulation inside annuities and permanent life policies',
@@ -60,7 +75,8 @@ const services: Service[] = [
     icon: <Lock size={28} aria-hidden="true" />,
     title: 'Asset Protection & Plan Rollovers',
     who: 'Job changers, retirees, anyone with a 401(k), 403(b), or pension',
-    summary: 'When you leave a job or retire, your retirement funds need a safe destination. A strategic rollover protects your principal.',
+    summary:
+      'When you leave a job or retire, your retirement funds need a safe destination. A strategic rollover protects your principal.',
     points: [
       'Tax-free, penalty-free 401(k) and 403(b) rollover guidance',
       'Pension lump-sum vs. annuity analysis',
@@ -74,7 +90,8 @@ const services: Service[] = [
     icon: <GraduationCap size={28} aria-hidden="true" />,
     title: 'College Education Funding',
     who: "Parents and grandparents planning ahead for a child's education",
-    summary: 'Fund higher education without putting your retirement at risk — using strategies that grow tax-free.',
+    summary:
+      'Fund higher education without putting your retirement at risk — using strategies that grow tax-free.',
     points: [
       'Cash-value life insurance as a flexible education savings vehicle',
       'No restrictions on how funds are used — not just tuition',
@@ -88,7 +105,8 @@ const services: Service[] = [
     icon: <CreditCard size={28} aria-hidden="true" />,
     title: 'Debt Management',
     who: 'Families carrying high-interest debt limiting their financial progress',
-    summary: 'High-interest debt is one of the biggest barriers to building wealth. Strategic planning frees up cash flow.',
+    summary:
+      'High-interest debt is one of the biggest barriers to building wealth. Strategic planning frees up cash flow.',
     points: [
       'Identify which debts to prioritize and in what order',
       'Use policy cash value to consolidate or eliminate debt',
@@ -102,7 +120,8 @@ const services: Service[] = [
     icon: <Shield size={28} aria-hidden="true" />,
     title: 'Life Insurance & Living Benefits',
     who: 'Individuals and families at any stage of life',
-    summary: 'Life insurance is the foundation of financial protection. Modern policies include living benefit riders.',
+    summary:
+      'Life insurance is the foundation of financial protection. Modern policies include living benefit riders.',
     points: [
       'Term, whole life, and indexed universal life options',
       'Critical illness, chronic illness, and terminal illness riders',
@@ -116,7 +135,8 @@ const services: Service[] = [
     icon: <Building2 size={28} aria-hidden="true" />,
     title: 'Estate & Legacy Planning',
     who: 'Business owners, property owners, families wanting to transfer wealth',
-    summary: 'A proper estate strategy ensures your assets go to who you intend without being eroded by taxes or probate.',
+    summary:
+      'A proper estate strategy ensures your assets go to who you intend without being eroded by taxes or probate.',
     points: [
       'Life insurance as a tax-free wealth transfer vehicle',
       'Beneficiary designation review and optimization',
@@ -130,7 +150,8 @@ const services: Service[] = [
     icon: <LineChart size={28} aria-hidden="true" />,
     title: 'Indexed Growth Strategies',
     who: 'Savers and pre-retirees who want market-linked growth without market risk',
-    summary: 'Indexed products track market performance while protecting your principal with a floor.',
+    summary:
+      'Indexed products track market performance while protecting your principal with a floor.',
     points: [
       'Cash value linked to indexes like the S&P 500',
       'Zero-loss floor — market drops cannot reduce your balance',
@@ -144,7 +165,8 @@ const services: Service[] = [
     icon: <Home size={28} aria-hidden="true" />,
     title: 'Mortgage Protection',
     who: 'Homeowners with a mortgage and dependents relying on their income',
-    summary: 'If you pass away unexpectedly, your family should not lose the home. Mortgage protection ensures they stay.',
+    summary:
+      'If you pass away unexpectedly, your family should not lose the home. Mortgage protection ensures they stay.',
     points: [
       'Coverage designed to match your mortgage balance',
       'Pays directly to your beneficiary — not the lender',
@@ -158,7 +180,8 @@ const services: Service[] = [
     icon: <Users size={28} aria-hidden="true" />,
     title: 'Business & Key-Person Insurance',
     who: 'Small business owners, partnerships, organizations dependent on key staff',
-    summary: 'The sudden loss of a key employee can devastate a business. Key-person insurance provides capital to survive.',
+    summary:
+      'The sudden loss of a key employee can devastate a business. Key-person insurance provides capital to survive.',
     points: [
       'Policy owned by the business on a critical employee',
       'Tax-free death benefit received directly by the business',
@@ -172,7 +195,8 @@ const services: Service[] = [
     icon: <Wallet size={28} aria-hidden="true" />,
     title: 'Retirement Income Strategies',
     who: 'Pre-retirees and retirees wanting guaranteed income they cannot outlive',
-    summary: 'Running out of money in retirement is one of the greatest financial risks. Guaranteed income removes that fear.',
+    summary:
+      'Running out of money in retirement is one of the greatest financial risks. Guaranteed income removes that fear.',
     points: [
       'Fixed and fixed-indexed annuities for principal-protected accumulation',
       'Guaranteed lifetime income riders — payments you cannot outlive',
@@ -184,51 +208,196 @@ const services: Service[] = [
 ]
 
 const clientSegments: ClientSegment[] = [
-  { icon: <Baby size={32} />, title: 'Young Families', description: 'Income replacement, mortgage protection, and starting a savings strategy before costs rise with age.' },
-  { icon: <Target size={32} />, title: 'Pre-Retirees', description: '401(k) rollovers, safe-money accumulation, and guaranteed lifetime income planning.' },
-  { icon: <Briefcase size={32} />, title: 'Business Owners', description: 'Key-person coverage, buy-sell funding, and executive benefit strategies.' },
-  { icon: <Landmark size={32} />, title: 'Local Organizations', description: 'Key-person insurance for school districts, nonprofits, and municipal employers.' },
-  { icon: <HeartPulse size={32} />, title: 'Healthcare Workers', description: 'Disability protection, living benefits, and retirement income for shift workers.' },
-  { icon: <Wrench size={32} />, title: 'Trade Workers', description: 'Affordable term coverage, final expense planning, and mortgage protection for skilled trades.' },
+  {
+    icon: <Baby size={32} aria-hidden="true" />,
+    title: 'Young Families',
+    description:
+      'Income replacement, mortgage protection, and starting a savings strategy before costs rise with age.',
+  },
+  {
+    icon: <Target size={32} aria-hidden="true" />,
+    title: 'Pre-Retirees',
+    description:
+      '401(k) rollovers, safe-money accumulation, and guaranteed lifetime income planning.',
+  },
+  {
+    icon: <Briefcase size={32} aria-hidden="true" />,
+    title: 'Business Owners',
+    description:
+      'Key-person coverage, buy-sell funding, and executive benefit strategies.',
+  },
+  {
+    icon: <Landmark size={32} aria-hidden="true" />,
+    title: 'Local Organizations',
+    description:
+      'Key-person insurance for school districts, nonprofits, and municipal employers.',
+  },
+  {
+    icon: <HeartPulse size={32} aria-hidden="true" />,
+    title: 'Healthcare Workers',
+    description:
+      'Disability protection, living benefits, and retirement income for shift workers.',
+  },
+  {
+    icon: <Wrench size={32} aria-hidden="true" />,
+    title: 'Trade Workers',
+    description:
+      'Affordable term coverage, final expense planning, and mortgage protection for skilled trades.',
+  },
 ]
 
-// Components
+function CtaButtons({
+  centered = false,
+  large = false,
+}: {
+  centered?: boolean
+  large?: boolean
+}) {
+  const paddingClass = large ? 'px-8 py-3' : 'px-4 py-2'
+  const textClass = large ? 'text-base' : 'text-sm'
+
+  return (
+    <div className={`flex flex-wrap gap-4 ${centered ? 'justify-center' : ''}`}>
+      <a
+        href={BRAND.bookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`rounded-md font-bold no-underline transition-all hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C9A24D] focus-visible:ring-offset-[#0E1A2B] bg-[#C9A24D] text-[#0E1A2B] ${paddingClass} ${textClass}`}
+      >
+        Book Free Consultation
+      </a>
+      <a
+        href={BRAND.ethosUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`rounded-md font-bold no-underline transition-all hover:bg-[#C9A24D]/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#C9A24D] focus-visible:ring-offset-[#0E1A2B] bg-transparent text-white border-2 border-[#C9A24D] ${paddingClass} ${textClass}`}
+      >
+        Get Instant Quote
+      </a>
+    </div>
+  )
+}
+
+function NavLink({
+  href,
+  label,
+  onClick,
+  mobile = false,
+}: {
+  href: string
+  label: string
+  onClick?: () => void
+  mobile?: boolean
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={
+        mobile
+          ? 'text-white no-underline text-lg hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] rounded'
+          : 'text-white no-underline text-sm hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] rounded'
+      }
+    >
+      {label}
+    </Link>
+  )
+}
+
 function Nav() {
   const [open, setOpen] = useState(false)
 
   return (
-    <nav className="sticky top-0 z-50 shadow-lg" style={{ background: NAVY, padding: '1rem 0' }}>
+    <nav
+      className="sticky top-0 z-50 shadow-lg"
+      style={{ background: NAVY, padding: '1rem 0' }}
+      aria-label="Primary"
+    >
       <div className="max-w-6xl mx-auto px-5 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 no-underline text-white font-bold text-lg">
-          <Image src="/logo.jpg" alt={`${BRAND.name} Logo`} width={44} height={44} className="rounded-lg object-cover" priority />
-          {BRAND.name}
+        <Link
+          href="/"
+          className="flex items-center gap-2.5 no-underline text-white font-bold text-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] rounded"
+        >
+          <Image
+            src="/logo.jpg"
+            alt={`${BRAND.name} Logo`}
+            width={44}
+            height={44}
+            className="rounded-lg object-cover"
+            priority
+          />
+          <span>{BRAND.name}</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-5">
           {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} className="text-white no-underline text-sm hover:opacity-80 transition-opacity">{label}</Link>
+            <NavLink key={href} href={href} label={label} />
           ))}
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="bg-[#C9A24D] text-[#0E1A2B] px-4 py-2 rounded font-semibold no-underline text-sm hover:brightness-110 transition-all">Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" className="bg-[#E5C882] text-[#0E1A2B] px-4 py-2 rounded font-bold no-underline text-sm hover:brightness-110 transition-all">Get Quote</a>
+
+          <a
+            href={BRAND.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#C9A24D] text-[#0E1A2B] px-4 py-2 rounded font-semibold no-underline text-sm hover:brightness-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D]"
+          >
+            Book Consultation
+          </a>
+
+          <a
+            href={BRAND.ethosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#E5C882] text-[#0E1A2B] px-4 py-2 rounded font-bold no-underline text-sm hover:brightness-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D]"
+          >
+            Get Quote
+          </a>
         </div>
 
         <button
-          onClick={() => setOpen(!open)}
-          className="md:hidden bg-transparent border-none text-white p-2 cursor-pointer"
+          type="button"
+          onClick={() => setOpen((prev) => !prev)}
+          className="md:hidden bg-transparent border-none text-white p-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] rounded"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
+          aria-controls="mobile-menu"
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden flex flex-col gap-4 p-5" style={{ background: NAVY }}>
+        <div
+          id="mobile-menu"
+          className="md:hidden flex flex-col gap-4 p-5"
+          style={{ background: NAVY }}
+        >
           {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)} className="text-white no-underline text-lg hover:opacity-80 transition-opacity">{label}</Link>
+            <NavLink
+              key={href}
+              href={href}
+              label={label}
+              mobile
+              onClick={() => setOpen(false)}
+            />
           ))}
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="bg-[#C9A24D] text-[#0E1A2B] px-4 py-3 rounded font-semibold no-underline text-center hover:brightness-110 transition-all">Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" className="bg-[#E5C882] text-[#0E1A2B] px-4 py-3 rounded font-bold no-underline text-center hover:brightness-110 transition-all">Get Quote</a>
+
+          <a
+            href={BRAND.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#C9A24D] text-[#0E1A2B] px-4 py-3 rounded font-semibold no-underline text-center hover:brightness-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D]"
+          >
+            Book Consultation
+          </a>
+
+          <a
+            href={BRAND.ethosUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#E5C882] text-[#0E1A2B] px-4 py-3 rounded font-bold no-underline text-center hover:brightness-110 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D]"
+          >
+            Get Quote
+          </a>
         </div>
       )}
     </nav>
@@ -241,38 +410,137 @@ function Footer() {
       <div className="max-w-6xl mx-auto px-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
-            <h4 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">{BRAND.name}</h4>
-            <p className="text-white/70 text-sm leading-relaxed">Protection-first strategies for working families across Central Pennsylvania.</p>
+            <h2 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">
+              {BRAND.name}
+            </h2>
+            <p className="text-white/70 text-sm leading-relaxed">
+              Protection-first strategies for working families across Central Pennsylvania.
+            </p>
             <div className="flex gap-4 mt-4">
-              {[['Instagram', BRAND.instagram], ['LinkedIn', BRAND.linkedin], ['Facebook', BRAND.facebook]].map(([label, href]) => (
-                <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="text-white/80 text-sm hover:opacity-80 transition-opacity">{label}</a>
+              {[
+                ['Instagram', BRAND.instagram],
+                ['LinkedIn', BRAND.linkedin],
+                ['Facebook', BRAND.facebook],
+              ].map(([label, href]) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 text-sm hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] rounded"
+                >
+                  {label}
+                </a>
               ))}
             </div>
           </div>
+
           <div>
-            <h4 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">Quick Links</h4>
+            <h2 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">
+              Quick Links
+            </h2>
             {navLinks.map(([href, label]) => (
-              <Link key={href} href={href} className="block text-white/80 text-sm mb-2 hover:opacity-80 transition-opacity">{label}</Link>
+              <Link
+                key={href}
+                href={href}
+                className="block text-white/80 text-sm mb-2 hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D] rounded"
+              >
+                {label}
+              </Link>
             ))}
           </div>
+
           <div>
-            <h4 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">Contact</h4>
+            <h2 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">
+              Contact
+            </h2>
             <p className="text-white/80 text-sm mb-1">{BRAND.phone}</p>
             <p className="text-white/80 text-sm">{BRAND.email}</p>
           </div>
+
           <div>
-            <h4 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">Get Started</h4>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="inline-block bg-[#C9A24D] text-[#0E1A2B] px-4 py-2 rounded font-semibold no-underline text-sm hover:brightness-110 transition-all mb-2">Book Consultation</a>
+            <h2 style={{ color: GOLD_LIGHT }} className="mb-4 font-semibold">
+              Get Started
+            </h2>
+            <a
+              href={BRAND.bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-[#C9A24D] text-[#0E1A2B] px-4 py-2 rounded font-semibold no-underline text-sm hover:brightness-110 transition-all mb-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C9A24D]"
+            >
+              Book Consultation
+            </a>
           </div>
         </div>
+
         <div className="border-t border-white/15 pt-6 text-center">
           <p className="text-xs text-white/50 mb-2 max-w-4xl mx-auto">
-            Licensed in Pennsylvania (DOI #{BRAND.paLicense}, NIPR #{BRAND.nipr}). Independent contractor affiliated with Global Financial Impact. For educational purposes only; not tax or legal advice.
+            Licensed in Pennsylvania (DOI #{BRAND.paLicense}, NIPR #{BRAND.nipr}).
+            Independent contractor affiliated with Global Financial Impact. For educational
+            purposes only; not tax or legal advice.
           </p>
-          <p className="text-white/40 text-sm">© {new Date().getFullYear()} Latimore Life & Legacy LLC. All rights reserved.</p>
+          <p className="text-white/40 text-sm">
+            © {new Date().getFullYear()} Latimore Life &amp; Legacy LLC. All rights
+            reserved.
+          </p>
         </div>
       </div>
     </footer>
+  )
+}
+
+function ServiceCard({ service }: { service: Service }) {
+  return (
+    <article className="bg-white rounded-xl shadow-md border border-black/5 overflow-hidden">
+      <div className="p-6" style={{ background: NAVY }}>
+        <div className="flex items-center gap-4 mb-3">
+          <span className="font-extrabold text-lg" style={{ color: GOLD }}>
+            {service.number}
+          </span>
+          <span className="text-2xl text-white" aria-hidden="true">
+            {service.icon}
+          </span>
+        </div>
+
+        <h3 className="text-white text-xl font-semibold mb-1">{service.title}</h3>
+        <p className="text-sm" style={{ color: GOLD_LIGHT }}>
+          Best for: {service.who}
+        </p>
+      </div>
+
+      <div className="p-6">
+        <p className="text-gray-700 leading-relaxed mb-4 text-sm">{service.summary}</p>
+
+        <ul className="space-y-2">
+          {service.points.map((point) => (
+            <li key={point} className="flex gap-3 text-gray-700 text-sm">
+              <Check
+                size={16}
+                className="flex-shrink-0 mt-0.5"
+                style={{ color: GOLD }}
+                aria-hidden="true"
+              />
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </article>
+  )
+}
+
+function ClientSegmentCard({ segment }: { segment: ClientSegment }) {
+  return (
+    <article
+      className="rounded-xl p-6 border border-white/10 hover:border-[#C9A24D]/50 transition-all"
+      style={{ background: 'rgba(255,255,255,0.05)' }}
+    >
+      <div className="mb-4" style={{ color: GOLD }} aria-hidden="true">
+        {segment.icon}
+      </div>
+      <h3 className="text-white font-semibold text-lg mb-2">{segment.title}</h3>
+      <p className="text-white/65 text-sm leading-relaxed">{segment.description}</p>
+    </article>
   )
 }
 
@@ -280,123 +548,118 @@ export default function ServicesPage() {
   return (
     <>
       <Nav />
-      <main className="font-sans">
 
-        {/* Header */}
-        <section className="text-center text-white py-16" style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #1a2942 100%)` }}>
+      <main className="font-sans">
+        <section
+          className="text-center text-white py-16"
+          style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #1a2942 100%)` }}
+        >
           <div className="max-w-3xl mx-auto px-5">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-4" style={{ color: GOLD_LIGHT }}>What We Do</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5 leading-tight">
-              10 Strategies to<br />
-              <span style={{ color: GOLD_LIGHT }}>Build, Protect & Transfer Wealth</span>
-            </h1>
-            <p className="text-white/85 text-lg leading-relaxed mb-8">
-              As an independent consultant, every strategy is customized to your income, family situation, and goals — not a product quota.
+            <p
+              className="text-sm font-semibold tracking-widest uppercase mb-4"
+              style={{ color: GOLD_LIGHT }}
+            >
+              What We Do
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" className="bg-[#C9A24D] text-[#0E1A2B] px-8 py-3 rounded-md font-bold no-underline hover:brightness-110 transition-all">Book Free Consultation</a>
-              <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" className="bg-transparent text-white border-2 border-[#C9A24D] px-8 py-3 rounded-md font-bold no-underline hover:bg-[#C9A24D]/10 transition-all">Get Instant Quote</a>
-            </div>
+
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-5 leading-tight">
+              10 Strategies to
+              <br />
+              <span style={{ color: GOLD_LIGHT }}>Build, Protect &amp; Transfer Wealth</span>
+            </h1>
+
+            <p className="text-white/85 text-lg leading-relaxed mb-8">
+              As an independent consultant, every strategy is customized to your income,
+              family situation, and goals — not a product quota.
+            </p>
+
+            <CtaButtons centered large />
           </div>
         </section>
 
-        {/* Services Grid */}
-        <section className="py-16 bg-gray-100">
+        <section className="py-16 bg-gray-100" aria-labelledby="services-heading">
           <div className="max-w-6xl mx-auto px-5">
+            <div className="text-center mb-10">
+              <h2 id="services-heading" className="text-3xl md:text-4xl font-bold text-gray-900">
+                Services
+              </h2>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-8">
-              {services.map((s) => (
-                <div key={s.number} className="bg-white rounded-xl shadow-md border border-black/5 overflow-hidden">
-                  <div className="p-6" style={{ background: NAVY }}>
-                    <div className="flex items-center gap-4 mb-3">
-                      <span className="font-extrabold text-lg" style={{ color: GOLD }}>{s.number}</span>
-                      <span className="text-2xl text-white">{s.icon}</span>
-                    </div>
-                    <h2 className="text-white text-xl font-semibold mb-1">{s.title}</h2>
-                    <p className="text-sm" style={{ color: GOLD_LIGHT }}>Best for: {s.who}</p>
-                  </div>
-                  <div className="p-6">
-                    <p className="text-gray-700 leading-relaxed mb-4 text-sm">{s.summary}</p>
-                    <ul className="space-y-2">
-                      {s.points.map((p, i) => (
-                        <li key={i} className="flex gap-3 text-gray-700 text-sm">
-                          <Check size={16} className="flex-shrink-0 mt-0.5" style={{ color: GOLD }} />
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+              {services.map((service) => (
+                <ServiceCard key={service.number} service={service} />
               ))}
             </div>
           </div>
         </section>
 
-        {/* Who We Serve */}
-        <section className="py-16" style={{ background: NAVY }}>
+        <section
+          className="py-16"
+          style={{ background: NAVY }}
+          aria-labelledby="who-we-serve-heading"
+        >
           <div className="max-w-6xl mx-auto px-5">
             <div className="text-center mb-12">
-              <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: GOLD_LIGHT }}>Who We Serve</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Built for the Communities<br />
-                <span style={{ color: GOLD_LIGHT }}>That Built Central Pennsylvania</span>
+              <p
+                className="text-sm font-semibold tracking-widest uppercase mb-3"
+                style={{ color: GOLD_LIGHT }}
+              >
+                Who We Serve
+              </p>
+
+              <h2
+                id="who-we-serve-heading"
+                className="text-3xl md:text-4xl font-bold text-white mb-4"
+              >
+                Built for the Communities
+                <br />
+                <span style={{ color: GOLD_LIGHT }}>
+                  That Built Central Pennsylvania
+                </span>
               </h2>
+
               <p className="text-white/75 text-lg max-w-2xl mx-auto">
-                Every strategy is shaped around where you are in life — your income, your family, and what you're trying to protect.
+                Every strategy is shaped around where you are in life — your income, your
+                family, and what you&apos;re trying to protect.
               </p>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {clientSegments.map((seg) => (
-                <div
-                  key={seg.title}
-                  className="rounded-xl p-6 border border-white/10 hover:border-[#C9A24D]/50 transition-all"
-                  style={{ background: 'rgba(255,255,255,0.05)' }}
-                >
-                  <div className="mb-4" style={{ color: GOLD }}>{seg.icon}</div>
-                  <h3 className="text-white font-semibold text-lg mb-2">{seg.title}</h3>
-                  <p className="text-white/65 text-sm leading-relaxed">{seg.description}</p>
-                </div>
+              {clientSegments.map((segment) => (
+                <ClientSegmentCard key={segment.title} segment={segment} />
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA Band */}
         <section
           className="py-16 text-center text-white"
           style={{ background: `linear-gradient(135deg, #1a2942 0%, ${NAVY} 100%)` }}
         >
           <div className="max-w-2xl mx-auto px-5">
-            <p className="text-sm font-semibold tracking-widest uppercase mb-3" style={{ color: GOLD_LIGHT }}>Ready to Start?</p>
+            <p
+              className="text-sm font-semibold tracking-widest uppercase mb-3"
+              style={{ color: GOLD_LIGHT }}
+            >
+              Ready to Start?
+            </p>
+
             <h2 className="text-3xl md:text-4xl font-bold mb-4 leading-tight">
-              Let's Build a Strategy<br />
+              Let&apos;s Build a Strategy
+              <br />
               <span style={{ color: GOLD_LIGHT }}>Around Your Life</span>
             </h2>
+
             <p className="text-white/75 text-lg mb-8 leading-relaxed">
-              No pressure. No product quotas. Just an honest conversation about where you are and where you want to go.
+              No pressure. No product quotas. Just an honest conversation about where you
+              are and where you want to go.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href={BRAND.bookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-[#C9A24D] text-[#0E1A2B] px-8 py-3 rounded-md font-bold no-underline hover:brightness-110 transition-all"
-              >
-                Book Free Consultation
-              </a>
-              <a
-                href={BRAND.ethosUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-transparent text-white border-2 border-[#C9A24D] px-8 py-3 rounded-md font-bold no-underline hover:bg-[#C9A24D]/10 transition-all"
-              >
-                Get Instant Quote
-              </a>
-            </div>
+
+            <CtaButtons centered large />
           </div>
         </section>
-
       </main>
+
       <Footer />
     </>
   )
