@@ -197,14 +197,16 @@ model Inquiry {
   county          String?
   notes           String?
   leadScore       Int                   @default(0)
-  appointments    Appointment[]
-  tasks           Task[]
-  history         InquiryStageHistory[]
-  events          Event[]
-  notesEntries    Note[]
-  systemEvents    SystemEvent[]
-  aiRuns          AiRun[]
-  calendarEvents  CalendarEvent[]
+  appointments          Appointment[]
+  tasks                 Task[]
+  history               InquiryStageHistory[]
+  events                Event[]
+  notesEntries          Note[]
+  systemEvents          SystemEvent[]
+  aiRuns                AiRun[]
+  calendarEvents        CalendarEvent[]
+  conversationThreads   ConversationThread[]
+  conversationMessages  ConversationMessage[]
 
   @@index([stage])
   @@index([productInterest])
