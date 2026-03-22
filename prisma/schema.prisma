@@ -201,10 +201,13 @@ model Inquiry {
   tasks           Task[]
   history         InquiryStageHistory[]
   events          Event[]
-  notesEntries    Note[]
-  systemEvents    SystemEvent[]
-  aiRuns          AiRun[]
-  calendarEvents  CalendarEvent[]
+  notesEntries         Note[]
+  systemEvents         SystemEvent[]
+  aiRuns               AiRun[]
+  calendarEvents       CalendarEvent[]
+  conversationThreads  ConversationThread[]
+  conversationMessages ConversationMessage[]
+
 
   @@index([stage])
   @@index([productInterest])
