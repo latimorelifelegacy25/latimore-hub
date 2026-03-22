@@ -5,8 +5,7 @@ import { BRAND } from '@/lib/brand'
 
 export const metadata: Metadata = {
   title: 'PAHS Football 2026',
-  description:
-    'Proud sponsor of Pottsville Area High School Football 2026. Start with a quick quote, digital business card, or the full Latimore Life & Legacy website.',
+  description: 'Proud sponsor of Pottsville Area High School Football 2026.',
 }
 
 const navy = '#223446'
@@ -19,9 +18,7 @@ function TopActions() {
   return (
     <div style={{ display: 'grid', gap: 12, marginTop: 22 }}>
       <Link
-        href="/pahs/start?utm_source=pahs&utm_medium=qr&utm_campaign=football2026"
-        data-track="true"
-        data-track-event="cta_click"
+        href="/pahs/start?utm_source=pahs_stadium&utm_medium=qr&utm_campaign=crimson_tide_football_2026"
         style={{
           display: 'block',
           textDecoration: 'none',
@@ -32,17 +29,15 @@ function TopActions() {
           padding: '16px 18px',
           borderRadius: 16,
           boxShadow: '0 14px 28px rgba(0,0,0,0.18)',
+          textAlign: 'center',
         }}
       >
         Quick Quote →
       </Link>
-
       
         href={BRAND.cardUrl}
         target="_blank"
         rel="noopener noreferrer"
-        data-track="true"
-        data-track-event="cta_click"
         style={{
           display: 'block',
           textDecoration: 'none',
@@ -52,17 +47,15 @@ function TopActions() {
           borderRadius: 16,
           fontWeight: 700,
           background: 'rgba(255,255,255,0.03)',
+          textAlign: 'center',
         }}
       >
         Digital Business Card
       </a>
-
       
         href={BRAND.baseUrl}
         target="_blank"
         rel="noopener noreferrer"
-        data-track="true"
-        data-track-event="cta_click"
         style={{
           display: 'inline-block',
           textDecoration: 'none',
@@ -74,7 +67,6 @@ function TopActions() {
       >
         Website
       </a>
-
       <div style={{ color: 'rgba(255,255,255,0.62)', fontSize: '0.86rem', textAlign: 'center' }}>
         No pressure. Takes under 60 seconds.
       </div>
@@ -105,9 +97,6 @@ export default function PahsPage() {
       >
         <div style={{ padding: '32px 22px 38px' }}>
           <div style={{ textAlign: 'center', color: gold, fontWeight: 800, letterSpacing: '0.22em', fontSize: '0.86rem' }}>
-            #ROLLTIDE
-          </div>
-          <div style={{ textAlign: 'center', color: gold, fontWeight: 700, letterSpacing: '0.2em', fontSize: '0.98rem', marginTop: 12 }}>
             PAHS FOOTBALL 2026
           </div>
           <h1
@@ -135,7 +124,8 @@ export default function PahsPage() {
               lineHeight: 1.7,
             }}
           >
-            Proud sponsor of Pottsville Area High School Football 2026 — protecting families and futures in the Coal Region, one Friday night at a time.
+            Proud sponsor of Pottsville Area High School Football 2026 — protecting families
+            and futures in the Coal Region, one Friday night at a time.
           </p>
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 28 }}>
@@ -150,25 +140,35 @@ export default function PahsPage() {
                 background: 'rgba(255,255,255,0.06)',
               }}
             >
-              <Image src="/jackson-headshot.jpg" alt="Jackson Latimore" width={188} height={188} style={{ width: '100%', height: '100%', objectFit: 'cover' }} priority />
+              <Image
+                src="/jackson-headshot.jpg"
+                alt="Jackson Latimore"
+                width={188}
+                height={188}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                priority
+              />
             </div>
           </div>
 
           <div style={{ maxWidth: 610, margin: '30px auto 0', color: white }}>
-            <h2 style={{ fontSize: 'clamp(1.8rem, 5.2vw, 2.4rem)', margin: 0, lineHeight: 1.15 }}>Hi, I&apos;m Jackson Latimore.</h2>
-
+            <h2 style={{ fontSize: 'clamp(1.8rem, 5.2vw, 2.4rem)', margin: 0, lineHeight: 1.15 }}>
+              Hi, I&apos;m Jackson Latimore.
+            </h2>
             <p style={{ color: text, fontSize: 'clamp(1.08rem, 3.9vw, 1.36rem)', lineHeight: 1.8, marginTop: 22 }}>
-              On December 7, 2010, an AED saved my life during a college basketball game. That defibrillator was placed by the Gregory W. Moyer Fund — honoring a 15-year-old who died from sudden cardiac arrest in 2000.
+              On December 7, 2010, an AED saved my life during a college basketball game.
+              That defibrillator was placed by the Gregory W. Moyer Fund — honoring a
+              15-year-old who died from sudden cardiac arrest in 2000.
             </p>
-
             <p style={{ color: text, fontSize: 'clamp(1.08rem, 3.9vw, 1.36rem)', lineHeight: 1.8, marginTop: 18 }}>
-              My second chance became my mission. Today, I&apos;m proud to support Pottsville Area High School Football and help local families protect income, preserve options, and secure what matters most.
+              My second chance became my mission. Today, I&apos;m proud to support Pottsville
+              Area High School Football and help local families protect income, preserve
+              options, and secure what matters most.
             </p>
-
             <div
               style={{
                 marginTop: 24,
-                padding: '18px 18px',
+                padding: '18px',
                 borderRadius: 18,
                 background: 'rgba(255,255,255,0.06)',
                 borderLeft: `4px solid ${gold}`,

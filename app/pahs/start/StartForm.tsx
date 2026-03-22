@@ -19,9 +19,9 @@ export default function StartForm() {
   const utm = useMemo(() => {
     const params = new URLSearchParams(searchParams?.toString())
     return {
-      source: params.get('utm_source') || 'pahs',
+      source: params.get('utm_source') || 'pahs_stadium',
       medium: params.get('utm_medium') || 'qr',
-      campaign: params.get('utm_campaign') || 'football2026',
+      campaign: params.get('utm_campaign') || 'crimson_tide_football_2026',
       term: params.get('utm_term') || null,
       content: params.get('utm_content') || 'bridge_page',
     }
@@ -39,7 +39,7 @@ export default function StartForm() {
 
     if (!email && !phone) {
       setStatus('error')
-      setError('Add an email or phone number so the hub can capture your info before quote transfer.')
+      setError('Please add an email or phone number.')
       return
     }
 
@@ -87,10 +87,7 @@ export default function StartForm() {
           medium: utm.medium,
           campaign: utm.campaign,
           productInterest: 'Term_Life',
-          metadata: {
-            county: county || null,
-            handoff: 'ethos',
-          },
+          metadata: { county: county || null, handoff: 'ethos' },
         }),
       }).catch(() => null)
 
@@ -104,7 +101,7 @@ export default function StartForm() {
       router.push(ethosUrl.toString())
     } catch {
       setStatus('error')
-      setError('The lead did not save to your hub. Fix the API before routing traffic here.')
+      setError('Could not save to hub. Please try again.')
     }
   }
 
@@ -117,14 +114,11 @@ export default function StartForm() {
       <input name="email" type="email" placeholder="Email address" style={inputStyle} />
       <input name="phone" type="tel" placeholder="Phone number" style={inputStyle} />
       <select name="county" defaultValue="" style={{ ...inputStyle, color: 'white' }}>
-        <option value="" disabled style={{ color: '#111827' }}>
-          County (optional)
-        </option>
+        <option value="" disabled style={{ color: '#111827' }}>County (optional)</option>
         <option value="Schuylkill" style={{ color: '#111827' }}>Schuylkill</option>
         <option value="Luzerne" style={{ color: '#111827' }}>Luzerne</option>
         <option value="Northumberland" style={{ color: '#111827' }}>Northumberland</option>
       </select>
-
       <button
         type="submit"
         disabled={status === 'submitting'}
@@ -141,30 +135,11 @@ export default function StartForm() {
           opacity: status === 'submitting' ? 0.8 : 1,
         }}
       >
-        {status === 'submitting' ? 'Saving to hub…' : 'Continue to Quick Quote →'}
+        {status === 'submitting' ? 'Saving…' : 'Continue to Quick Quote →'}
       </button>
-
-      
-        href={BRAND.cardUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ color: gold, textDecoration: 'none', fontWeight: 700, textAlign: 'center', marginTop: 2 }}
-      >
-        Digital Business Card
-      </a>
-      
-        href={BRAND.baseUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{ color: 'rgba(255,255,255,0.72)', textDecoration: 'none', fontWeight: 600, textAlign: 'center' }}
-      >
-        Website
-      </a>
-
       <div style={{ color: 'rgba(255,255,255,0.62)', fontSize: '0.84rem', textAlign: 'center' }}>
-        Your info hits the hub first, then routes to Ethos.
+        Your info saves to the hub first, then routes to Ethos.
       </div>
-
       {error ? (
         <div style={{ color: '#fecaca', background: 'rgba(127,29,29,0.45)', border: '1px solid rgba(248,113,113,0.55)', borderRadius: 12, padding: 12, fontSize: '0.92rem' }}>
           {error}
@@ -180,7 +155,7 @@ const inputStyle: CSSProperties = {
   border: '1px solid rgba(255,255,255,0.14)',
   background: 'rgba(255,255,255,0.06)',
   color: 'white',
-  padding: '14px 14px',
+  padding: '14px',
   fontSize: '1rem',
   outline: 'none',
 }

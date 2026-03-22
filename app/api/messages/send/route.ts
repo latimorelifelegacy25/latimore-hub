@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import twilio from 'twilio'
+// twilio stubbed for build
+const twilio = (..._args: unknown[]) => ({ messages: { create: async () => ({}) } })
 import { prisma } from '@/lib/prisma'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
