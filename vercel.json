@@ -1,1 +1,9 @@
-{"framework":"nextjs","buildCommand":"npx prisma generate && next build","crons":[{"path":"/api/cron/daily-summary","schedule":"0 11 * * *"},{"path":"/api/cron/ai-brief","schedule":"0 13 * * *"}]}
+{
+  "framework": "nextjs",
+  "buildCommand": "npx prisma generate && npx prisma migrate deploy && next build",
+  "crons": [
+    { "path": "/api/cron/daily-summary",         "schedule": "0 15 * * *" },
+    { "path": "/api/cron/ai-brief",              "schedule": "0 17 * * *" },
+    { "path": "/api/cron/appointment-reminders", "schedule": "0 * * * *"  }
+  ]
+}
