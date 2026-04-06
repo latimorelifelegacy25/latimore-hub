@@ -187,6 +187,20 @@ export default function ContactPage() {
           </div>
         </section>
 
+        {/* Fillout Inline Form */}
+        <section style={{ padding: '4rem 0', background: '#fff' }}>
+          <div style={{ maxWidth: 780, margin: '0 auto', padding: '0 20px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+              <h2 style={{ color: navy, fontSize: 'clamp(1.6rem,3.5vw,2.2rem)', marginBottom: '1rem' }}>Send Jackson a Message</h2>
+              <p style={{ color: '#555', fontSize: '1rem', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>Fill out the form below and expect a response within one business day.</p>
+            </div>
+            <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.10)' }}>
+              <iframe src="https://latimorelifelegacy.fillout.com/latimorelifelegacy?utm_source=website&utm_medium=contact_page&utm_campaign=direct_inquiry&embed=1" width="100%" height="600" frameBorder={0} style={{ display: 'block', border: 'none' }} title="Contact Jackson Latimore" />
+            </div>
+            <p style={{ textAlign: 'center', marginTop: '1rem', color: '#888', fontSize: '0.82rem' }}>Prefer a call? <a href={`tel:${BRAND.phoneRaw}`} style={{ color: gold, fontWeight: 700, textDecoration: 'none' }}>{BRAND.phone}</a></p>
+          </div>
+        </section>
+
         {/* Social / Location */}
         <section style={{ background: navy, padding: '4rem 0' }}>
           <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 20px', textAlign: 'center' }}>

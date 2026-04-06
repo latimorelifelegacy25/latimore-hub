@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import { ArrowLeft, BarChart3, Bot, CalendarDays, CheckSquare, FileText, LayoutDashboard, MessageSquareText, KanbanSquare, Users, Smartphone } from 'lucide-react'
+import { ArrowLeft, BarChart3, Bot, CalendarDays, CheckSquare, ContactRound, FileText, LayoutDashboard, MessageSquareText, KanbanSquare, Users, Smartphone } from 'lucide-react'
 
 const navItems = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
+  { href: '/admin/crm', label: 'CRM', icon: ContactRound },
   { href: '/admin/contacts', label: 'Contacts', icon: Users },
   { href: '/admin/pipeline', label: 'Pipeline', icon: KanbanSquare },
   { href: '/admin/messages', label: 'Messages', icon: MessageSquareText },
