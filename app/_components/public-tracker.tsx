@@ -164,12 +164,23 @@ export default function PublicTracker() {
     const context = hydrateLeadContext({ pageUrl })
 
     void sendEvent({
-      ...context,
-      eventType: 'page_view',
-      metadata: {
-        title: typeof document !== 'undefined' ? document.title : '',
-      },
+  leadSessionId: context.leadSessionId,
+  pageUrl: context.pageUrl,
+  referrer: context.referrer,
+  source: context.source,
+  medium: context.medium,
+  campaign: context.campaign,
+  term: context.term,
+  content: context.content,
+  county: null,
+  productInterest: null,
+  eventType: 'page_view',
+  metadata: {
+    title: typeof document !== 'undefined' ? document.title : '',
+  },
     })
+
+
   }, [pathname, searchParams])
 
   useEffect(() => {

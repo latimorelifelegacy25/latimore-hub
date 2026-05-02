@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { cleanString, normalizeEventType, normalizeProductInterest } from './normalizers'
+import type { Prisma } from '@prisma/client'
 
 export type EventIngestInput = {
   eventType: string
@@ -66,7 +67,7 @@ export async function ingestEvent(input: EventIngestInput) {
       campaign: cleanString(input.campaign, 150) ?? undefined,
       county: cleanString(input.county, 100) ?? undefined,
       productInterest: input.productInterest ? normalizeProductInterest(input.productInterest) : undefined,
-      metadata: input.metadata ?? undefined,
+      metadata: (input.metadata as Prisma.InputJsonValue) ?? undefined,
     },
   })
 }

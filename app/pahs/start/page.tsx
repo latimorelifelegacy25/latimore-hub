@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import Image from 'next/image'
-import { Suspense } from "react"
 import StartForm from './StartForm'
 
 export const metadata: Metadata = {
@@ -53,7 +53,9 @@ export default function PahsStartPage() {
           </div>
 
           <div style={{ maxWidth: 500, margin: '28px auto 0' }}>
-            <Suspense fallback={<div>Loading2026</div>}><StartForm /></Suspense>
+            <Suspense fallback={<div style={{ color: '#FFFFFF', textAlign: 'center' }}>Loading form...</div>}>
+              <StartForm />
+            </Suspense>
           </div>
         </div>
       </section>

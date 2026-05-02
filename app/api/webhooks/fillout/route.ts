@@ -61,12 +61,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid signature' }, { status: 401 })
   }
 
-  let body: unknown = null
-  try {
+  let body: unknown
+   try {
     body = raw ? JSON.parse(raw) : null
-  } catch {
-    return NextResponse.json({ ok: false, error: 'invalid json' }, { status: 400 })
-  }
+   } catch {
+   return NextResponse.json({ ok: false, error: 'invalid json' }, { status: 400 })
+   }
 
   const parse = FilloutSchema.safeParse(body)
   if (!parse.success) return NextResponse.json({ ok: false, error: parse.error.flatten() }, { status: 422 })

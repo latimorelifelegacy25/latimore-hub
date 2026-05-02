@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-// twilio stubbed for build
-const twilio = (..._args: unknown[]) => ({ messages: { create: async () => ({}) } })
+import twilio from 'twilio'
 import { prisma } from '@/lib/prisma'
 
 const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN

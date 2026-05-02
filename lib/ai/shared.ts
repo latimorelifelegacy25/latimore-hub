@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
 import { logger } from '@/lib/logger'
+import type { Prisma } from '@prisma/client'
 
 export async function requireAdminSession() {
   if (process.env.DISABLE_ADMIN_AUTH === 'true') return { ok: true as const, session: null }
@@ -35,7 +36,7 @@ export async function createAiRun(input: {
       status: AiRunStatus.running,
       contactId: input.contactId ?? undefined,
       inquiryId: input.inquiryId ?? undefined,
-      input: input.input,
+      input: input.input as Prisma.InputJsonValue,
       model: input.model,
     },
   })
@@ -53,7 +54,7 @@ export async function completeAiRun(input: {
     where: { id: input.aiRunId },
     data: {
       status: AiRunStatus.succeeded,
-      output: input.output,
+      output: input.output as Prisma.InputJsonValue,
       model: input.model,
       tokensInput: input.tokensInput,
       tokensOutput: input.tokensOutput,
@@ -89,7 +90,7 @@ export async function createSystemAiEvent(input: {
         type: input.type,
         contactId: input.contactId ?? undefined,
         inquiryId: input.inquiryId ?? undefined,
-        payload: input.payload,
+        payload: input.payload as Prisma.InputJsonValue,
       },
     })
   } catch (error) {

@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { rateLimit } from '@/lib/rate-limit'
 import { getCountyReport } from '@/lib/hub/reporting'
+import { countAll } from '@/lib/prisma-helpers'
 
 export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
@@ -15,7 +16,7 @@ export async function GET(req: NextRequest) {
   return NextResponse.json({
     items: items.map((row) => ({
       county: row.county,
-      count: row._count._all,
+      count: countAll(row._count),
     })),
   })
 }

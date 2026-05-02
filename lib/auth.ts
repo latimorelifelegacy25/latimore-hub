@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import { logger } from '@/lib/logger'
 
 function parseList(v?: string | null): string[] {
   return (v ?? '')
@@ -9,7 +10,6 @@ function parseList(v?: string | null): string[] {
 }
 
 const adminEmails = parseList(process.env.ADMIN_EMAILS)
-const allowGmailDev = (process.env.ALLOW_GMAIL_DEV ?? '').toLowerCase() === 'true'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -22,15 +22,9 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ profile }) {
       const email = (profile?.email ?? '').toLowerCase()
-
-      // If explicitly configured, only allow these emails.
-      if (adminEmails.length > 0) return adminEmails.includes(email)
-
-      // Default: allow Latimore legacy domain or Gmail.
-      if (email.endsWith('@latimorelegacy.com')) return true
-      if (email.endsWith('@gmail.com')) return true
-
-      return false
+      const allowed = adminEmails.length === 0 || adminEmails.includes(email)
+      logger.info({ email, allowed }, '[auth] signIn attempt')
+      return allowed
     },
   },
   pages: { signIn: '/login' },

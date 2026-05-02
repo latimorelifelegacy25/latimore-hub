@@ -4,6 +4,7 @@ import { EventType, ProductInterest } from '@prisma/client';
 import { withCors, handleOptions } from '@/lib/hub/cors';
 import { extractAttribution } from '@/lib/hub/extract-attribution';
 import { ingestEvent } from '@/lib/hub/ingest-event';
+import { randomUUID } from 'crypto';
 
 export { handleOptions as OPTIONS };
 
@@ -26,6 +27,7 @@ export const POST = withCors(async (req: NextRequest) => {
     if (!sessionId) {
       const session = await prisma.leadSession.create({
         data: {
+          id: randomUUID(),
           firstSeenAt: new Date(), lastSeenAt: new Date(),
           source: attr.source ?? undefined, medium: attr.medium ?? undefined,
           campaign: attr.campaign ?? undefined, term: attr.term ?? undefined,

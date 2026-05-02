@@ -1,91 +1,20 @@
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import { BRAND } from '@/lib/brand'
 import { Calendar, Phone, Mail, Quote, Facebook, QrCode } from 'lucide-react'
+import { SiteHeader, SiteFooter, DEFAULT_NAV_LINKS } from '@/app/_components/site-shell'
+
 
 
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
 const goldLight = '#E5C882'
-const navLinks: [string, string][] = [['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']]
 
-function Nav() {
-  const [open, setOpen] = useState(false)
-  return (
-    <nav style={{ background: navy, padding: '1rem 0', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontSize: '1.1rem', fontWeight: 700 }}>
-          <img src="/logo.jpg" alt="Logo" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
-          {BRAND.name}
-        </Link>
-        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }} className="desktop-nav">
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.9rem' }}>{label}</Link>
-          ))}
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
-        </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
-      </div>
-      {open && (
-        <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
-          ))}
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', textAlign: 'center' }}>Get Quote</a>
-        </div>
-      )}
-      <style>{`@media(max-width:900px){.desktop-nav{display:none !important;}.mobile-btn{display:block !important;}}`}</style>
-    </nav>
-  )
-}
 
-function Footer() {
-  return (
-    <footer style={{ background: navy, color: '#fff', padding: '3rem 0 1rem' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '2rem', marginBottom: '2rem' }}>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>{BRAND.name}</h4>
-            <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.9rem', lineHeight: 1.7 }}>Protection-first strategies for working families across Central Pennsylvania.</p>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-              {[['Instagram', BRAND.instagram], ['LinkedIn', BRAND.linkedin], ['Facebook', BRAND.facebook]].map(([l, h]) => (
-                <a key={l} href={h} target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.8)', textDecoration: 'none', fontSize: '0.9rem' }}>{l}</a>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>Quick Links</h4>
-            {navLinks.map(([h, l]) => <Link key={h} href={h} style={{ display: 'block', color: 'rgba(255,255,255,0.8)', textDecoration: 'none', marginBottom: '0.5rem', fontSize: '0.9rem' }}>{l}</Link>)}
-          </div>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>Contact</h4>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', marginBottom: '0.4rem' }}>{BRAND.phone}</p>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>{BRAND.email}</p>
-          </div>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>Get Started</h4>
-            <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', marginBottom: '0.75rem', fontSize: '0.9rem' }}>Book Consultation</a>
-          </div>
-        </div>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '1.5rem', textAlign: 'center' }}>
-          <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.5)', maxWidth: 900, margin: '0 auto 0.75rem' }}>
-            Licensed in Pennsylvania (DOI #{BRAND.paLicense}, NIPR #{BRAND.nipr}). Independent contractor affiliated with Global Financial Impact. For educational purposes only; not tax or legal advice.
-          </p>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem' }}>© {new Date().getFullYear()} Latimore Life & Legacy LLC. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-  )
-}
 
 export default function ContactPage() {
   return (
     <>
-      <Nav />
+      <SiteHeader currentPath="/contact" navLinks={DEFAULT_NAV_LINKS} />
       <main style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
 
         {/* Header */}
@@ -179,25 +108,11 @@ export default function ContactPage() {
                   Scan the QR code to go directly to the instant life insurance application. Takes minutes on your phone.
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <img src="/ethos-qr.png" alt="Scan to apply for life insurance" style={{ width: 120, height: 120, borderRadius: 8 }} />
+                  <Image src="/ethos-qr.png" alt="Scan to apply for life insurance" width={120} height={120} sizes="120px" style={{ borderRadius: 8 }} />
                 </div>
               </div>
 
             </div>
-          </div>
-        </section>
-
-        {/* Fillout Inline Form */}
-        <section style={{ padding: '4rem 0', background: '#fff' }}>
-          <div style={{ maxWidth: 780, margin: '0 auto', padding: '0 20px' }}>
-            <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-              <h2 style={{ color: navy, fontSize: 'clamp(1.6rem,3.5vw,2.2rem)', marginBottom: '1rem' }}>Send Jackson a Message</h2>
-              <p style={{ color: '#555', fontSize: '1rem', lineHeight: 1.7, maxWidth: 560, margin: '0 auto' }}>Fill out the form below and expect a response within one business day.</p>
-            </div>
-            <div style={{ borderRadius: 16, overflow: 'hidden', boxShadow: '0 8px 40px rgba(0,0,0,0.10)' }}>
-              <iframe src="https://latimorelifelegacy.fillout.com/latimorelifelegacy?utm_source=website&utm_medium=contact_page&utm_campaign=direct_inquiry&embed=1" width="100%" height="600" frameBorder={0} style={{ display: 'block', border: 'none' }} title="Contact Jackson Latimore" />
-            </div>
-            <p style={{ textAlign: 'center', marginTop: '1rem', color: '#888', fontSize: '0.82rem' }}>Prefer a call? <a href={`tel:${BRAND.phoneRaw}`} style={{ color: gold, fontWeight: 700, textDecoration: 'none' }}>{BRAND.phone}</a></p>
           </div>
         </section>
 
@@ -231,7 +146,7 @@ export default function ContactPage() {
         </section>
 
       </main>
-      <Footer />
+      <SiteFooter />
     </>
   )
 }

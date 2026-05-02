@@ -1,52 +1,20 @@
-'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import { BRAND } from '@/lib/brand'
 import { BadgeCheck, GraduationCap, FileText } from 'lucide-react'
+import { SiteHeader, SiteFooter, DEFAULT_NAV_LINKS } from '@/app/_components/site-shell'
+
 
 const navy = '#0E1A2B'
-const gold = '#C9A24D'
-const goldLight = '#E5C882'
-const navLinks: [string, string][] = [['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']]
+//const gold = '#C9A24D'
+//const goldLight = '#E5C882'
 
-function Nav() {
-  const [open, setOpen] = useState(false)
-  return (
-    <nav style={{ background: navy, padding: '1rem 0', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontSize: '1.1rem', fontWeight: 700 }}>
-          <img src="/logo.jpg" alt="Logo" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
-          Latimore Life & Legacy
-        </Link>
-        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }} className="desktop-nav">
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.9rem' }}>{label}</Link>
-          ))}
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
-        </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
-      </div>
-      {open && (
-        <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
-          ))}
-          <a href={BRAND.bookingUrl} target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', textAlign: 'center' }}>Get Quote</a>
-        </div>
-      )}
-      <style>{`@media(max-width:900px){.desktop-nav{display:none !important;}.mobile-btn{display:block !important;}}`}</style>
-    </nav>
-  )
-}
 
 
 export default function AboutPage() {
   return (
     <>
-      <Nav />
+      <SiteHeader currentPath="/about" navLinks={DEFAULT_NAV_LINKS} />
       {/* Hero */}
       <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '4rem 0' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'center' }} className="about-grid">
@@ -83,11 +51,11 @@ export default function AboutPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '2.5rem' }} className="story-photos">
             <div>
-              <img src="/hospital-recovery.jpg" alt="Jackson recovering at Pocono Medical Center" style={{ width: '100%', borderRadius: 10, boxShadow: '0 5px 20px rgba(0,0,0,0.12)' }} />
+              <Image src="/hospital-recovery.jpg" alt="Jackson recovering at Pocono Medical Center" width={700} height={500} sizes="(max-width: 960px) 100vw, 50vw" style={{ width: '100%', borderRadius: 10, boxShadow: '0 5px 20px rgba(0,0,0,0.12)', height: 'auto' }} />
               <p style={{ color: '#C9A24D', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'center' }}>Pocono Medical Center — December 2010</p>
             </div>
             <div>
-              <img src="/news-headline.jpg" alt="Pocono Record news coverage" style={{ width: '100%', borderRadius: 10, boxShadow: '0 5px 20px rgba(0,0,0,0.12)' }} />
+              <Image src="/news-headline.jpg" alt="Pocono Record news coverage" width={700} height={500} sizes="(max-width: 960px) 100vw, 50vw" style={{ width: '100%', borderRadius: 10, boxShadow: '0 5px 20px rgba(0,0,0,0.12)', height: 'auto' }} />
               <p style={{ color: '#C9A24D', fontSize: '0.85rem', marginTop: '0.5rem', textAlign: 'center' }}>Pocono Record coverage of the event</p>
             </div>
           </div>
@@ -145,7 +113,7 @@ export default function AboutPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }} className="creds-grid">
             {[
               { icon: <BadgeCheck size={32} color={navy} />, title: 'Licensed in Pennsylvania', body: 'PA DOI License #1268820 | NIPR #21638507 — Independent contractor. I work for you, not a captive company.' },
-              { icon: <GraduationCap size={32} color={navy} />, title: 'MBA Candidate', body: 'Currently pursuing a Master of Business Administration. Prior degree: Master of Public Administration, East Stroudsburg University.' },
+              { icon: <GraduationCap size={32} color={navy} />, title: 'MBA — American InterContinental University', body: 'Master of Business Administration (2026). Also holds an MS in Management & Leadership with Public Administration concentration from East Stroudsburg University.' },
               { icon: <FileText size={32} color={navy} />, title: 'Political Science & Public Admin', body: 'B.S. Political Science. Background in Social Security paralegal work and home health aide services — I understand real families.' },
               { icon: '', title: 'Affiliated with Global Financial Impact', body: 'Independent contractor operating under GFI — giving me access to top-tier carriers without the limitations of captive agents.' },
               { icon: '', title: 'Youth Sports Coach', body: 'Active coach in Schuylkill County. Community is everything. I serve the same families I root for on the sidelines.' },
@@ -194,6 +162,7 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+      <SiteFooter />
     </>
   )
                        }

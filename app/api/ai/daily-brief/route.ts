@@ -6,6 +6,8 @@ import { AiRunType } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
 import { applyAiRateLimit, completeAiRun, createAiRun, createSystemAiEvent, failAiRun, requireAdminSession } from '@/lib/ai/shared'
+import { countAll } from '@/lib/prisma-helpers'
+
 
 const BodySchema = z.object({ limit: z.number().int().min(3).max(25).default(10).optional() })
 
@@ -28,8 +30,12 @@ const displayName = (contact: any) => contact.fullName || [contact.firstName, co
 export async function POST(req: NextRequest) {
   const limited = applyAiRateLimit(req)
   if (limited) return limited
-  const auth = await requireAdminSession()
-  if (!auth.ok) return auth.response
+  const cronSecret = process.env.CRON_SECRET
+  const isCron = cronSecret && req.headers.get("x-cron-secret") === cronSecret
+  if (!isCron) {
+    const auth = await requireAdminSession()
+    if (!auth.ok) return auth.response
+  }
 
   const body = await req.json().catch(() => ({}))
   const parsed = BodySchema.safeParse(body)
@@ -74,7 +80,7 @@ export async function POST(req: NextRequest) {
         status: task.status,
         contactName: task.contact ? displayName(task.contact) : null,
       })),
-      stageCounts: stageCounts.map((row) => ({ stage: row.stage, count: row._count._all })),
+      stageCounts: stageCounts.map((row) => ({ stage: row.stage, count: countAll(row._count)})),
     }
 
     const aiRun = await createAiRun({ type: AiRunType.daily_brief, input: context as unknown as Record<string, unknown> })

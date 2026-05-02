@@ -1,46 +1,12 @@
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
 import { BRAND } from '@/lib/brand'
-import { Shield, TrendingUp, ClipboardCheck } from 'lucide-react'
+import { Shield, TrendingUp,  } from 'lucide-react'
+import { SiteHeader, SiteFooter, DEFAULT_NAV_LINKS } from '@/app/_components/site-shell'
 
-const navy = '#0E1A2B'
-const gold = '#C9A24D'
-const goldLight = '#E5C882'
-const navLinks: [string, string][] = [['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']]
 
-function Nav() {
-  const [open, setOpen] = useState(false)
-  return (
-    <nav style={{ background: navy, padding: '1rem 0', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontSize: '1.1rem', fontWeight: 700 }}>
-          <img src="/logo.jpg" alt="Logo" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
-          Latimore Life & Legacy
-        </Link>
-        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }} className="desktop-nav">
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} style={{ color: '#fff', textDecoration: 'none', fontSize: '0.9rem' }}>{label}</Link>
-          ))}
-          <a href="https://latimorelifelegacy.fillout.com/latimorelifelegacy" target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
-          <a href="https://agents.ethoslife.com/invite/29ad1" target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
-        </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? 'Close' : 'Menu'}</button>
-      </div>
-      {open && (
-        <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
-          ))}
-          <a href="https://latimorelifelegacy.fillout.com/latimorelifelegacy" target="_blank" rel="noopener noreferrer" style={{ background: gold, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>Book Consultation</a>
-          <a href="https://agents.ethoslife.com/invite/29ad1" target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', textAlign: 'center' }}>Get Quote</a>
-        </div>
-      )}
-      <style>{`@media(max-width:900px){.desktop-nav{display:none !important;}.mobile-btn{display:block !important;}}`}</style>
-    </nav>
-  )
-}
+//(const navy = '#0E1A2B' 
+// const gold = '#C9A24D'
+// const goldLight = '#E5C882')
+
 
 
 const products = [
@@ -51,7 +17,7 @@ const products = [
       {
         name: 'Term Life Insurance',
         tagline: 'Maximum protection. Minimum cost.',
-        description: 'Affordable coverage for 10–30 years — perfect for income replacement, mortgage protection, and young families building wealth.',
+        description: 'Affordable coverage for 10-30 years — perfect for income replacement, mortgage protection, and young families building wealth.',
         bestFor: 'Young families, mortgage holders, income earners',
         cta: 'Get a Quote',
         ctaUrl: BRAND.ethosUrl,
@@ -90,14 +56,14 @@ const products = [
         name: 'Fixed Indexed Annuity (FIA)',
         tagline: 'Growth without risk. Income you can\'t outlive.',
         description: 'Your premium earns interest linked to a market index (like the S&P 500) — but with a guaranteed floor so you never lose principal. Convert to a lifetime income stream at retirement.',
-        bestFor: 'Pre-retirees (50–65), conservative investors, pension replacement',
+        bestFor: 'Pre-retirees (50-65), conservative investors, pension replacement',
         cta: 'Schedule Consultation',
         ctaUrl: BRAND.bookingUrl,
       },
       {
         name: 'Multi-Year Guaranteed Annuity (MYGA)',
         tagline: 'CD alternative with better rates.',
-        description: 'A fixed interest rate guaranteed for 3–10 years — often significantly higher than bank CDs, with tax-deferred growth and no market exposure.',
+        description: 'A fixed interest rate guaranteed for 3-10 years — often significantly higher than bank CDs, with tax-deferred growth and no market exposure.',
         bestFor: 'Retirees, conservative savers, CD rollovers',
         cta: 'Schedule Consultation',
         ctaUrl: BRAND.bookingUrl,
@@ -109,7 +75,7 @@ const products = [
 export default function ProductsPage() {
   return (
     <>
-      <Nav />
+      <SiteHeader currentPath="/products" navLinks={DEFAULT_NAV_LINKS} />
       {/* Hero */}
       <section style={{ background: 'linear-gradient(135deg, #0E1A2B 0%, #1a2942 100%)', color: '#fff', padding: '4rem 0', textAlign: 'center' }}>
         <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 20px' }}>
@@ -235,6 +201,7 @@ export default function ProductsPage() {
         </div>
       </section>
       <style>{`@media(max-width:640px){.product-grid{grid-template-columns:1fr !important;}}`}</style>
+      <SiteFooter />
     </>
   )
 }

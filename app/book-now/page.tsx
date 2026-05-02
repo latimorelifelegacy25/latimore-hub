@@ -1,16 +1,3 @@
-/*
-  Landing page for booking a free consultation.
-
-  This page is intentionally minimal and conversion-focused. It presents a clear
-  headline, a concise explanation of the benefits of a complimentary strategy
-  call, and a single dominant call-to-action leading to the main booking page
-  (`/book`). A secondary sidebar surfaces alternative contact methods like
-  calling, emailing, or viewing the digital business card, without distracting
-  from the primary CTA. The header sticks to the top on scroll and shows
-  contact details on larger screens. This file does not modify or depend on
-  existing page layouts so the rest of the site remains untouched.
-*/
-
 'use client'
 
 import Link from 'next/link'
@@ -54,7 +41,7 @@ export default function BookNowPage() {
             Secure Your Legacy Today
           </h1>
           <p className="text-brand-muted mb-6 text-base md:text-lg leading-relaxed max-w-prose">
-            Start your journey toward peace of mind. Book a free 30 minute strategy call
+            Start your journey toward peace of mind. Book a free 30 minute strategy call
             with Jackson to discover how to protect your income, family and retirement
             using proven protection and legacy planning strategies.
           </p>
@@ -62,7 +49,7 @@ export default function BookNowPage() {
             href={BRAND.bookingUrl}
             className="inline-block bg-brand-gold text-brand-bg font-semibold px-6 py-3 rounded-md shadow-lg hover:bg-brand-gold/90 transition-colors"
           >
-            Book 30 Minute Call
+            Book 30 Minute Call
           </Link>
           <div className="mt-8 space-y-3">
             <div className="flex items-start gap-3">
@@ -128,3 +115,17 @@ export default function BookNowPage() {
     </div>
   )
 }
+
+
+/*
+  Landing page for booking a free consultation.
+
+  This page is intentionally minimal and conversion-focused. It presents a clear
+  headline, a concise explanation of the benefits of a complimentary strategy
+  call, and a single dominant call-to-action leading to the main booking page
+  (`/book`). A secondary sidebar surfaces alternative contact methods like
+  calling, emailing, or viewing the digital business card, without distracting
+  from the primary CTA. The header sticks to the top on scroll and shows
+  contact details on larger screens. This file does not modify or depend on
+  existing page layouts so the rest of the site remains untouched.
+*/

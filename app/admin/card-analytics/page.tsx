@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
-import { Eye, MousePointerClick, Link2, Target } from 'lucide-react'
+import { Eye, MousePointerClick, Link2 } from 'lucide-react'
 
 type ClickStat = { label: string | null; _count: { label: number } }
 type CardEventRow = {
@@ -88,13 +88,32 @@ export default function CardAnalyticsPage() {
       .catch(() => { setError(true); setLoading(false) })
   }
 
-  useEffect(() => { refresh() }, [])
+  useEffect(() => {
+    const run = async () => {
+      await refresh()
+    }
+    void run()
+  }, [])
 
   const s: React.CSSProperties = { fontFamily: 'system-ui, sans-serif', padding: '2rem', maxWidth: 1100, margin: '0 auto' }
 
-  if (loading) return <div style={{ ...s, textAlign: 'center', color: '#888', paddingTop: '4rem' }}>Loading analytics…</div>
-  if (error || !data) return <div style={{ ...s, textAlign: 'center', color: '#c0392b', paddingTop: '4rem' }}>Failed to load. Check database connection.</div>
+  if (loading) {
+    return (
+      <div style={{ ...s, textAlign: 'center', color: '#888', padding: '4rem 2rem 2rem' }}>
+        Loading analytics…
+      </div>
+    )
+  }
+  
+  if (error || !data) {
+    return (
+      <div style={{ ...s, textAlign: 'center', color: '#c0392b', padding: '4rem 2rem 2rem' }}>
+        Failed to load. Check database connection.
+      </div>
+    )
+  }
 
+  
   const conversionRate = data.totalVisits > 0
     ? ((data.clicks.find(c => c.label === 'Book' || c.label === 'Free Legacy Strategy Review')?._count.label ?? 0) / data.totalVisits * 100).toFixed(1)
     : '0.0'

@@ -1,112 +1,21 @@
-'use client'
-
-import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { BRAND } from '@/lib/brand'
+import { SiteHeader, SiteFooter, JOIN_NAV_LINKS } from '@/app/_components/site-shell'
+import EthosQuoteLink from '@/components/ethos/EthosQuoteLink'
+
 
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
 const goldLight = '#E5C882'
 
-const navLinks: [string, string][] = [
-  ['/', 'Home'],
-  ['/about', 'About'],
-  ['/products', 'Products'],
-  ['/services', 'Services'],
-  ['/education', 'Education'],
-  ['/join', 'Join Our Team'],
-  ['/contact', 'Contact'],
-]
 
-function Nav() {
-  const [open, setOpen] = useState(false)
-  return (
-    <nav style={{ background: navy, padding: '1rem 0', position: 'sticky', top: 0, zIndex: 1000, boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff', fontSize: '1.1rem', fontWeight: 700 }}>
-          <img src="/logo.jpg" alt="Logo" style={{ width: 44, height: 44, borderRadius: 8, objectFit: 'cover' }} />
-          {BRAND.name}
-        </Link>
-        <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }} className="desktop-nav">
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} style={{ color: href === '/' ? goldLight : '#fff', textDecoration: 'none', fontSize: '0.9rem', fontWeight: href === '/' ? 600 : 400 }}>{label}</Link>
-          ))}
-          <a href={BRAND.bookingUrl} style={{ background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', fontSize: '0.85rem' }}>Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', fontSize: '0.85rem' }}>Get Quote</a>
-        </div>
-        <button onClick={() => setOpen(!open)} style={{ display: 'none', background: 'none', border: 'none', color: '#fff', fontSize: '1.5rem', cursor: 'pointer' }} className="mobile-btn">{open ? '✕' : '☰'}</button>
-      </div>
-      {open && (
-        <div style={{ background: navy, padding: '1rem 20px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {navLinks.map(([href, label]) => (
-            <Link key={href} href={href} onClick={() => setOpen(false)} style={{ color: href === '/' ? goldLight : '#fff', textDecoration: 'none', fontSize: '1.1rem' }}>{label}</Link>
-          ))}
-          <a href={BRAND.bookingUrl} style={{ background: gold, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', textAlign: 'center' }}>Book Consultation</a>
-          <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ background: goldLight, color: navy, padding: '0.75rem', borderRadius: 5, fontWeight: 700, textDecoration: 'none', textAlign: 'center' }}>Get Quote</a>
-        </div>
-      )}
-      <style>{`@media(max-width:1100px){.desktop-nav{display:none !important;}.mobile-btn{display:block !important;}}`}</style>
-    </nav>
-  )
-}
 
-function Footer() {
-  return (
-    <footer style={{ background: navy, color: '#fff', padding: '3rem 0 1rem' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>{BRAND.fullName} LLC</h4>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.7)' }}>Independent Insurance Advisor<br />{BRAND.affiliation}</p>
-            <p style={{ fontSize: '0.8rem', marginTop: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>PA License #{BRAND.paLicense} · NIPR #{BRAND.nipr}</p>
-          </div>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>Quick Links</h4>
-            {navLinks.map(([href, label]) => (
-              <div key={href} style={{ marginBottom: '0.4rem' }}>
-                <Link href={href} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none', fontSize: '0.85rem' }}>{label}</Link>
-              </div>
-            ))}
-          </div>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>Contact</h4>
-            <p style={{ fontSize: '0.85rem', lineHeight: 1.8, color: 'rgba(255,255,255,0.7)' }}>
-              <a href={`tel:+1${BRAND.phoneRaw}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{BRAND.phone}</a><br />
-              <a href={`mailto:${BRAND.email}`} style={{ color: 'rgba(255,255,255,0.7)', textDecoration: 'none' }}>{BRAND.email}</a><br />
-              1544 Route 61 Hwy S, Ste 6104<br />Pottsville, PA 17901
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-              <a href={BRAND.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: goldLight, textDecoration: 'none', fontSize: '0.85rem' }}>LinkedIn</a>
-              <a href={BRAND.instagram} target="_blank" rel="noopener noreferrer" style={{ color: goldLight, textDecoration: 'none', fontSize: '0.85rem' }}>Instagram</a>
-              <a href={BRAND.facebook} target="_blank" rel="noopener noreferrer" style={{ color: goldLight, textDecoration: 'none', fontSize: '0.85rem' }}>Facebook</a>
-            </div>
-          </div>
-          <div>
-            <h4 style={{ color: goldLight, marginBottom: '1rem' }}>Get Started</h4>
-            <a href={BRAND.bookingUrl} style={{ display: 'inline-block', background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', marginBottom: '0.75rem', fontSize: '0.85rem' }}>Book Consultation</a><br />
-            <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: gold, color: navy, padding: '0.5rem 1rem', borderRadius: 5, fontWeight: 600, textDecoration: 'none', marginBottom: '0.75rem', fontSize: '0.85rem' }}>Instant Quote</a>
-            <div style={{ marginTop: '1rem' }}>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', marginBottom: '0.5rem' }}>Scan to apply:</p>
-              <img src="/ethos-qr.png" alt="Ethos QR Code" style={{ width: 80, height: 80, borderRadius: 8 }} />
-            </div>
-          </div>
-        </div>
-        <div style={{ paddingTop: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center', fontSize: '0.78rem', color: 'rgba(255,255,255,0.4)' }}>
-          <p style={{ margin: 0 }}>© {new Date().getFullYear()} {BRAND.fullName} LLC · All rights reserved</p>
-          <p style={{ margin: '0.5rem 0 0' }}>{BRAND.tagline} · {BRAND.hashtag}</p>
-          <p style={{ margin: '0.75rem 0 0', lineHeight: 1.6, maxWidth: 900, marginLeft: 'auto', marginRight: 'auto' }}>
-            Licensed in Pennsylvania (DOI #{BRAND.paLicense}, NIPR #{BRAND.nipr}). Independent contractor affiliated with {BRAND.affiliation.replace('In Affiliation with ', '')}. Products offered through appointed carriers. For educational purposes only; not tax or legal advice.
-          </p>
-        </div>
-      </div>
-    </footer>
-  )
-}
 
 export default function HomePage() {
   return (
     <>
-      <Nav />
+      <SiteHeader currentPath="/" navLinks={JOIN_NAV_LINKS} />
 
       {/* Hero Section */}
       <section style={{ background: `linear-gradient(135deg, ${navy} 0%, #1a2942 100%)`, color: '#fff', padding: '4rem 0 3rem' }}>
@@ -127,18 +36,18 @@ export default function HomePage() {
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2rem' }}>
                 <a href={BRAND.bookingUrl} style={{ display: 'inline-block', background: gold, color: navy, padding: '14px 28px', borderRadius: 999, fontWeight: 700, textDecoration: 'none', fontSize: '1.05rem', transition: 'transform .18s ease' }} className="btn-hover">Book Free Consultation</a>
-                <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: goldLight, color: navy, padding: '14px 28px', borderRadius: 999, fontWeight: 700, textDecoration: 'none', fontSize: '1.05rem', boxShadow: '0 0 20px rgba(197,162,77,0.4)' }} className="btn-hover">Get Instant Quote</a>
+                <EthosQuoteLink style={{ display: 'inline-block', background: goldLight, color: navy, padding: '14px 28px', borderRadius: 999, fontWeight: 700, textDecoration: 'none', fontSize: '1.05rem', boxShadow: '0 0 20px rgba(197,162,77,0.4)' }} className="btn-hover">Get Instant Quote</EthosQuoteLink>
               </div>
 
               <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                {['PA Licensed DOI #1268820', 'MBA Candidate', '560K+ Residents Served'].map(badge => (
+                {['PA Licensed DOI #1268820', 'MBA', '560K+ Residents Served'].map(badge => (
                   <span key={badge} style={{ background: 'rgba(197,162,77,0.15)', padding: '8px 14px', borderRadius: 20, fontSize: '0.88rem', border: '1px solid rgba(197,162,77,0.4)', color: goldLight, fontWeight: 600 }}>{badge}</span>
                 ))}
               </div>
             </div>
 
             <div>
-              <img src="/jackson-library.jpg" alt="Jackson M. Latimore Sr. — Independent Insurance Consultant" style={{ width: '100%', borderRadius: 18, boxShadow: '0 14px 40px rgba(0,0,0,0.3)', objectFit: 'cover', maxHeight: 500 }} />
+              <Image src="/jackson-library.jpg" alt="Jackson M. Latimore Sr. — Independent Insurance Consultant" width={900} height={600} priority sizes="(max-width: 960px) 100vw, 50vw" style={{ width: '100%', borderRadius: 18, boxShadow: '0 14px 40px rgba(0,0,0,0.3)', objectFit: 'cover', maxHeight: 500, height: 'auto' }} />
               <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.15)', padding: '1.5rem', borderRadius: 14, marginTop: '1rem', textAlign: 'center' }}>
                 <h3 style={{ color: goldLight, marginBottom: '0.5rem', fontSize: '1.3rem' }}>Jackson M. Latimore Sr.</h3>
                 <p style={{ color: 'rgba(255,255,255,0.8)', margin: '0.25rem 0', fontSize: '0.95rem' }}>Founder & CEO</p>
@@ -233,7 +142,7 @@ export default function HomePage() {
             <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 18, padding: '2rem', boxShadow: '0 4px 12px rgba(0,0,0,0.04)' }}>
               <h3 style={{ color: navy, fontSize: '1.3rem', marginBottom: '1rem' }}>Carrier Diversity</h3>
               <p style={{ color: '#475467', lineHeight: 1.8, margin: 0 }}>
-                Appointed with North American, F&G, American Equity, Ethos, American General, and Foresters. We shop the market to find the right fit for your situation.
+                As an independent broker, I work with a carefully selected portfolio of highly-rated carriers — so I can shop the market to find the right fit for your family's needs and budget.
               </p>
             </div>
 
@@ -281,7 +190,7 @@ export default function HomePage() {
           
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <a href={BRAND.bookingUrl} style={{ display: 'inline-block', background: gold, color: navy, padding: '16px 32px', borderRadius: 999, fontWeight: 700, textDecoration: 'none', fontSize: '1.1rem' }} className="btn-hover">Book Free Consultation</a>
-            <a href={BRAND.ethosUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', background: goldLight, color: navy, padding: '16px 32px', borderRadius: 999, fontWeight: 700, textDecoration: 'none', fontSize: '1.1rem', boxShadow: '0 0 20px rgba(197,162,77,0.4)' }} className="btn-hover">Get Instant Quote</a>
+            <EthosQuoteLink style={{ display: 'inline-block', background: goldLight, color: navy, padding: '16px 32px', borderRadius: 999, fontWeight: 700, textDecoration: 'none', fontSize: '1.1rem', boxShadow: '0 0 20px rgba(197,162,77,0.4)' }} className="btn-hover">Get Instant Quote</EthosQuoteLink>
           </div>
 
           <div style={{ marginTop: '2.5rem', padding: '1.5rem', background: 'rgba(255,255,255,0.08)', borderRadius: 14, border: '1px solid rgba(255,255,255,0.15)' }}>
@@ -304,7 +213,7 @@ export default function HomePage() {
         </p>
       </section>
 
-      <Footer />
+      <SiteFooter />
 
       <style>{`
         .btn-hover:hover {
