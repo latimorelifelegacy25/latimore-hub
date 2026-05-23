@@ -9,7 +9,15 @@ import { Shield, PiggyBank, TrendingUp, Clock } from 'lucide-react'
 const navy = '#0E1A2B'
 const gold = '#C9A24D'
 const goldLight = '#E5C882'
-const navLinks: [string, string][] = [['/', 'Home'], ['/about', 'About'], ['/products', 'Products'], ['/services', 'Services'], ['/education', 'Education'], ['/contact', 'Contact']]
+const navLinks: [string, string][] = [
+  ['/', 'Home'],
+  ['/about', 'About'],
+  ['/products', 'Products'],
+  ['/services', 'Services'],
+  ['/education', 'Education'],
+  ['/blog', 'Blog'],
+  ['/contact', 'Contact'],
+]
 
 function Nav() {
   const [open, setOpen] = useState(false)
