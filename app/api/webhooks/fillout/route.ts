@@ -9,46 +9,77 @@ import { logger } from '@/lib/logger'
 import { upsertLead } from '@/lib/hub/upsert-lead'
 import { ingestEvent } from '@/lib/hub/ingest-event'
 
+function getFilloutSecret(): string | null {
+  const secret = process.env.FILLOUT_SECRET?.trim()
+  return secret ? secret : null
+}
+
 function normalizeSignature(sig: string): string {
   const value = sig.trim()
   const idx = value.indexOf('=')
-  if (idx > -1 && value.slice(0, idx).toLowerCase().includes('sha256')) return value.slice(idx + 1).trim()
+  if (idx > -1 && value.slice(0, idx).toLowerCase().includes('sha256')) {
+    return value.slice(idx + 1).trim()
+  }
   return value
 }
 
-function verifySignature(rawBody: string, sig: string | null): boolean {
-  const secret = process.env.FILLOUT_SECRET
-  if (!secret) return true
+function timingSafeStringEqual(a: string, b: string): boolean {
+  const aBuffer = Buffer.from(a, 'utf8')
+  const bBuffer = Buffer.from(b, 'utf8')
+  if (aBuffer.length !== bBuffer.length) return false
+  return crypto.timingSafeEqual(aBuffer, bBuffer)
+}
+
+function verifySignature(rawBody: string, sig: string | null, secret: string): boolean {
   if (!sig) return false
+
   try {
     const normalized = normalizeSignature(sig)
-    const hmac = crypto.createHmac('sha256', secret).update(rawBody).digest('hex')
-    if (hmac.length !== normalized.length) return false
-    return crypto.timingSafeEqual(Buffer.from(hmac), Buffer.from(normalized))
+
+    // Fillout HMAC signatures should be SHA-256 hex digests. Reject malformed input
+    // before Buffer conversion so timingSafeEqual compares equal-length byte arrays.
+    if (!/^[a-f0-9]{64}$/i.test(normalized)) return false
+
+    const expected = crypto.createHmac('sha256', secret).update(rawBody, 'utf8').digest('hex')
+    const expectedBuffer = Buffer.from(expected, 'hex')
+    const receivedBuffer = Buffer.from(normalized, 'hex')
+
+    if (expectedBuffer.length !== receivedBuffer.length) return false
+    return crypto.timingSafeEqual(expectedBuffer, receivedBuffer)
   } catch {
     return false
   }
 }
 
 function verifyWebhook(req: NextRequest, rawBody: string): boolean {
-  const secret = process.env.FILLOUT_SECRET
-  if (!secret) return true
+  const secret = getFilloutSecret()
 
-  const token =
-    req.headers.get('x-webhook-token') ??
-    (req.headers.get('authorization')?.startsWith('Bearer ')
-      ? req.headers.get('authorization')!.slice('Bearer '.length)
-      : null)
-
-  if (token && token === secret) return true
+  if (!secret) {
+    logger.error({}, 'FILLOUT_SECRET is not configured; rejecting Fillout webhook')
+    return false
+  }
 
   const sig =
-    req.headers.get('x-webhook-signature') ??
     req.headers.get('x-fillout-signature') ??
     req.headers.get('x-fillout-signature-256') ??
+    req.headers.get('x-webhook-signature') ??
     req.headers.get('x-hook-signature')
 
-  return verifySignature(rawBody, sig)
+  if (verifySignature(rawBody, sig, secret)) return true
+
+  // Legacy escape hatch only. Prefer HMAC signatures. Enable only if Fillout is
+  // configured to send a shared bearer token instead of an HMAC signature.
+  if (process.env.ALLOW_FILLOUT_BEARER_SECRET === 'true') {
+    const token =
+      req.headers.get('x-webhook-token') ??
+      (req.headers.get('authorization')?.startsWith('Bearer ')
+        ? req.headers.get('authorization')!.slice('Bearer '.length).trim()
+        : null)
+
+    if (token && timingSafeStringEqual(token, secret)) return true
+  }
+
+  return false
 }
 
 export async function POST(req: NextRequest) {
@@ -61,12 +92,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid signature' }, { status: 401 })
   }
 
-  let body: unknown
-   try {
+  let body: unknown = null
+  try {
     body = raw ? JSON.parse(raw) : null
-   } catch {
-   return NextResponse.json({ ok: false, error: 'invalid json' }, { status: 400 })
-   }
+  } catch {
+    return NextResponse.json({ ok: false, error: 'invalid json' }, { status: 400 })
+  }
 
   const parse = FilloutSchema.safeParse(body)
   if (!parse.success) return NextResponse.json({ ok: false, error: parse.error.flatten() }, { status: 422 })
