@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Link from 'next/link'
 import { BRAND } from '@/lib/brand'
 
 export const metadata: Metadata = {
@@ -13,14 +12,15 @@ const navyDark = '#16222d'
 const gold = '#C49A6C'
 const white = '#FFFFFF'
 const text = 'rgba(255,255,255,0.86)'
+const PAHS_FILLOUT_URL = 'https://latimorelifelegacy.fillout.com/pahs?utm_source=pahs_stadium&utm_medium=qr&utm_campaign=crimson_tide_football_2026&utm_content=pahs_landing_cta'
 
 function TopActions() {
   return (
     <div style={{ display: 'grid', gap: 12, marginTop: 22 }}>
-      <Link href="/pahs/start?utm_source=pahs_stadium&utm_medium=qr&utm_campaign=crimson_tide_football_2026" style={{ display: 'block', textDecoration: 'none', background: gold, color: navyDark, fontWeight: 800, fontSize: '1rem', padding: '16px 18px', borderRadius: 16, textAlign: 'center' as const }}>Quick Quote →</Link>
+      <a href={PAHS_FILLOUT_URL} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', background: gold, color: navyDark, fontWeight: 800, fontSize: '1rem', padding: '16px 18px', borderRadius: 16, textAlign: 'center' as const }}>Start PAHS Family Review →</a>
       <a href={BRAND.cardUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', color: gold, border: '1px solid rgba(196,154,108,0.45)', padding: '14px 18px', borderRadius: 16, fontWeight: 700, textAlign: 'center' as const }}>Digital Business Card</a>
       <a href={BRAND.baseUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', textDecoration: 'none', color: 'rgba(255,255,255,0.72)', fontWeight: 600, textAlign: 'center' as const }}>Website</a>
-      <div style={{ color: 'rgba(255,255,255,0.62)', fontSize: '0.86rem', textAlign: 'center' }}>No pressure. Takes under 60 seconds.</div>
+      <div style={{ color: 'rgba(255,255,255,0.62)', fontSize: '0.86rem', textAlign: 'center' }}>No pressure. Takes under 60 seconds. Saves to Supabase.</div>
     </div>
   )
 }
