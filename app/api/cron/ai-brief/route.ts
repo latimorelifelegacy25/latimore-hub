@@ -1,16 +1,25 @@
 export const dynamic = 'force-dynamic'
 
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import { requireCronAuth } from '@/lib/ai/shared'
 import { logger } from '@/lib/logger'
 
 /**
+ * GET /api/cron/ai-brief
  * Vercel cron — runs daily at 1:00 PM ET (17:00 UTC).
- * Triggers the AI daily brief generation by calling /api/ai/daily-brief
- * using a server-side internal fetch with a cron auth header.
- * Requires OPENAI_API_KEY to be set in Vercel env vars.
+ *
+ * FIXES:
+ * 1. Was using NEXT_PUBLIC_BASE_URL (points to latimorelifelegacy.com marketing site).
+ *    Now uses NEXTAUTH_URL which is the actual Hub OS Vercel deployment URL.
+ * 2. Added requireCronAuth() to protect the endpoint.
+ * 3. Passes x-cron-secret to the downstream AI route so it bypasses
+ *    requireAdminSession (which has no session cookie in a server-side fetch).
  */
-export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://latimorelifelegacy.com'
+export async function GET(req: NextRequest) {
+  const authError = requireCronAuth(req)
+  if (authError) return authError
+
+  const baseUrl = process.env.NEXTAUTH_URL ?? process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
   const cronSecret = process.env.CRON_SECRET
 
   if (!process.env.OPENAI_API_KEY) {
@@ -23,7 +32,9 @@ export async function GET() {
       'Content-Type': 'application/json',
       'x-cron-source': 'vercel-cron',
     }
-    if (cronSecret) headers['x-cron-secret'] = cronSecret
+    if (cronSecret) {
+      headers['x-cron-secret'] = cronSecret
+    }
 
     const res = await fetch(`${baseUrl}/api/ai/daily-brief`, {
       method: 'POST',
@@ -33,6 +44,11 @@ export async function GET() {
 
     const data = await res.json().catch(() => ({}))
     logger.info({ status: res.status }, 'AI brief cron triggered')
+
+    if (!res.ok) {
+      logger.error({ status: res.status, data }, 'AI brief cron — downstream returned error')
+    }
+
     return NextResponse.json({ ok: res.ok, status: res.status, ...data })
   } catch (err: any) {
     logger.error({ err: err.message }, 'AI brief cron failed')

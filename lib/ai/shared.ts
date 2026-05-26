@@ -1,3 +1,14 @@
+/**
+ * lib/ai/shared.ts
+ *
+ * FIX: requireAdminSession had no cron secret bypass.
+ * Every cron job calling an AI route was getting a 401 because
+ * cron requests have no session cookie — only an x-cron-secret header.
+ *
+ * Added requireCronAuth() and updated requireAdminSession() to
+ * accept cron secret as an alternative to a session.
+ */
+
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 import { AiRunStatus, AiRunType } from '@prisma/client'
@@ -7,8 +18,27 @@ import { rateLimit } from '@/lib/rate-limit'
 import { logger } from '@/lib/logger'
 import type { Prisma } from '@prisma/client'
 
-export async function requireAdminSession() {
-  if (process.env.DISABLE_ADMIN_AUTH === 'true') return { ok: true as const, session: null }
+/**
+ * Require an admin session OR a valid cron secret.
+ * Use this on any route that cron jobs need to call directly.
+ */
+export async function requireAdminSession(req?: NextRequest) {
+  // Allow cron jobs through with the cron secret
+  if (req) {
+    const cronSecret = process.env.CRON_SECRET
+    const cronHeader =
+      req.headers.get('x-cron-secret') ??
+      req.headers.get('authorization')?.replace('Bearer ', '')
+    if (cronSecret && cronHeader === cronSecret) {
+      return { ok: true as const, session: null, isCron: true }
+    }
+  }
+
+  // Allow bypass in dev/test
+  if (process.env.DISABLE_ADMIN_AUTH === 'true') {
+    return { ok: true as const, session: null, isCron: false }
+  }
+
   const session = await getServerSession(authOptions)
   if (!session) {
     return {
@@ -16,7 +46,26 @@ export async function requireAdminSession() {
       response: NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 }),
     }
   }
-  return { ok: true as const, session }
+  return { ok: true as const, session, isCron: false }
+}
+
+/**
+ * Use on cron-only routes (GET handlers triggered by Vercel cron).
+ * Returns a 401 response if the secret is wrong, null if valid.
+ */
+export function requireCronAuth(req: NextRequest): NextResponse | null {
+  const cronSecret = process.env.CRON_SECRET
+  if (!cronSecret) {
+    logger.warn({}, 'CRON_SECRET not set — cron endpoint is unprotected')
+    return null
+  }
+  const header =
+    req.headers.get('x-cron-secret') ??
+    req.headers.get('authorization')?.replace('Bearer ', '')
+  if (header !== cronSecret) {
+    return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  }
+  return null
 }
 
 export function applyAiRateLimit(req: NextRequest) {
