@@ -1,14 +1,17 @@
 /**
- * POST /api/cron/notification-checks
- * Automated notification system checks
- * Runs every 15 minutes via Vercel cron
+ * /api/cron/notification-checks
+ * Automated notification system checks.
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { runAutomatedNotificationChecks } from '@/lib/notifications'
 import { logger } from '@/lib/logger'
+import { requireCronAuth } from '@/lib/ai/shared'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
+
   try {
     logger.info('Running automated notification checks')
 
@@ -19,7 +22,7 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       message: 'Notification checks completed',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     })
   } catch (error) {
     logger.error({ error }, 'Failed to run notification checks')
@@ -27,12 +30,11 @@ export async function GET() {
     return NextResponse.json({
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }, { status: 500 })
   }
 }
 
-// Also support POST for manual triggering
 export async function POST(req: NextRequest) {
-  return GET()
+  return GET(req)
 }
