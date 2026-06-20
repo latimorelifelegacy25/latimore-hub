@@ -1,1 +1,0 @@
-Latimore action protocol note.
