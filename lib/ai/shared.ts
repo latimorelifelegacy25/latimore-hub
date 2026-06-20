@@ -1,12 +1,8 @@
 /**
  * lib/ai/shared.ts
  *
- * FIX: requireAdminSession had no cron secret bypass.
- * Every cron job calling an AI route was getting a 401 because
- * cron requests have no session cookie — only an x-cron-secret header.
- *
- * Added requireCronAuth() and updated requireAdminSession() to
- * accept cron secret as an alternative to a session.
+ * Shared AI route helpers for authorization, cron access, rate limiting,
+ * AI run bookkeeping, and system events.
  */
 
 import { getServerSession } from 'next-auth'
@@ -23,19 +19,29 @@ import type { Prisma } from '@prisma/client'
  * Use this on any route that cron jobs need to call directly.
  */
 export async function requireAdminSession(req?: NextRequest) {
-  // Allow cron jobs through with the cron secret
   if (req) {
     const cronSecret = process.env.CRON_SECRET
     const cronHeader =
       req.headers.get('x-cron-secret') ??
       req.headers.get('authorization')?.replace('Bearer ', '')
+
     if (cronSecret && cronHeader === cronSecret) {
       return { ok: true as const, session: null, isCron: true }
     }
   }
 
-  // Allow bypass in dev/test
   if (process.env.DISABLE_ADMIN_AUTH === 'true') {
+    if (process.env.NODE_ENV === 'production') {
+      logger.error({}, 'DISABLE_ADMIN_AUTH cannot be enabled in production')
+      return {
+        ok: false as const,
+        response: NextResponse.json(
+          { ok: false, error: 'DISABLE_ADMIN_AUTH cannot be enabled in production' },
+          { status: 500 }
+        ),
+      }
+    }
+
     return { ok: true as const, session: null, isCron: false }
   }
 
@@ -46,25 +52,29 @@ export async function requireAdminSession(req?: NextRequest) {
       response: NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 }),
     }
   }
+
   return { ok: true as const, session, isCron: false }
 }
 
 /**
- * Use on cron-only routes (GET handlers triggered by Vercel cron).
- * Returns a 401 response if the secret is wrong, null if valid.
+ * Use on cron-only routes triggered by Vercel cron.
+ * Fails closed when CRON_SECRET is missing.
  */
 export function requireCronAuth(req: NextRequest): NextResponse | null {
   const cronSecret = process.env.CRON_SECRET
   if (!cronSecret) {
-    logger.warn({}, 'CRON_SECRET not set — cron endpoint is unprotected')
-    return null
+    logger.error({}, 'CRON_SECRET is not configured; rejecting cron request')
+    return NextResponse.json({ ok: false, error: 'cron auth not configured' }, { status: 503 })
   }
+
   const header =
     req.headers.get('x-cron-secret') ??
     req.headers.get('authorization')?.replace('Bearer ', '')
+
   if (header !== cronSecret) {
     return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
   }
+
   return null
 }
 
