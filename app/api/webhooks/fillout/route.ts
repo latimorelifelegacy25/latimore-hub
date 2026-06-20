@@ -10,7 +10,7 @@ import { upsertLead } from '@/lib/hub/upsert-lead'
 import { ingestEvent } from '@/lib/hub/ingest-event'
 
 function getFilloutSecret(): string | null {
-  const secret = process.env.FILLOUT_SECRET?.trim()
+  const secret = (process.env.FILLOUT_WEBHOOK_TOKEN || process.env.FILLOUT_SECRET)?.trim()
   return secret ? secret : null
 }
 
@@ -55,9 +55,12 @@ function verifyWebhook(req: NextRequest, rawBody: string): boolean {
   const secret = getFilloutSecret()
 
   if (!secret) {
-    logger.error({}, 'FILLOUT_SECRET is not configured; rejecting Fillout webhook')
+    logger.error({}, 'FILLOUT_WEBHOOK_TOKEN or FILLOUT_SECRET is not configured; rejecting Fillout webhook')
     return false
   }
+
+  const token = req.headers.get('x-webhook-token')
+  if (token && timingSafeStringEqual(token, secret)) return true
 
   const sig =
     req.headers.get('x-fillout-signature') ??
@@ -66,18 +69,6 @@ function verifyWebhook(req: NextRequest, rawBody: string): boolean {
     req.headers.get('x-hook-signature')
 
   if (verifySignature(rawBody, sig, secret)) return true
-
-  // Legacy escape hatch only. Prefer HMAC signatures. Enable only if Fillout is
-  // configured to send a shared bearer token instead of an HMAC signature.
-  if (process.env.ALLOW_FILLOUT_BEARER_SECRET === 'true') {
-    const token =
-      req.headers.get('x-webhook-token') ??
-      (req.headers.get('authorization')?.startsWith('Bearer ')
-        ? req.headers.get('authorization')!.slice('Bearer '.length).trim()
-        : null)
-
-    if (token && timingSafeStringEqual(token, secret)) return true
-  }
 
   return false
 }
@@ -89,7 +80,7 @@ export async function POST(req: NextRequest) {
   const raw = await req.text()
   if (!verifyWebhook(req, raw)) {
     logger.warn({}, 'Fillout webhook rejected')
-    return NextResponse.json({ ok: false, error: 'invalid signature' }, { status: 401 })
+    return NextResponse.json({ ok: false, error: 'invalid webhook token or signature' }, { status: 401 })
   }
 
   let body: unknown = null
