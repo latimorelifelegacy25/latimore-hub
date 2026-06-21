@@ -35,9 +35,6 @@ function verifySignature(rawBody: string, sig: string | null, secret: string): b
 
   try {
     const normalized = normalizeSignature(sig)
-
-    // Fillout HMAC signatures should be SHA-256 hex digests. Reject malformed input
-    // before Buffer conversion so timingSafeEqual compares equal-length byte arrays.
     if (!/^[a-f0-9]{64}$/i.test(normalized)) return false
 
     const expected = crypto.createHmac('sha256', secret).update(rawBody, 'utf8').digest('hex')
@@ -73,6 +70,12 @@ function verifyWebhook(req: NextRequest, rawBody: string): boolean {
   return false
 }
 
+function isEmptyPayload(body: unknown): boolean {
+  if (body === null || body === undefined) return true
+  if (typeof body !== 'object' || Array.isArray(body)) return false
+  return Object.keys(body as Record<string, unknown>).length === 0
+}
+
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'fillout')
   if (limited) return limited
@@ -90,6 +93,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'invalid json' }, { status: 400 })
   }
 
+  if (isEmptyPayload(body)) {
+    logger.warn({}, 'Fillout webhook test received no body fields')
+    return NextResponse.json({
+      ok: true,
+      test: true,
+      message: 'Webhook authorized. Fillout did not send lead fields in this test payload.',
+    })
+  }
+
   const parse = FilloutSchema.safeParse(body)
   if (!parse.success) return NextResponse.json({ ok: false, error: parse.error.flatten() }, { status: 422 })
 
@@ -101,6 +113,15 @@ export async function POST(req: NextRequest) {
     payload.interest_type ??
     payload.interestType ??
     'General'
+
+  if (!email && !payload.phone) {
+    logger.warn({ payloadKeys: Object.keys(payload) }, 'Fillout webhook received no email or phone; acknowledging without CRM write')
+    return NextResponse.json({
+      ok: true,
+      test: true,
+      message: 'Webhook authorized. Add email or phone to the Fillout body mapping to create a CRM lead.',
+    })
+  }
 
   try {
     const { contact, inquiry } = await upsertLead({
