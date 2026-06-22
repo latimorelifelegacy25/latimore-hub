@@ -239,6 +239,10 @@ function errorMessage(error: unknown) {
   return error instanceof Error ? error.message : String(error)
 }
 
+function jsonRecord(value: Record<string, unknown>): Record<string, unknown> {
+  return JSON.parse(JSON.stringify(value)) as Record<string, unknown>
+}
+
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'fillout')
   if (limited) return limited
@@ -254,6 +258,7 @@ export async function POST(req: NextRequest) {
   }
 
   const input = parsed.data
+  const safeInput = jsonRecord(input as Record<string, unknown>)
   let aiRunId: string | undefined
 
   try {
@@ -293,7 +298,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         form: 'ai-intake',
         fieldKeys,
-        normalizedInput: input,
+        normalizedInput: safeInput,
       },
     })
 
@@ -357,7 +362,7 @@ export async function POST(req: NextRequest) {
       inquiryId: inquiry.id,
       input: {
         form: 'ai-intake',
-        normalizedInput: input,
+        normalizedInput: safeInput,
       },
     })
     aiRunId = aiRun.id
@@ -368,7 +373,7 @@ export async function POST(req: NextRequest) {
         'You are the Latimore Life & Legacy AI intake analyst. Analyze insurance, retirement, annuity, final expense, family protection, and business protection leads. Keep recommendations factual, compliant, and advisor-ready. Do not use fear tactics, do not guarantee outcomes, do not imply coverage is approved, and do not make unsupported financial claims.',
       user: JSON.stringify({
         task: 'Analyze this new auto-form intake and generate advisor follow-up material.',
-        lead: input,
+        lead: safeInput,
       }),
       schemaName: 'latimore_ai_intake',
       schema: aiIntakeSchema,
