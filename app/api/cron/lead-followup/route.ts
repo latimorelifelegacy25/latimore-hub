@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { logger } from '@/lib/logger'
+import { requireCronAuth } from '@/lib/ai/shared'
 
 const RULES = [
   { stage:'New',               staleDays:1, taskTitle:'First contact attempt',           priority:'high'   },
@@ -14,7 +15,10 @@ const RULES = [
 const staleDate = (d:number) => new Date(Date.now() - d*86400000)
 const dueSoon   = (d:number) => new Date(Date.now() + d*86400000)
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
+
   let created=0, skipped=0
   try {
     for (const rule of RULES) {
