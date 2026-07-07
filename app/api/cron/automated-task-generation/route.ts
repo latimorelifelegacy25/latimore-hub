@@ -2,62 +2,56 @@ export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
+import { requireCronAuth } from '@/lib/ai/shared'
 
 export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
+
   try {
-    // Get contacts that need automated task generation
-    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
-    // Find contacts that:
-    // 1. Are in active pipeline stages
-    // 2. Haven't had activity in the last 7 days
-    // 3. Don't have open tasks due within 3 days
     const contactsNeedingTasks = await prisma.contact.findMany({
       where: {
         status: {
-          in: ['NEW', 'ATTEMPTED_CONTACT', 'CONTACTED', 'QUALIFIED', 'NURTURE']
+          in: ['NEW', 'ATTEMPTED_CONTACT', 'CONTACTED', 'QUALIFIED', 'NURTURE'],
         },
-        OR: [
-          { lastActivityAt: { lt: sevenDaysAgo } },
-          { lastActivityAt: null }
-        ],
+        OR: [{ lastActivityAt: { lt: sevenDaysAgo } }, { lastActivityAt: null }],
         tasks: {
           none: {
             status: 'Open',
             dueAt: {
-              lt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) // Due within 3 days
-            }
-          }
-        }
+              lt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            },
+          },
+        },
       },
       include: {
         inquiries: {
           include: {
-            appointments: true
+            appointments: true,
           },
           orderBy: { createdAt: 'desc' },
-          take: 1
+          take: 1,
         },
         notes: {
           orderBy: { createdAt: 'desc' },
-          take: 5
+          take: 5,
         },
         tasks: {
           where: { status: 'Open' },
-          orderBy: { dueAt: 'asc' }
-        }
+          orderBy: { dueAt: 'asc' },
+          take: 5,
+        },
       },
-      take: 10 // Process up to 10 contacts per run
+      orderBy: { lastActivityAt: 'asc' },
+      take: 10,
     })
-
-    console.log(`Found ${contactsNeedingTasks.length} contacts needing automated tasks`)
 
     let totalTasksCreated = 0
 
     for (const contact of contactsNeedingTasks) {
       try {
-        // Prepare data for AI analysis
         const analysisData = {
           contact: {
             name: `${contact.firstName} ${contact.lastName}`,
@@ -67,25 +61,26 @@ export async function GET(req: NextRequest) {
             lastActivity: contact.lastActivityAt,
             daysSinceActivity: contact.lastActivityAt
               ? Math.floor((Date.now() - contact.lastActivityAt.getTime()) / (1000 * 60 * 60 * 24))
-              : null
+              : null,
           },
-          inquiry: contact.inquiries[0] ? {
-            stage: contact.inquiries[0].stage,
-            productInterest: contact.inquiries[0].productInterest,
-            status: contact.inquiries[0].status,
-            notes: contact.inquiries[0].notes
-          } : null,
-          recentNotes: contact.notes.map(note => ({
+          inquiry: contact.inquiries[0]
+            ? {
+                stage: contact.inquiries[0].stage,
+                productInterest: contact.inquiries[0].productInterest,
+                status: contact.inquiries[0].status,
+                notes: contact.inquiries[0].notes,
+              }
+            : null,
+          recentNotes: contact.notes.map((note) => ({
             content: note.body,
-            createdAt: note.createdAt
+            createdAt: note.createdAt,
           })),
-          existingTasks: contact.tasks.map(task => ({
+          existingTasks: contact.tasks.map((task) => ({
             title: task.title,
-            dueAt: task.dueAt
-          }))
+            dueAt: task.dueAt,
+          })),
         }
 
-        // Generate automated task
         const taskResult = await createOpenAIJsonCompletion<{
           title: string
           description: string
@@ -119,11 +114,11 @@ Provide a single task in this JSON format:
               title: { type: 'string' },
               description: { type: 'string' },
               dueInDays: { type: 'number', minimum: 1, maximum: 7 },
-              priority: { type: 'string', enum: ['high'] }
+              priority: { type: 'string', enum: ['high'] },
             },
-            required: ['title', 'description', 'dueInDays', 'priority']
+            required: ['title', 'description', 'dueInDays', 'priority'],
           },
-          temperature: 0.6
+          temperature: 0.6,
         })
 
         if (taskResult?.output) {
@@ -137,12 +132,11 @@ Provide a single task in this JSON format:
               dueAt,
               contactId: contact.id,
               inquiryId: contact.inquiries[0]?.id,
-              status: 'Open'
-            }
+              status: 'Open',
+            },
           })
 
           totalTasksCreated++
-          console.log(`Created automated task for ${contact.firstName} ${contact.lastName}`)
         }
       } catch (error) {
         console.error(`Failed to generate task for contact ${contact.id}:`, error)
@@ -153,11 +147,10 @@ Provide a single task in this JSON format:
       success: true,
       contactsProcessed: contactsNeedingTasks.length,
       tasksCreated: totalTasksCreated,
-      message: `Automated task generation complete: ${totalTasksCreated} tasks created for ${contactsNeedingTasks.length} contacts`
+      message: `Automated task generation complete: ${totalTasksCreated} tasks created for ${contactsNeedingTasks.length} contacts`,
     })
-
   } catch (error) {
     console.error('Automated task generation error:', error)
-    return NextResponse.json({ error: 'Failed to generate automated tasks' }, { status: 500 })
+    return NextResponse.json({ success: false, error: 'Failed to generate automated tasks' }, { status: 500 })
   }
 }
