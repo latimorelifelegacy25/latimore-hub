@@ -1,7 +1,8 @@
 export const dynamic = 'force-dynamic'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { logger } from '@/lib/logger'
+import { requireCronAuth } from '@/lib/ai/shared'
 
 const BRAND_SYSTEM = `You are the Legacy AI content strategist for Latimore Life & Legacy LLC serving Schuylkill, Luzerne, and Northumberland Counties PA. Tone: calm, authoritative, community-focused. Tagline: Protecting Today. Securing Tomorrow. #TheBeatGoesOn. Founder: Jackson M. Latimore Sr., MBA - cardiac arrest survivor, AED saved his life at ESU 2010. Compliance: use may/can/typically, no guarantees. Footer: Jackson M. Latimore Sr. | Independent Insurance Consultant | PA License #1268820 | NIPR #21638507. Educational content only. Respond ONLY with valid JSON, no markdown.`
 
@@ -29,7 +30,10 @@ function getWeekDates() {
   return days
 }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
+
   if (!process.env.OPENAI_API_KEY) return NextResponse.json({ ok:false, skipped:true, reason:'OPENAI_API_KEY not set' })
   const audience = getAudience()
   const weekDates = getWeekDates()
@@ -51,7 +55,7 @@ export async function GET() {
     const raw = data.choices?.[0]?.message?.content ?? '{}'
     let parsed: any
     try { parsed = JSON.parse(raw) } catch { parsed = {} }
-    const posts: any[] = parsed.posts ?? []
+    const posts: any[] = (parsed.posts ?? []).slice(0, 5)
     if (!posts.length) return NextResponse.json({ ok:false, error:'No posts from AI' },{status:500})
     const created: string[] = []
     for (const post of posts) {
