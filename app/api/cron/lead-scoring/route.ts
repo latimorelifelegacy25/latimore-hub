@@ -1,16 +1,16 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { computeEnhancedLeadScore } from '@/lib/ai/lead-score-enhanced'
+import { requireCronAuth } from '@/lib/ai/shared'
 
-export async function GET() {
-  // Only allow cron requests
-  const cronSecret = process.env.CRON_SECRET
-  if (!cronSecret || process.env.CRON_SECRET !== cronSecret) {
-    return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 })
-  }
+const LEAD_SCORING_BATCH_SIZE = 100
+
+export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
 
   try {
-    // Get all contacts that need scoring (active in last 30 days or have open inquiries)
+    // Get a bounded batch of contacts that need scoring (active in last 30 days or have open inquiries)
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
 
     const contacts = await prisma.contact.findMany({
@@ -21,6 +21,8 @@ export async function GET() {
           { leadScore: { gte: 50 } }, // Keep high-scoring leads fresh
         ]
       },
+      orderBy: { lastActivityAt: 'desc' },
+      take: LEAD_SCORING_BATCH_SIZE,
       select: { id: true, firstName: true, lastName: true },
     })
 
@@ -41,14 +43,19 @@ export async function GET() {
     await prisma.systemEvent.create({
       data: {
         type: 'cron.lead_scoring.completed',
-        payload: { contactsProcessed: scored, errors, totalContacts: contacts.length }
+        payload: {
+          contactsProcessed: scored,
+          errors,
+          totalContacts: contacts.length,
+          batchSize: LEAD_SCORING_BATCH_SIZE,
+        }
       }
     })
 
     return NextResponse.json({
       ok: true,
       message: `Lead scoring completed: ${scored} contacts scored, ${errors} errors`,
-      stats: { scored, errors, total: contacts.length }
+      stats: { scored, errors, total: contacts.length, batchSize: LEAD_SCORING_BATCH_SIZE }
     })
 
   } catch (error) {
