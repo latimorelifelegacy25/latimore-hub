@@ -8,8 +8,20 @@ import { createOpenAIJsonCompletion } from '@/lib/ai/client'
 import { applyAiRateLimit, completeAiRun, createAiRun, createSystemAiEvent, failAiRun, requireAdminSession } from '@/lib/ai/shared'
 import { countAll } from '@/lib/prisma-helpers'
 
-
 const BodySchema = z.object({ limit: z.number().int().min(3).max(25).default(10).optional() })
+
+const contactBriefSelect = {
+  id: true,
+  firstName: true,
+  lastName: true,
+  fullName: true,
+  email: true,
+  phone: true,
+  leadScore: true,
+  lastActivityAt: true,
+  nextFollowUpAt: true,
+  primarySource: true,
+} as const
 
 const schema = {
   type: 'object',
@@ -30,12 +42,9 @@ const displayName = (contact: any) => contact.fullName || [contact.firstName, co
 export async function POST(req: NextRequest) {
   const limited = applyAiRateLimit(req)
   if (limited) return limited
-  const cronSecret = process.env.CRON_SECRET
-  const isCron = cronSecret && req.headers.get("x-cron-secret") === cronSecret
-  if (!isCron) {
-    const auth = await requireAdminSession()
-    if (!auth.ok) return auth.response
-  }
+
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
   const body = await req.json().catch(() => ({}))
   const parsed = BodySchema.safeParse(body)
@@ -47,9 +56,44 @@ export async function POST(req: NextRequest) {
     const now = new Date()
     const staleCutoff = new Date(now.getTime() - 14 * 86400000)
     const [topContacts, staleInquiries, overdueTasks, stageCounts] = await Promise.all([
-      prisma.contact.findMany({ orderBy: [{ leadScore: 'desc' }, { lastActivityAt: 'desc' }], take: limit, include: { inquiries: { orderBy: { updatedAt: 'desc' }, take: 1 } } }),
-      prisma.inquiry.findMany({ where: { updatedAt: { lt: staleCutoff }, stage: { in: ['New', 'Attempted_Contact', 'Qualified', 'Booked', 'Follow_Up'] } }, orderBy: { updatedAt: 'asc' }, take: limit, include: { contact: true } }),
-      prisma.task.findMany({ where: { dueAt: { lt: now }, status: { in: ['Open', 'In_Progress', 'Snoozed'] } }, orderBy: { dueAt: 'asc' }, take: limit, include: { contact: true } }),
+      prisma.contact.findMany({
+        orderBy: [{ leadScore: 'desc' }, { lastActivityAt: 'desc' }],
+        take: limit,
+        select: {
+          ...contactBriefSelect,
+          inquiries: {
+            orderBy: { updatedAt: 'desc' },
+            take: 1,
+            select: { id: true, stage: true, productInterest: true, updatedAt: true },
+          },
+        },
+      }),
+      prisma.inquiry.findMany({
+        where: { updatedAt: { lt: staleCutoff }, stage: { in: ['New', 'Attempted_Contact', 'Qualified', 'Booked', 'Follow_Up'] } },
+        orderBy: { updatedAt: 'asc' },
+        take: limit,
+        select: {
+          id: true,
+          contactId: true,
+          stage: true,
+          updatedAt: true,
+          leadScore: true,
+          productInterest: true,
+          contact: { select: contactBriefSelect },
+        },
+      }),
+      prisma.task.findMany({
+        where: { dueAt: { lt: now }, status: { in: ['Open', 'In_Progress', 'Snoozed'] } },
+        orderBy: { dueAt: 'asc' },
+        take: limit,
+        select: {
+          id: true,
+          title: true,
+          dueAt: true,
+          status: true,
+          contact: { select: contactBriefSelect },
+        },
+      }),
       prisma.inquiry.groupBy({ by: ['stage'], _count: { _all: true } }),
     ])
 
