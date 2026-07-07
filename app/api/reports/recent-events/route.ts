@@ -11,6 +11,11 @@ export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
-  const items = await getRecentEvents(100)
-  return NextResponse.json({ items })
+  try {
+    const items = await getRecentEvents(100)
+    return NextResponse.json({ items })
+  } catch (error) {
+    console.error('Recent events report API error:', error)
+    return NextResponse.json({ ok: false, error: 'failed_to_load_recent_events' }, { status: 500 })
+  }
 }
