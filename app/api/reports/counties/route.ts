@@ -12,11 +12,16 @@ export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
-  const items = await getCountyReport()
-  return NextResponse.json({
-    items: items.map((row) => ({
-      county: row.county,
-      count: countAll(row._count),
-    })),
-  })
+  try {
+    const items = await getCountyReport()
+    return NextResponse.json({
+      items: items.map((row) => ({
+        county: row.county,
+        count: countAll(row._count),
+      })),
+    })
+  } catch (error) {
+    console.error('County report API error:', error)
+    return NextResponse.json({ ok: false, error: 'failed_to_load_county_report' }, { status: 500 })
+  }
 }
