@@ -60,12 +60,6 @@ export async function GET(req: NextRequest) {
     })
   } catch (error) {
     console.error('Analytics API error:', error)
-    // Return fallback empty data if database is unreachable
-    return NextResponse.json({
-      sourceCounts: [],
-      countyCounts: [],
-      recentEvents: [],
-      productCounts: [],
-    })
+    return NextResponse.json({ ok: false, error: 'failed_to_load_overview_analytics' }, { status: 500 })
   }
 }
