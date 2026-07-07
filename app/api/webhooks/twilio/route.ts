@@ -1,20 +1,57 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
+import twilio from 'twilio'
 import { prisma } from '@/lib/prisma'
 import { triggerLeadScoring } from '@/lib/ai/lead-score-trigger'
 
-export async function POST(req: NextRequest) {
-  const formData = await req.formData()
-  const from = formData.get('From') as string
-  const to = formData.get('To') as string
-  const body = formData.get('Body') as string
-  const messageSid = formData.get('MessageSid') as string
+function getRequestUrl(req: NextRequest) {
+  const forwardedProto = req.headers.get('x-forwarded-proto')
+  const forwardedHost = req.headers.get('x-forwarded-host') ?? req.headers.get('host')
 
-  if (!from || !body) {
-    return new NextResponse('Missing required fields', { status: 400 })
+  if (!forwardedProto || !forwardedHost) return req.url
+
+  const currentUrl = new URL(req.url)
+  return `${forwardedProto}://${forwardedHost}${currentUrl.pathname}${currentUrl.search}`
+}
+
+function formDataToParams(formData: FormData) {
+  const params: Record<string, string> = {}
+  for (const [key, value] of formData.entries()) {
+    if (typeof value === 'string') params[key] = value
+  }
+  return params
+}
+
+function verifyTwilioSignature(req: NextRequest, formData: FormData) {
+  const authToken = process.env.TWILIO_AUTH_TOKEN?.trim()
+  if (!authToken) {
+    console.error('TWILIO_AUTH_TOKEN is not configured; rejecting Twilio webhook')
+    return false
   }
 
+  const signature = req.headers.get('x-twilio-signature')
+  if (!signature) return false
+
+  return twilio.validateRequest(authToken, signature, getRequestUrl(req), formDataToParams(formData))
+}
+
+export async function POST(req: NextRequest) {
   try {
+    const formData = await req.formData()
+
+    if (!verifyTwilioSignature(req, formData)) {
+      return new NextResponse('Invalid signature', { status: 401 })
+    }
+
+    const from = formData.get('From') as string
+    const to = formData.get('To') as string
+    const body = formData.get('Body') as string
+    const messageSid = formData.get('MessageSid') as string
+
+    if (!from || !body) {
+      return new NextResponse('Missing required fields', { status: 400 })
+    }
+
     // Find contact by phone number
     const contact = await prisma.contact.findFirst({
       where: { phone: from.replace(/^\+?1/, '') }, // Remove +1 prefix for US numbers
@@ -92,7 +129,6 @@ export async function POST(req: NextRequest) {
 
     // Return empty response to acknowledge receipt
     return new NextResponse('', { status: 200 })
-
   } catch (error) {
     console.error('Twilio webhook error:', error)
     return new NextResponse('Internal server error', { status: 500 })
