@@ -49,6 +49,32 @@ function walk(dir: string, files: string[] = []) {
   return files
 }
 
+function toRouteKey(filePath: string) {
+  const relative = path.relative(repoRoot, filePath).replaceAll(path.sep, '/')
+  const routeRootPatterns = [/^app\//, /^src\/app\//, /^latimore-hub\/app\//, /^latimore-hub\/src\/app\//]
+  const normalized = routeRootPatterns.reduce((current, pattern) => current.replace(pattern, 'app/'), relative)
+  return normalized.replace(/\/route\.ts$/, '').replace(/\/page\.tsx$/, '')
+}
+
+function checkDuplicateRouteFiles(files: string[]) {
+  const byRoute = new Map<string, string[]>()
+  for (const file of files) {
+    const key = toRouteKey(file)
+    const existing = byRoute.get(key) ?? []
+    existing.push(path.relative(repoRoot, file))
+    byRoute.set(key, existing)
+  }
+
+  for (const [routeKey, matches] of byRoute) {
+    if (matches.length > 1) {
+      findings.push({
+        level: 'error',
+        message: `Duplicate route implementation for ${routeKey}: ${matches.join(', ')}`,
+      })
+    }
+  }
+}
+
 if (!exists(appDir)) {
   findings.push({ level: 'error', message: 'Missing app directory; route parity cannot run.' })
 }
@@ -96,9 +122,23 @@ for (const routeFile of routeFiles) {
   }
 }
 
-const duplicateNestedApp = path.join(repoRoot, 'latimore-hub', 'app')
-if (exists(duplicateNestedApp)) {
-  findings.push({ level: 'warn', message: 'Nested latimore-hub/app tree exists; confirm it is not a duplicate source tree used by builds.' })
+const allRouteLikeFiles = walk(repoRoot).filter(
+  (file) => file.endsWith(`${path.sep}route.ts`) || file.endsWith(`${path.sep}page.tsx`)
+)
+checkDuplicateRouteFiles(allRouteLikeFiles)
+
+const duplicateTrees = [
+  path.join(repoRoot, 'latimore-hub', 'app'),
+  path.join(repoRoot, 'latimore-hub', 'src', 'app'),
+  path.join(repoRoot, 'src', 'app'),
+]
+for (const duplicateTree of duplicateTrees) {
+  if (exists(duplicateTree)) {
+    findings.push({
+      level: 'error',
+      message: `Duplicate app route tree exists at ${path.relative(repoRoot, duplicateTree)}; remove or quarantine it before validation can pass.`,
+    })
+  }
 }
 
 for (const finding of findings) {
