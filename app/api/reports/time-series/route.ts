@@ -1,9 +1,14 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { rateLimit } from '@/lib/rate-limit'
 import { prisma } from '@/lib/prisma'
+
+const TimeSeriesQuerySchema = z.object({
+  days: z.coerce.number().int().min(1).max(365).default(30),
+})
 
 export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
@@ -14,10 +19,20 @@ export async function GET(req: NextRequest) {
 
   try {
     const url = new URL(req.url)
-    const days = parseInt(url.searchParams.get('days') || '30')
+    const parsed = TimeSeriesQuerySchema.safeParse({
+      days: url.searchParams.get('days') ?? undefined,
+    })
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { ok: false, error: 'Invalid time-series query', details: parsed.error.flatten() },
+        { status: 422 }
+      )
+    }
+
+    const { days } = parsed.data
     const startDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000)
 
-    // Get daily metrics for the specified period
     const dailyMetrics = await prisma.$queryRaw<Array<{
       date: string
       inquiries: number
@@ -65,7 +80,6 @@ export async function GET(req: NextRequest) {
       ORDER BY d.date
     `
 
-    // Get conversion funnel data
     const funnelData = await prisma.$queryRaw<Array<{
       stage: string
       count: number
@@ -125,10 +139,6 @@ export async function GET(req: NextRequest) {
     })
   } catch (error) {
     console.error('Time series API error:', error)
-    // Return fallback empty data if database is unreachable
-    return NextResponse.json({
-      dailyMetrics: [],
-      funnelData: [],
-    })
+    return NextResponse.json({ ok: false, error: 'Failed to load time-series report' }, { status: 500 })
   }
 }
