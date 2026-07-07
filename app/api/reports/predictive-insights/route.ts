@@ -6,6 +6,8 @@ import { rateLimit } from '@/lib/rate-limit'
 import { prisma } from '@/lib/prisma'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
 
+const PREDICTIVE_INSIGHTS_SAMPLE_LIMIT = 250
+
 export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
   if (limited) return limited
@@ -23,14 +25,19 @@ export async function GET(req: NextRequest) {
         where: { createdAt: { gte: thirtyDaysAgo } },
         select: { createdAt: true, source: true, productInterest: true, stage: true },
         orderBy: { createdAt: 'desc' },
+        take: PREDICTIVE_INSIGHTS_SAMPLE_LIMIT,
       }),
       prisma.contact.findMany({
         where: { createdAt: { gte: thirtyDaysAgo } },
         select: { createdAt: true, county: true, leadScore: true, status: true },
+        orderBy: { createdAt: 'desc' },
+        take: PREDICTIVE_INSIGHTS_SAMPLE_LIMIT,
       }),
       prisma.appointment.findMany({
         where: { createdAt: { gte: thirtyDaysAgo } },
         select: { createdAt: true, status: true },
+        orderBy: { createdAt: 'desc' },
+        take: PREDICTIVE_INSIGHTS_SAMPLE_LIMIT,
       }),
       // Get daily counts for the last 30 days
       prisma.$queryRaw<Array<{ date: string; inquiries: number; contacts: number; bookings: number }>>`
@@ -127,23 +134,6 @@ Data: ${JSON.stringify(analysisData, null, 2)}`,
     })
   } catch (error) {
     console.error('Predictive insights API error:', error)
-    // Return fallback empty insights if database is unreachable
-    return NextResponse.json({
-      metrics: {
-        totalInquiries: 0,
-        totalContacts: 0,
-        totalBookings: 0,
-        conversionRate: 0,
-        inquiryGrowth: 0,
-      },
-      insights: {
-        trendAnalysis: "Database temporarily unavailable. Check back soon.",
-        predictions: [],
-        opportunities: [],
-        risks: [],
-        recommendations: [],
-      },
-      trendData: [],
-    })
+    return NextResponse.json({ ok: false, error: 'failed_to_load_predictive_insights' }, { status: 500 })
   }
 }
