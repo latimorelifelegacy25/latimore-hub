@@ -12,13 +12,18 @@ export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions)
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
-  const items = await getSourceReport()
-  return NextResponse.json({
-    items: items.map((row) => ({
-      source: row.source,
-      medium: row.medium,
-      campaign: row.campaign,
-      count: countAll(row._count),
-    })),
-  })
+  try {
+    const items = await getSourceReport()
+    return NextResponse.json({
+      items: items.map((row) => ({
+        source: row.source,
+        medium: row.medium,
+        campaign: row.campaign,
+        count: countAll(row._count),
+      })),
+    })
+  } catch (error) {
+    console.error('Source report API error:', error)
+    return NextResponse.json({ ok: false, error: 'failed_to_load_source_report' }, { status: 500 })
+  }
 }
