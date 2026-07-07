@@ -1,15 +1,19 @@
 export const dynamic = 'force-dynamic'
 
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { logger } from '@/lib/logger'
+import { requireCronAuth } from '@/lib/ai/shared'
 
 /**
  * Vercel cron — runs daily at 11:00 AM ET (15:00 UTC).
  * Generates a lightweight pipeline summary and writes it as a SystemEvent
  * so it appears in the admin analytics feed. No OpenAI key required.
  */
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
+
   try {
     const now = new Date()
 
