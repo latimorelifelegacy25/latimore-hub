@@ -6,8 +6,11 @@ import { logger } from '@/lib/logger'
 import { recordAppointment } from '@/lib/hub/record-appointment'
 
 function verifyWebhookSecret(req: NextRequest): boolean {
-  const secret = process.env.BOOKING_WEBHOOK_SECRET
-  if (!secret) return true
+  const secret = process.env.BOOKING_WEBHOOK_SECRET?.trim()
+  if (!secret) {
+    logger.error({}, 'BOOKING_WEBHOOK_SECRET is not configured; rejecting booking webhook')
+    return false
+  }
   const provided = req.headers.get('x-webhook-secret') ?? ''
   return provided === secret
 }
