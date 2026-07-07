@@ -5,6 +5,8 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
 
+const AI_TASK_STATS_SAMPLE_LIMIT = 250
+
 export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
   if (limited) return limited
@@ -145,7 +147,9 @@ export async function GET(req: NextRequest) {
         id: true,
         status: true,
         dueAt: true
-      }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: AI_TASK_STATS_SAMPLE_LIMIT
     })
 
     const completedAiTasks = aiTaskStats.filter(task => task.status === 'Completed').length
@@ -188,25 +192,6 @@ export async function GET(req: NextRequest) {
 
   } catch (error) {
     console.error('CRM analytics API error:', error)
-    // Return fallback empty data if database is unreachable
-    return NextResponse.json({
-      pipeline: [],
-      leadScores: [],
-      tasks: {
-        total: 0,
-        completed: 0,
-        open: 0,
-        overdue: 0
-      },
-      funnel: [],
-      recentActivity: [],
-      aiTasks: {
-        generated: 0,
-        completed: 0,
-        pending: 0,
-        overdue: 0,
-        completionRate: 0
-      }
-    })
+    return NextResponse.json({ ok: false, error: 'failed_to_load_crm_analytics' }, { status: 500 })
   }
 }
