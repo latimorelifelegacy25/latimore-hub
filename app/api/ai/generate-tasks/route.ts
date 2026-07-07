@@ -1,10 +1,19 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
+import { z } from 'zod'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
+
+const GenerateTasksSchema = z.object({
+  contactId: z.string().min(1).optional(),
+  inquiryId: z.string().min(1).optional(),
+}).refine((data) => Boolean(data.contactId || data.inquiryId), {
+  message: 'contactId or inquiryId required',
+  path: ['contactId'],
+})
 
 export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'default')
@@ -14,54 +23,122 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
 
   try {
-    const { contactId, inquiryId } = await req.json()
-
-    if (!contactId && !inquiryId) {
-      return NextResponse.json({ error: 'contactId or inquiryId required' }, { status: 400 })
+    const body = await req.json().catch(() => null)
+    const parsed = GenerateTasksSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ ok: false, error: 'Invalid task-generation payload', details: parsed.error.flatten() }, { status: 422 })
     }
 
-    // Get contact/inquiry data for AI analysis
+    const { contactId, inquiryId } = parsed.data
+
+    // Get contact/inquiry data for AI analysis with bounded related data
     let contact, inquiry
 
     if (contactId) {
       contact = await prisma.contact.findUnique({
         where: { id: contactId },
-        include: {
+        select: {
+          id: true,
+          firstName: true,
+          lastName: true,
+          email: true,
+          phone: true,
+          county: true,
+          status: true,
+          leadScore: true,
+          lastActivityAt: true,
+          nextFollowUpAt: true,
+          notesSummary: true,
           inquiries: {
-            include: {
-              appointments: true
-            }
+            orderBy: { createdAt: 'desc' },
+            take: 3,
+            select: {
+              id: true,
+              stage: true,
+              productInterest: true,
+              status: true,
+              leadScore: true,
+              notes: true,
+              appointments: {
+                orderBy: { scheduledFor: 'desc' },
+                take: 3,
+                select: { scheduledFor: true, status: true },
+              },
+            },
           },
-          notes: true,
+          notes: {
+            orderBy: { createdAt: 'desc' },
+            take: 5,
+            select: { body: true, createdAt: true },
+          },
           tasks: {
             where: { status: 'Open' },
-            orderBy: { dueAt: 'asc' }
+            orderBy: { dueAt: 'asc' },
+            take: 10,
+            select: { title: true, description: true, dueAt: true, status: true },
           },
-          appointments: true
-        }
+          appointments: {
+            orderBy: { scheduledFor: 'desc' },
+            take: 3,
+            select: { scheduledFor: true, status: true },
+          },
+        },
       })
     }
 
     if (inquiryId) {
       inquiry = await prisma.inquiry.findUnique({
         where: { id: inquiryId },
-        include: {
-          contact: {
-            include: {
-              notes: true,
-              tasks: {
-                where: { status: 'Open' },
-                orderBy: { dueAt: 'asc' }
-              },
-              appointments: true
-            }
+        select: {
+          id: true,
+          stage: true,
+          productInterest: true,
+          status: true,
+          leadScore: true,
+          notes: true,
+          appointments: {
+            orderBy: { scheduledFor: 'desc' },
+            take: 3,
+            select: { scheduledFor: true, status: true },
           },
-          appointments: true,
           tasks: {
             where: { status: 'Open' },
-            orderBy: { dueAt: 'asc' }
-          }
-        }
+            orderBy: { dueAt: 'asc' },
+            take: 10,
+            select: { title: true, description: true, dueAt: true, status: true },
+          },
+          contact: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              phone: true,
+              county: true,
+              status: true,
+              leadScore: true,
+              lastActivityAt: true,
+              nextFollowUpAt: true,
+              notesSummary: true,
+              notes: {
+                orderBy: { createdAt: 'desc' },
+                take: 5,
+                select: { body: true, createdAt: true },
+              },
+              tasks: {
+                where: { status: 'Open' },
+                orderBy: { dueAt: 'asc' },
+                take: 10,
+                select: { title: true, description: true, dueAt: true, status: true },
+              },
+              appointments: {
+                orderBy: { scheduledFor: 'desc' },
+                take: 3,
+                select: { scheduledFor: true, status: true },
+              },
+            },
+          },
+        },
       })
       contact = inquiry?.contact
     }
@@ -90,7 +167,7 @@ export async function POST(req: NextRequest) {
         leadScore: inquiry.leadScore,
         notes: inquiry.notes
       } : null,
-      recentNotes: contact.notes.slice(-5).map(note => ({
+      recentNotes: contact.notes.map(note => ({
         content: note.body,
         createdAt: note.createdAt
       })),
@@ -100,7 +177,7 @@ export async function POST(req: NextRequest) {
         dueAt: task.dueAt,
         status: task.status
       })),
-      appointments: contact.appointments.slice(-3).map(apt => ({
+      appointments: contact.appointments.map(apt => ({
         scheduledFor: apt.scheduledFor,
         status: apt.status
       }))
