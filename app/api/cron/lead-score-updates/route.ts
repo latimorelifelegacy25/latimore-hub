@@ -1,14 +1,19 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { requireCronAuth } from '@/lib/ai/shared'
+
+const LEAD_SCORE_UPDATE_BATCH_SIZE = 100
 
 export async function GET(req: NextRequest) {
+  const unauthorized = requireCronAuth(req)
+  if (unauthorized) return unauthorized
+
   try {
     // Get contacts that need lead score updates
-    const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
-    // Find contacts with recent activity that might need score adjustments
+    // Find a bounded batch of contacts with recent activity that might need score adjustments
     const contactsToUpdate = await prisma.contact.findMany({
       where: {
         OR: [
@@ -23,16 +28,43 @@ export async function GET(req: NextRequest) {
           }
         ]
       },
-      include: {
+      orderBy: { updatedAt: 'desc' },
+      take: LEAD_SCORE_UPDATE_BATCH_SIZE,
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        status: true,
+        leadScore: true,
+        lastActivityAt: true,
+        notesSummary: true,
         inquiries: {
-          include: {
-            appointments: true
-          }
+          select: {
+            status: true,
+            updatedAt: true,
+            appointments: {
+              select: { createdAt: true },
+              where: { createdAt: { gte: sevenDaysAgo } },
+              take: 10,
+            },
+          },
+          where: { updatedAt: { gte: sevenDaysAgo } },
+          take: 10,
         },
-        notes: true,
-        appointments: true,
+        notes: {
+          select: { createdAt: true },
+          where: { createdAt: { gte: sevenDaysAgo } },
+          take: 10,
+        },
+        appointments: {
+          select: { createdAt: true },
+          where: { createdAt: { gte: sevenDaysAgo } },
+          take: 10,
+        },
         tasks: {
-          where: { status: 'Open' }
+          where: { status: 'Open' },
+          select: { dueAt: true },
+          take: 20,
         }
       }
     })
@@ -44,7 +76,7 @@ export async function GET(req: NextRequest) {
     for (const contact of contactsToUpdate) {
       try {
         let scoreAdjustment = 0
-        let reasons = []
+        const reasons: string[] = []
 
         // Base score from status
         const statusScores = {
@@ -80,9 +112,7 @@ export async function GET(req: NextRequest) {
         }
 
         // Appointment activity
-        const recentAppointments = contact.appointments.filter(apt =>
-          apt.createdAt >= sevenDaysAgo
-        ).length
+        const recentAppointments = contact.appointments.length
 
         if (recentAppointments > 0) {
           scoreAdjustment += recentAppointments * 10
@@ -100,9 +130,7 @@ export async function GET(req: NextRequest) {
         }
 
         // Notes activity (engagement)
-        const recentNotes = contact.notes.filter(note =>
-          note.createdAt >= sevenDaysAgo
-        ).length
+        const recentNotes = contact.notes.length
 
         if (recentNotes > 0) {
           scoreAdjustment += recentNotes * 3
@@ -147,11 +175,12 @@ export async function GET(req: NextRequest) {
       success: true,
       contactsProcessed: contactsToUpdate.length,
       scoresUpdated: updatedCount,
+      batchSize: LEAD_SCORE_UPDATE_BATCH_SIZE,
       message: `Lead score updates complete: ${updatedCount} scores updated`
     })
 
   } catch (error) {
     console.error('Lead score update error:', error)
-    return NextResponse.json({ error: 'Failed to update lead scores' }, { status: 500 })
+    return NextResponse.json({ success: false, error: 'Failed to update lead scores' }, { status: 500 })
   }
 }
