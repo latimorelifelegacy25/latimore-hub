@@ -14,12 +14,8 @@ const BodySchema = z.object({
 export async function POST(req: NextRequest) {
   const limited = applyAiRateLimit(req)
   if (limited) return limited
-  const cronSecret = process.env.CRON_SECRET
-  const isCron = cronSecret && req.headers.get("x-cron-secret") === cronSecret
-  if (!isCron) {
-    const auth = await requireAdminSession()
-    if (!auth.ok) return auth.response
-  }
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
   const body = await req.json().catch(() => null)
   const parsed = BodySchema.safeParse(body)
