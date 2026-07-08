@@ -3,8 +3,22 @@
  * Generate an AI-powered snapshot/brief of a client based on their notes and context
  */
 
+import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
+import { requireAdminSession } from '@/lib/ai/shared'
 import { prisma } from '@/lib/prisma'
+
+const CLIENT_SNAPSHOT_NOTE_LIMIT = 20
+
+const ClientSnapshotRequestSchema = z.object({
+  contactId: z.string().min(1).optional().nullable(),
+  notes: z.string().max(10_000).optional().nullable(),
+  household: z.string().max(200).optional().nullable(),
+}).refine((value) => Boolean(value.contactId || value.notes), {
+  message: 'Either contactId or notes is required',
+  path: ['contactId'],
+})
 
 const SNAPSHOT_SCHEMA = {
   type: 'object' as const,
@@ -41,48 +55,52 @@ const SNAPSHOT_SCHEMA = {
   required: ['whoTheyAre', 'familyContext', 'financialPicture', 'topGoals', 'riskThemes', 'summary'],
 }
 
-export async function POST(req: Request) {
-  try {
-    const body = await req.json()
-    const { contactId, notes, household } = body
+export async function POST(req: NextRequest) {
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
-    if (!notes && !contactId) {
-      return Response.json(
-        { error: 'Either contactId or notes is required' },
-        { status: 400 }
+  try {
+    const body = await req.json().catch(() => null)
+    const parsed = ClientSnapshotRequestSchema.safeParse(body)
+
+    if (!parsed.success) {
+      return NextResponse.json(
+        { ok: false, error: 'Invalid client snapshot payload', details: parsed.error.flatten() },
+        { status: 422 }
       )
     }
 
+    const { contactId, notes, household } = parsed.data
     let clientInfo = { notes: '', household: '', email: '' }
 
     // Fetch from DB if contactId provided
     if (contactId) {
       const contact = await prisma.contact.findUnique({
         where: { id: contactId },
-        select: { 
-          firstName: true, 
-          lastName: true, 
-          email: true, 
-          phone: true, 
+        select: {
+          firstName: true,
+          lastName: true,
+          email: true,
           notes: {
             select: { body: true, createdAt: true },
-            orderBy: { createdAt: 'desc' }
-          }
+            orderBy: { createdAt: 'desc' },
+            take: CLIENT_SNAPSHOT_NOTE_LIMIT,
+          },
         },
       })
       if (!contact) {
-        return Response.json({ error: 'Contact not found' }, { status: 404 })
+        return NextResponse.json({ ok: false, error: 'Contact not found' }, { status: 404 })
       }
       clientInfo = {
-        notes: contact.notes?.map(note => note.body).join('\n\n') || '',
+        notes: contact.notes?.map((note) => note.body).join('\n\n') || '',
         household: `${contact.firstName} ${contact.lastName}`.trim(),
         email: contact.email || '',
       }
     } else {
-      clientInfo = { notes, household: household || '', email: '' }
+      clientInfo = { notes: notes ?? '', household: household ?? '', email: '' }
     }
 
-    const systemPrompt = `You are a legacy planning consultant assistant for Latimore Life & Legacy LLC. 
+    const systemPrompt = `You are a legacy planning consultant assistant for Latimore Life & Legacy LLC.
 Your role is to rapidly synthesize client information into actionable insights for Jackson's sales calls.
 Focus on family protection, legacy planning, and insurance solutions appropriate for Central PA.
 Be empathetic, practical, and solution-oriented.`
@@ -102,11 +120,11 @@ Generate a quick client snapshot to prepare for this conversation.`
       temperature: 0.7,
     })
 
-    return Response.json(result.output)
+    return NextResponse.json({ ok: true, snapshot: result.output })
   } catch (error) {
     console.error('Client snapshot error:', error)
-    return Response.json(
-      { error: error instanceof Error ? error.message : 'Failed to generate snapshot' },
+    return NextResponse.json(
+      { ok: false, error: error instanceof Error ? error.message : 'Failed to generate snapshot' },
       { status: 500 }
     )
   }
