@@ -26,20 +26,39 @@ export async function GET(req: NextRequest) {
           },
         },
       },
-      include: {
+      select: {
+        id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        status: true,
+        leadScore: true,
+        lastActivityAt: true,
         inquiries: {
-          include: {
-            appointments: true,
+          select: {
+            id: true,
+            stage: true,
+            productInterest: true,
+            status: true,
+            notes: true,
           },
           orderBy: { createdAt: 'desc' },
           take: 1,
         },
         notes: {
+          select: {
+            body: true,
+            createdAt: true,
+          },
           orderBy: { createdAt: 'desc' },
           take: 5,
         },
         tasks: {
           where: { status: 'Open' },
+          select: {
+            title: true,
+            dueAt: true,
+          },
           orderBy: { dueAt: 'asc' },
           take: 5,
         },
