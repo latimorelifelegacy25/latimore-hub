@@ -30,7 +30,7 @@ const schema = {
 export async function POST(req: NextRequest) {
   const limited = applyAiRateLimit(req)
   if (limited) return limited
-  const auth = await requireAdminSession()
+  const auth = await requireAdminSession(req)
   if (!auth.ok) return auth.response
 
   const body = await req.json().catch(() => null)
