@@ -1,10 +1,9 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { rateLimit } from '@/lib/rate-limit'
 import { prisma } from '@/lib/prisma'
+import { requireAdminSession } from '@/lib/ai/shared'
 
 const TimeSeriesQuerySchema = z.object({
   days: z.coerce.number().int().min(1).max(365).default(30),
@@ -14,8 +13,8 @@ export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
   if (limited) return limited
 
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
   try {
     const url = new URL(req.url)
