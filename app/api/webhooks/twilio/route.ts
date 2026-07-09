@@ -52,16 +52,25 @@ export async function POST(req: NextRequest) {
       return new NextResponse('Missing required fields', { status: 400 })
     }
 
-    // Find contact by phone number
+    // Find contact by phone number with only the fields required for SMS handling
     const contact = await prisma.contact.findFirst({
       where: { phone: from.replace(/^\+?1/, '') }, // Remove +1 prefix for US numbers
-      include: { inquiries: { orderBy: { createdAt: 'desc' }, take: 1 } }
+      select: {
+        id: true,
+        inquiries: {
+          orderBy: { createdAt: 'desc' },
+          take: 1,
+          select: { id: true },
+        },
+      },
     })
 
     if (!contact) {
       console.log(`Inbound SMS from unknown number: ${from}`)
       return new NextResponse('', { status: 200 }) // Acknowledge but don't process
     }
+
+    const inquiryId = contact.inquiries[0]?.id ?? null
 
     // Find or create conversation thread
     let thread = await prisma.conversationThread.findFirst({
@@ -73,7 +82,7 @@ export async function POST(req: NextRequest) {
       thread = await prisma.conversationThread.create({
         data: {
           contactId: contact.id,
-          inquiryId: contact.inquiries[0]?.id ?? null,
+          inquiryId,
           channel: 'sms',
           subject: 'SMS Conversation',
           lastMessageAt: new Date(),
@@ -87,7 +96,7 @@ export async function POST(req: NextRequest) {
       data: {
         threadId: thread.id,
         contactId: contact.id,
-        inquiryId: contact.inquiries[0]?.id ?? null,
+        inquiryId,
         channel: 'sms',
         direction: 'inbound',
         status: 'received',
@@ -115,7 +124,7 @@ export async function POST(req: NextRequest) {
       data: {
         type: 'message.received',
         contactId: contact.id,
-        inquiryId: contact.inquiries[0]?.id ?? null,
+        inquiryId,
         payload: { channel: 'sms', messageId: message.id }
       }
     })
@@ -123,7 +132,7 @@ export async function POST(req: NextRequest) {
     // Trigger lead scoring for inbound message
     await triggerLeadScoring({
       contactId: contact.id,
-      inquiryId: contact.inquiries[0]?.id ?? null,
+      inquiryId,
       reason: 'inbound_sms_received'
     })
 
