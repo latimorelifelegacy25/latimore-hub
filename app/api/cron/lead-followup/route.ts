@@ -24,7 +24,24 @@ export async function GET(req: NextRequest) {
     for (const rule of RULES) {
       const inquiries = await prisma.inquiry.findMany({
         where:{ stage:rule.stage as any, updatedAt:{ lt:staleDate(rule.staleDays) } },
-        include:{ contact:true, tasks:{ where:{ status:{in:['Open','In_Progress','Snoozed']}, title:{ contains:rule.taskTitle.slice(0,20) } } } },
+        select:{
+          id:true,
+          updatedAt:true,
+          contactId:true,
+          contact:{
+            select:{
+              fullName:true,
+              firstName:true,
+              lastName:true,
+              email:true,
+            },
+          },
+          tasks:{
+            where:{ status:{in:['Open','In_Progress','Snoozed']}, title:{ contains:rule.taskTitle.slice(0,20) } },
+            select:{ id:true },
+            take:1,
+          },
+        },
         take:50,
       })
       for (const inq of inquiries) {
