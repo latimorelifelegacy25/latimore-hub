@@ -1,9 +1,8 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
+import { requireAdminSession } from '@/lib/ai/shared'
 
 const AI_TASK_STATS_SAMPLE_LIMIT = 250
 
@@ -11,21 +10,19 @@ export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
   if (limited) return limited
 
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
   try {
     const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
 
-    // Pipeline distribution
     const pipelineData = await prisma.contact.groupBy({
       by: ['status'],
       _count: { id: true },
       where: { createdAt: { gte: thirtyDaysAgo } }
     })
 
-    // Lead score distribution
     const scoreRanges = await prisma.$queryRaw<Array<{ range: string; count: number }>>`
       SELECT
         CASE
@@ -49,7 +46,6 @@ export async function GET(req: NextRequest) {
       ORDER BY range
     `
 
-    // Task completion metrics
     const taskMetrics = await prisma.$queryRaw<Array<{
       status: string;
       count: number;
@@ -64,7 +60,6 @@ export async function GET(req: NextRequest) {
       GROUP BY status
     `
 
-    // Conversion funnel
     const funnelData = await prisma.$queryRaw<Array<{
       stage: string;
       count: number;
@@ -116,7 +111,6 @@ export async function GET(req: NextRequest) {
       ORDER BY stage_order
     `
 
-    // Recent activity
     const recentActivity = await prisma.contact.findMany({
       where: {
         OR: [
@@ -137,11 +131,10 @@ export async function GET(req: NextRequest) {
       take: 10
     })
 
-    // AI task generation stats
     const aiTaskStats = await prisma.task.findMany({
       where: {
         createdAt: { gte: thirtyDaysAgo },
-        description: { contains: 'AI' } // Tasks created by AI
+        description: { contains: 'AI' }
       },
       select: {
         id: true,
