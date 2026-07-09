@@ -1,10 +1,9 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { rateLimit } from '@/lib/rate-limit'
 import { prisma } from '@/lib/prisma'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
+import { requireAdminSession } from '@/lib/ai/shared'
 
 const PREDICTIVE_INSIGHTS_SAMPLE_LIMIT = 250
 
@@ -12,8 +11,8 @@ export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'reports')
   if (limited) return limited
 
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
   try {
     // Get recent data for analysis
