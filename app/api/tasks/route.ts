@@ -1,9 +1,8 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
+import { requireAdminSession } from '@/lib/ai/shared'
 import { z } from 'zod'
 
 const TasksQuerySchema = z.object({
@@ -15,8 +14,8 @@ export async function GET(req: NextRequest) {
   const limited = rateLimit(req, 'default')
   if (limited) return limited
 
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const auth = await requireAdminSession(req)
+  if (!auth.ok) return auth.response
 
   try {
     const query = TasksQuerySchema.safeParse(Object.fromEntries(req.nextUrl.searchParams))
