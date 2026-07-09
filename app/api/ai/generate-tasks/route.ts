@@ -1,11 +1,10 @@
 export const dynamic = 'force-dynamic'
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
 import { z } from 'zod'
-import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { rateLimit } from '@/lib/rate-limit'
 import { createOpenAIJsonCompletion } from '@/lib/ai/client'
+import { requireAdminSession } from '@/lib/ai/shared'
 
 const GenerateTasksSchema = z.object({
   contactId: z.string().min(1).optional(),
@@ -19,8 +18,8 @@ export async function POST(req: NextRequest) {
   const limited = rateLimit(req, 'default')
   if (limited) return limited
 
-  const session = await getServerSession(authOptions)
-  if (!session) return NextResponse.json({ ok: false, error: 'unauthorized' }, { status: 401 })
+  const session = await requireAdminSession(req)
+  if (!session.ok) return session.response
 
   try {
     const body = await req.json().catch(() => null)
