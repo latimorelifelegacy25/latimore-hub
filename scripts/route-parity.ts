@@ -4,6 +4,7 @@ import path from 'node:path'
 const repoRoot = process.cwd()
 const appDir = path.join(repoRoot, 'app')
 const vercelPath = path.join(repoRoot, 'vercel.json')
+const scheduledCronPaths = new Set<string>()
 
 type Finding = {
   level: 'error' | 'warn'
@@ -56,6 +57,11 @@ function toRouteKey(filePath: string) {
   return normalized.replace(/\/route\.ts$/, '').replace(/\/page\.tsx$/, '')
 }
 
+function routeFileToRoutePath(filePath: string) {
+  const relative = path.relative(repoRoot, filePath).replaceAll(path.sep, '/')
+  return `/${relative.replace(/^app\//, '').replace(/\/route\.ts$/, '')}`
+}
+
 function checkDuplicateRouteFiles(files: string[]) {
   const byRoute = new Map<string, string[]>()
   for (const file of files) {
@@ -89,6 +95,8 @@ if (!exists(vercelPath)) {
       continue
     }
 
+    scheduledCronPaths.add(cron.path)
+
     const routeFile = routePathToFile(cron.path)
     if (!exists(routeFile)) {
       findings.push({ level: 'error', message: `Vercel cron target ${cron.path} has no matching route file at ${path.relative(repoRoot, routeFile)}.` })
@@ -112,9 +120,14 @@ for (const routeFile of routeFiles) {
   const source = read(routeFile)
   const isCronRoute = relative.includes(`${path.sep}api${path.sep}cron${path.sep}`)
   const isWebhookRoute = relative.includes(`${path.sep}api${path.sep}webhooks${path.sep}`)
+  const routePath = routeFileToRoutePath(routeFile)
 
   if (isCronRoute && !hasCronAuth(source)) {
     findings.push({ level: 'warn', message: `${relative} is a cron route without a visible cron auth guard.` })
+  }
+
+  if (isCronRoute && !scheduledCronPaths.has(routePath)) {
+    findings.push({ level: 'warn', message: `${relative} is a cron route but is not scheduled in vercel.json; mark it manual-only, schedule it, or remove it.` })
   }
 
   if ((isCronRoute || isWebhookRoute) && !source.includes('catch')) {
