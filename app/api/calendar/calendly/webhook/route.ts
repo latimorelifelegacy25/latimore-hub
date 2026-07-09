@@ -1,7 +1,43 @@
 export const dynamic = 'force-dynamic'
 
 import { NextRequest, NextResponse } from 'next/server'
+import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
+
+const CalendlyWebhookSchema = z.object({
+  event: z.string().optional(),
+  payload: z.object({
+    invitee: z.object({
+      email: z.string().email().optional().nullable(),
+      name: z.string().optional().nullable(),
+      first_name: z.string().optional().nullable(),
+      last_name: z.string().optional().nullable(),
+      timezone: z.string().optional().nullable(),
+      questions_and_answers: z.array(z.object({
+        question: z.string().optional().nullable(),
+        answer: z.string().optional().nullable(),
+      }).passthrough()).optional().default([]),
+    }).passthrough().optional().default({}),
+    event: z.object({
+      uri: z.string().optional().nullable(),
+      name: z.string().optional().nullable(),
+      start_time: z.string().datetime().optional().nullable(),
+      end_time: z.string().datetime().optional().nullable(),
+      location: z.any().optional().nullable(),
+    }).passthrough().optional().default({}),
+  }).passthrough().optional().default({}),
+}).passthrough()
+
+function verifyWebhookSecret(req: NextRequest): boolean {
+  const secret = process.env.CALENDLY_WEBHOOK_SECRET?.trim()
+  if (!secret) {
+    console.error('CALENDLY_WEBHOOK_SECRET is not configured; rejecting Calendly webhook')
+    return false
+  }
+
+  const provided = req.headers.get('x-webhook-secret') ?? req.headers.get('x-calendly-webhook-secret') ?? ''
+  return provided === secret
+}
 
 function normalizePhone(phone?: string | null) {
   if (!phone) return null
@@ -9,38 +45,43 @@ function normalizePhone(phone?: string | null) {
   return digits || null
 }
 
-function parseInvitee(payload: any) {
-  const outer = payload?.payload ?? {}
-  const invitee = outer?.invitee ?? {}
-  const event = outer?.event ?? {}
-  const questions = invitee?.questions_and_answers ?? []
+function parseInvitee(payload: z.infer<typeof CalendlyWebhookSchema>) {
+  const outer = payload.payload ?? {}
+  const invitee = outer.invitee ?? {}
+  const event = outer.event ?? {}
+  const questions = invitee.questions_and_answers ?? []
 
-  const phoneAnswer = questions.find((item: any) => String(item?.question ?? '').toLowerCase().includes('phone'))?.answer ?? null
+  const phoneAnswer = questions.find((item) => String(item?.question ?? '').toLowerCase().includes('phone'))?.answer ?? null
 
   return {
-    email: invitee?.email ?? null,
-    name: invitee?.name ?? null,
-    firstName: invitee?.first_name ?? null,
-    lastName: invitee?.last_name ?? null,
+    email: invitee.email ?? null,
+    name: invitee.name ?? null,
+    firstName: invitee.first_name ?? null,
+    lastName: invitee.last_name ?? null,
     phone: normalizePhone(phoneAnswer),
-    eventUri: event?.uri ?? null,
-    eventName: event?.name ?? 'Calendly Meeting',
-    startTime: event?.start_time ?? null,
-    endTime: event?.end_time ?? null,
-    status: payload?.event === 'invitee.canceled' ? 'cancelled' : 'scheduled',
-    timezone: invitee?.timezone ?? null,
-    meetingUrl: event?.location?.join_url ?? null,
-    location: typeof event?.location === 'object' ? event.location?.type ?? null : null,
+    eventUri: event.uri ?? null,
+    eventName: event.name ?? 'Calendly Meeting',
+    startTime: event.start_time ?? null,
+    endTime: event.end_time ?? null,
+    status: payload.event === 'invitee.canceled' ? 'cancelled' : 'scheduled',
+    timezone: invitee.timezone ?? null,
+    meetingUrl: event.location && typeof event.location === 'object' && 'join_url' in event.location ? String(event.location.join_url) : null,
+    location: event.location && typeof event.location === 'object' && 'type' in event.location ? String(event.location.type) : null,
     rawPayload: payload,
   }
 }
 
 export async function POST(req: NextRequest) {
+  if (!verifyWebhookSecret(req)) {
+    return NextResponse.json({ ok: false, error: 'invalid secret' }, { status: 401 })
+  }
+
   const body = await req.json().catch(() => null)
-  if (!body) return NextResponse.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 })
+  const parse = CalendlyWebhookSchema.safeParse(body)
+  if (!parse.success) return NextResponse.json({ ok: false, error: parse.error.flatten() }, { status: 422 })
 
   try {
-    const invitee = parseInvitee(body)
+    const invitee = parseInvitee(parse.data)
     if (!invitee.email && !invitee.phone) {
       return NextResponse.json({ ok: false, error: 'Calendly payload missing contact identity' }, { status: 422 })
     }
