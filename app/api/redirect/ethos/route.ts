@@ -7,6 +7,7 @@ import { BRAND } from '@/lib/brand'
 import { LeadIntent, LeadStatus } from '@prisma/client'
 import { inferLeadSource } from '@/lib/tracking/infer'
 import { rateLimit } from '@/lib/rate-limit'
+import { requireAdminSession } from '@/lib/ai/shared'
 
 const QuerySchema = z.object({
   lead_session_id: z.string().max(191).optional().nullable(),
@@ -43,6 +44,12 @@ export async function GET(req: NextRequest) {
   }
 
   const q = parsed.data
+  const associationRequested = Boolean(q.contactId || q.inquiryId)
+  const associationAuth = associationRequested ? await requireAdminSession(req) : null
+  const allowAssociation = associationAuth?.ok === true
+  const associatedContactId = allowAssociation ? pick(q.contactId) : undefined
+  const associatedInquiryId = allowAssociation ? pick(q.inquiryId) : undefined
+
   const leadSessionId = pick(q.lead_session_id) ?? pick(q.leadSessionId)
   const pageUrl = pick(q.page_url) ?? '/'
 
@@ -88,8 +95,8 @@ export async function GET(req: NextRequest) {
       eventType: 'cta_click',
       occurredAt: new Date(),
       leadSessionId: leadSessionId ?? undefined,
-      contactId: pick(q.contactId),
-      inquiryId: pick(q.inquiryId),
+      contactId: associatedContactId,
+      inquiryId: associatedInquiryId,
       pageUrl: pageUrl ?? undefined,
       referrer: pick(q.referrer) ?? undefined,
       source: pick(q.utm_source) ?? undefined,
@@ -109,8 +116,8 @@ export async function GET(req: NextRequest) {
       type: 'ethos.redirect',
       occurredAt: new Date(),
       leadSessionId: leadSessionId ?? undefined,
-      contactId: pick(q.contactId),
-      inquiryId: pick(q.inquiryId),
+      contactId: associatedContactId,
+      inquiryId: associatedInquiryId,
       source: pick(q.utm_source) ?? undefined,
       medium: pick(q.utm_medium) ?? undefined,
       campaign: pick(q.utm_campaign) ?? undefined,
@@ -127,7 +134,7 @@ export async function GET(req: NextRequest) {
 
   // 4) If we have an inquiry/contact, update lifecycle status
   // (This is the key “source of truth” step)
-  if (q.inquiryId) {
+  if (allowAssociation && q.inquiryId) {
     await prisma.inquiry.update({
       where: { id: q.inquiryId },
       data: {
@@ -160,7 +167,7 @@ export async function GET(req: NextRequest) {
         },
       })
     }
-  } else if (q.contactId) {
+  } else if (allowAssociation && q.contactId) {
     // If only contactId is known, update contact lifecycle (optional path)
     await prisma.contact.update({
       where: { id: q.contactId },
