@@ -8,6 +8,7 @@ import { LeadIntent, LeadStatus } from '@prisma/client'
 import { inferLeadSource } from '@/lib/tracking/infer'
 import { rateLimit } from '@/lib/rate-limit'
 import { requireAdminSession } from '@/lib/ai/shared'
+import { logger } from '@/lib/logger'
 
 const QuerySchema = z.object({
   lead_session_id: z.string().max(191).optional().nullable(),
@@ -61,7 +62,13 @@ export async function GET(req: NextRequest) {
   })
 
   const intentHint = q.intent === 'consult' ? LeadIntent.CONSULT : LeadIntent.QUICK_TERM
+  const ethos = new URL(BRAND.ethosUrl)
 
+  if (pick(q.utm_source)) ethos.searchParams.set('utm_source', pick(q.utm_source)!)
+  if (pick(q.utm_medium)) ethos.searchParams.set('utm_medium', pick(q.utm_medium)!)
+  if (pick(q.utm_campaign)) ethos.searchParams.set('utm_campaign', pick(q.utm_campaign)!)
+
+  try {
   // 1) Ensure lead session exists if provided (connects later form submits)
   if (leadSessionId) {
     await prisma.leadSession.upsert({
@@ -180,13 +187,12 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  // 5) Redirect to Ethos (safe allowlist: always redirect to BRAND.ethosUrl)
-  const ethos = new URL(BRAND.ethosUrl)
-
-  // Optional: pass UTM through (harmless, helps downstream analytics)
-  if (pick(q.utm_source)) ethos.searchParams.set('utm_source', pick(q.utm_source)!)
-  if (pick(q.utm_medium)) ethos.searchParams.set('utm_medium', pick(q.utm_medium)!)
-  if (pick(q.utm_campaign)) ethos.searchParams.set('utm_campaign', pick(q.utm_campaign)!)
+  } catch (error) {
+    logger.error(
+      { error, leadSessionId, associationRequested },
+      'Ethos redirect tracking failed; continuing redirect',
+    )
+  }
 
   return NextResponse.redirect(ethos.toString(), { status: 302 })
 }
