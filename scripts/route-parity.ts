@@ -140,6 +140,19 @@ const allRouteLikeFiles = walk(repoRoot).filter(
 )
 checkDuplicateRouteFiles(allRouteLikeFiles)
 
+const duplicateProjectConfigs = [
+  path.join(repoRoot, 'latimore-hub', 'package.json'),
+  path.join(repoRoot, 'latimore-hub', 'vercel.json'),
+]
+for (const duplicateConfig of duplicateProjectConfigs) {
+  if (exists(duplicateConfig)) {
+    findings.push({
+      level: 'error',
+      message: `Duplicate project configuration exists at ${path.relative(repoRoot, duplicateConfig)}; remove or quarantine the nested project before validation can pass.`,
+    })
+  }
+}
+
 const duplicateTrees = [
   path.join(repoRoot, 'latimore-hub', 'app'),
   path.join(repoRoot, 'latimore-hub', 'src', 'app'),
