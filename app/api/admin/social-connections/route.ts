@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { requireAdminSession } from '@/lib/ai/shared'
-import { SocialProvider } from '@prisma/client'
+import { Prisma, SocialProvider } from '@prisma/client'
 
 const MAX_SOCIAL_CONNECTIONS = 100
 
@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { provider, status, limit } = parsed.data
-    const where: Record<string, unknown> = {}
+    const where: Prisma.SocialConnectionWhereInput = {}
     if (provider) where.provider = provider
     if (status) where.status = status
 
@@ -83,21 +83,18 @@ export async function POST(req: NextRequest) {
       status,
     } = parsed.data
 
-    const data: Record<string, unknown> = {
+    const data = {
       provider,
-      accountName: accountName || undefined,
-      externalId: externalId || undefined,
-      accessToken: accessToken || undefined,
-      refreshToken: refreshToken || undefined,
-      metadata: metadata ?? undefined,
-      status: status || undefined,
+      accountName: accountName ?? undefined,
+      externalId: externalId ?? undefined,
+      accessToken: accessToken ?? undefined,
+      refreshToken: refreshToken ?? undefined,
+      tokenExpiresAt: tokenExpiresAt ? new Date(tokenExpiresAt) : undefined,
+      metadata: metadata ? (metadata as Prisma.InputJsonValue) : undefined,
+      status: status ?? undefined,
     }
 
-    if (tokenExpiresAt) {
-      data.tokenExpiresAt = new Date(tokenExpiresAt)
-    }
-
-    const existing = await socialConnectionModel.findFirst({
+    const existing = await prisma.socialConnection.findFirst({
       where: {
         provider,
         externalId: externalId || undefined,
