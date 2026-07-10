@@ -6,6 +6,8 @@
 import { prisma } from '@/lib/prisma'
 import { logger } from '@/lib/logger'
 
+const NOTIFICATION_CHECK_BATCH_SIZE = 100
+
 export interface Notification {
   id: string
   type: 'lead' | 'task' | 'appointment' | 'system' | 'conversion'
@@ -149,6 +151,8 @@ export async function checkHighLeadScoreAlerts() {
         leadScore: { gte: 80 },
         status: { notIn: ['CLOSED_WON', 'CLOSED_LOST'] }
       },
+      orderBy: { leadScore: 'desc' },
+      take: NOTIFICATION_CHECK_BATCH_SIZE,
       select: { id: true, firstName: true, lastName: true, leadScore: true, email: true }
     })
 
@@ -186,6 +190,8 @@ export async function checkOverdueTaskAlerts() {
         dueAt: { lt: new Date() },
         status: { not: 'COMPLETED' }
       },
+      orderBy: { dueAt: 'asc' },
+      take: NOTIFICATION_CHECK_BATCH_SIZE,
       include: { contact: { select: { firstName: true, lastName: true } } }
     })
 
@@ -227,6 +233,8 @@ export async function checkUpcomingAppointmentAlerts() {
         },
         status: 'SCHEDULED'
       },
+      orderBy: { scheduledFor: 'asc' },
+      take: NOTIFICATION_CHECK_BATCH_SIZE,
       include: { contact: { select: { firstName: true, lastName: true, phone: true, email: true } } }
     })
 
@@ -276,6 +284,8 @@ export async function checkConversionMilestoneAlerts() {
         status: 'CLOSED_WON',
         updatedAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) } // Last 24 hours
       },
+      orderBy: { updatedAt: 'desc' },
+      take: NOTIFICATION_CHECK_BATCH_SIZE,
       select: { id: true, firstName: true, lastName: true, leadScore: true }
     })
 
