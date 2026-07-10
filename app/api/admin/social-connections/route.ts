@@ -2,17 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { requireAdminSession } from '@/lib/ai/shared'
+import { SocialProvider } from '@prisma/client'
 
 const MAX_SOCIAL_CONNECTIONS = 100
 
 const socialConnectionQuerySchema = z.object({
-  provider: z.string().min(1).max(100).optional(),
+  provider: z.nativeEnum(SocialProvider).optional(),
   status: z.string().min(1).max(100).optional(),
   limit: z.coerce.number().int().min(1).max(MAX_SOCIAL_CONNECTIONS).optional().default(50),
 })
 
 const socialConnectionBodySchema = z.object({
-  provider: z.string().min(1).max(100),
+  provider: z.nativeEnum(SocialProvider),
   accountName: z.string().max(255).optional().nullable(),
   externalId: z.string().max(255).optional().nullable(),
   accessToken: z.string().max(5000).optional().nullable(),
@@ -22,24 +23,10 @@ const socialConnectionBodySchema = z.object({
   status: z.string().max(100).optional().nullable(),
 })
 
-function getSocialConnectionModel() {
-  return (prisma as any).socialConnection
-}
-
-function unavailableResponse() {
-  return NextResponse.json(
-    { success: false, error: 'SocialConnection model unavailable. Run prisma generate after schema changes.' },
-    { status: 501 },
-  )
-}
-
 export async function GET(req: NextRequest) {
   try {
     const auth = await requireAdminSession(req)
     if (!auth.ok) return auth.response
-
-    const socialConnectionModel = getSocialConnectionModel()
-    if (!socialConnectionModel) return unavailableResponse()
 
     const { searchParams } = new URL(req.url)
     const parsed = socialConnectionQuerySchema.safeParse({
@@ -57,7 +44,7 @@ export async function GET(req: NextRequest) {
     if (provider) where.provider = provider
     if (status) where.status = status
 
-    const connections = await socialConnectionModel.findMany({
+    const connections = await prisma.socialConnection.findMany({
       where,
       orderBy: { updatedAt: 'desc' },
       take: limit,
@@ -96,9 +83,6 @@ export async function POST(req: NextRequest) {
       status,
     } = parsed.data
 
-    const socialConnectionModel = getSocialConnectionModel()
-    if (!socialConnectionModel) return unavailableResponse()
-
     const data: Record<string, unknown> = {
       provider,
       accountName: accountName || undefined,
@@ -121,11 +105,11 @@ export async function POST(req: NextRequest) {
     })
 
     const connection = existing
-      ? await socialConnectionModel.update({
+      ? await prisma.socialConnection.update({
           where: { id: existing.id },
           data,
         })
-      : await socialConnectionModel.create({ data })
+      : await prisma.socialConnection.create({ data })
 
     return NextResponse.json({ success: true, connection })
   } catch (error) {
