@@ -42,32 +42,35 @@ export async function GET(req: NextRequest) {
             take:1,
           },
         },
+        orderBy:{ updatedAt:'asc' },
         take:50,
       })
       for (const inq of inquiries) {
         if (inq.tasks.length > 0) { skipped++; continue }
         const name = inq.contact?.fullName || [inq.contact?.firstName,inq.contact?.lastName].filter(Boolean).join(' ') || inq.contact?.email || 'Lead'
-        await prisma.task.create({ data:{
-          title: rule.taskTitle,
-          description: `Auto-created. Contact: ${name}\nStage: ${rule.stage}\nLast activity: ${inq.updatedAt.toLocaleDateString('en-US')}`,
-          status: 'Open',
-          dueAt: dueSoon(rule.priority==='high' ? 1 : 2),
-          inquiryId: inq.id,
-          contactId: inq.contactId ?? undefined,
-        }})
-        await prisma.systemEvent.create({ data:{
-          type:'automation.followup_task.created',
-          contactId: inq.contactId ?? undefined,
-          inquiryId: inq.id,
-          payload:{ taskTitle:rule.taskTitle, stage:rule.stage, name } as any,
-        }})
+        await prisma.$transaction(async (tx) => {
+          await tx.task.create({ data:{
+            title: rule.taskTitle,
+            description: `Auto-created. Contact: ${name}\nStage: ${rule.stage}\nLast activity: ${inq.updatedAt.toLocaleDateString('en-US')}`,
+            status: 'Open',
+            dueAt: dueSoon(rule.priority==='high' ? 1 : 2),
+            inquiryId: inq.id,
+            contactId: inq.contactId ?? undefined,
+          }})
+          await tx.systemEvent.create({ data:{
+            type:'automation.followup_task.created',
+            contactId: inq.contactId ?? undefined,
+            inquiryId: inq.id,
+            payload:{ taskTitle:rule.taskTitle, stage:rule.stage, name } as any,
+          }})
+        })
         created++
       }
     }
     logger.info({ created, skipped },'Lead follow-up cron done')
     return NextResponse.json({ ok:true, tasksCreated:created, skipped })
-  } catch(err:any) {
-    logger.error({ err:err.message },'Lead follow-up cron failed')
-    return NextResponse.json({ ok:false, error:err.message },{status:500})
+  } catch(err:unknown) {
+    logger.error({ err },'Lead follow-up cron failed')
+    return NextResponse.json({ ok:false, error:'Lead follow-up cron failed' },{status:500})
   }
 }
