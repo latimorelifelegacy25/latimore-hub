@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger'
 
 /**
  * GET /api/cron/ai-brief
- * Vercel cron — runs daily at 1:00 PM ET (17:00 UTC).
+ * Vercel cron — runs daily according to the root vercel.json schedule.
  *
  * FIXES:
  * 1. Was using NEXT_PUBLIC_BASE_URL (points to latimorelifelegacy.com marketing site).
@@ -46,12 +46,16 @@ export async function GET(req: NextRequest) {
     logger.info({ status: res.status }, 'AI brief cron triggered')
 
     if (!res.ok) {
-      logger.error({ status: res.status, data }, 'AI brief cron — downstream returned error')
+      logger.error({ status: res.status }, 'AI brief cron — downstream returned error')
+      return NextResponse.json(
+        { ok: false, error: 'Daily brief generation failed', downstreamStatus: res.status },
+        { status: res.status >= 400 && res.status <= 599 ? res.status : 502 },
+      )
     }
 
-    return NextResponse.json({ ok: res.ok, status: res.status, ...data })
-  } catch (err: any) {
-    logger.error({ err: err.message }, 'AI brief cron failed')
-    return NextResponse.json({ ok: false, error: err.message }, { status: 500 })
+    return NextResponse.json({ ok: true, status: res.status, ...data })
+  } catch (error: unknown) {
+    logger.error({ error }, 'AI brief cron failed')
+    return NextResponse.json({ ok: false, error: 'AI brief cron failed' }, { status: 500 })
   }
 }
