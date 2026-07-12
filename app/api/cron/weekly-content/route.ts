@@ -51,6 +51,10 @@ export async function GET(req: NextRequest) {
         ]
       })
     })
+    if (!res.ok) {
+      logger.error({ status: res.status }, 'Weekly content OpenAI request failed')
+      return NextResponse.json({ ok:false, error:'Content generation service failed' },{status:502})
+    }
     const data = await res.json()
     const raw = data.choices?.[0]?.message?.content ?? '{}'
     let parsed: any
@@ -75,8 +79,8 @@ export async function GET(req: NextRequest) {
     await prisma.systemEvent.create({data:{type:'cron.weekly_content.completed',payload:{assetIds:created,weekStart,audience,count:created.length} as any}})
     logger.info({count:created.length},'Weekly content cron done')
     return NextResponse.json({ ok:true, created:created.length, weekStart, audience })
-  } catch(err:any) {
-    logger.error({err:err.message},'Weekly content cron failed')
-    return NextResponse.json({ ok:false, error:err.message },{status:500})
+  } catch(err:unknown) {
+    logger.error({ err },'Weekly content cron failed')
+    return NextResponse.json({ ok:false, error:'Weekly content cron failed' },{status:500})
   }
 }
