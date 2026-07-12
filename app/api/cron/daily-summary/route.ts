@@ -43,8 +43,8 @@ export async function GET(req: NextRequest) {
 
     logger.info({ summary }, 'Daily summary cron completed')
     return NextResponse.json({ ok: true, ...summary })
-  } catch (err: any) {
-    logger.error({ err: err.message }, 'Daily summary cron failed')
-    return NextResponse.json({ ok: false, error: err.message }, { status: 500 })
+  } catch (err) {
+    logger.error({ err }, 'Daily summary cron failed')
+    return NextResponse.json({ ok: false, error: 'Daily summary cron failed' }, { status: 500 })
   }
 }
